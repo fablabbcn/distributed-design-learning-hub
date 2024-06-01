@@ -31,6 +31,9 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
 
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+
   db:
     image: postgres:16.2
     volumes:
@@ -79,3 +82,4 @@ services:
 
 volumes:
   postgres_data:
+  es_data:
