@@ -30,6 +30,9 @@ services:
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
+      - http.cors.enabled=true
+      - http.cors.allow-origin="http://localhost:8080"
+      - http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization
 
     volumes:
       - es_data:/usr/share/elasticsearch/data
@@ -79,6 +82,15 @@ services:
     depends_on:
       - redis
       - db
+
+  elasticvue:
+    image: cars10/elasticvue
+    ports:
+      - 8080:8080
+    environment:
+      ELASTICVUE_CLUSTERS: '[{ "name": "ddlh cluster", "url": "http://localhost:9200" }]'
+    depends_on:
+      - elasticsearch
 
 volumes:
   postgres_data:
