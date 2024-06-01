@@ -4,7 +4,7 @@ from pypdf import PdfReader
 import requests
 from io import BytesIO
 from elasticsearch import Elasticsearch
-from uuid import uuid4
+from hashlib import sha256
 
 app = Celery('ddhub-prototype', broker='redis://redis:6379/0')
 
@@ -45,6 +45,7 @@ def ingest_pdf(url):
 @app.task
 def store(url, text):
     client = Elasticsearch("http://elasticsearch:9200/")
-    client.index(index="ddhub-prototype", id=uuid4(), document={"url": url, "text": text})
+    client.index(index="ddhub-prototype", id=url_to_id(url), document={"url": url, "text": text})
 
-
+def url_to_id(url):
+    return sha256(url.encode("UTF-8")).hexdigest()
