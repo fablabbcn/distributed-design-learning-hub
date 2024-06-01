@@ -7,10 +7,16 @@ from elasticsearch import Elasticsearch
 from hashlib import sha256
 
 app = Celery('ddhub-prototype', broker='redis://redis:6379/0')
+user_agent= "FablabBCN-DDLH-indexer/0.0.0"
+headers=requests.utils.default_headers()
+headers.update({
+    "User-Agent": user_agent
+})
+
 
 @app.task(bind=True)
 def dispatch(self, url):
-    response = requests.head(url)
+    response = requests.head(url, headers=headers)
     content_type = response.headers['Content-Type'].split(";")[0]
     match content_type:
         case "text/html":
@@ -20,14 +26,14 @@ def dispatch(self, url):
 
 @app.task(bind=True)
 def ingest_html(self, url):
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     response.raise_for_status()
     extractor = CanolaExtractor()
     store.delay(url, extractor.get_content(response.text))
 
 @app.task(bind=True)
 def ingest_pdf(self, url):
-    response = requests.get(url)
+    response = requests.get(url, headers=headers)
     response.raise_for_status()
     pdf_data = BytesIO()
     pdf_data.write(response.content)
