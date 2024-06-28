@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Distributed Design Learning Hub</title>
+  </head>
+  <body>
+    <h1>
+      Distributed Design Learning Hub
+      {% if subtitle is defined %}
+        &mdash; <em>{{subtitle}}</em>
+      {% endif %}
+    </h1>
+    <p>
+      <strong>Themes:</strong>
+      {% for theme in themes %}
+      <a href="?theme={{theme|urlencode}}">{{theme}}</a>,
+      {% endfor %}
+    </p>
+    <p>
+      <strong>Tags:</strong>
+      {% for tag in tags %}
+      <a href="?tag={{tag|urlencode}}">{{tag}}</a>,
+      {% endfor %}
+    </p>
+    <hr />
+    <ul>
+      {% for document in documents %}
+        <li>
+          {% include "document.html" %}
+        </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

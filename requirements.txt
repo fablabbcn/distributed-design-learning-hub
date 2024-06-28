@@ -7,3 +7,4 @@ elasticsearch~=8.13.0
 requests~=2.31.0
 boilerpy3~=1.0.7
 pypdf~=4.2.0
+pyairtable~=2.3.3
