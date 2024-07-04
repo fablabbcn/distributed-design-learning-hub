@@ -11,7 +11,7 @@ WORKDIR /app
 
 RUN apt-get update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential git \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
   # Additional dependencies
@@ -29,6 +29,8 @@ RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 WORKDIR /app
 
 COPY . .
+
+RUN git config --global --add safe.directory /app
 
 RUN chmod +x ./entrypoint.sh
 

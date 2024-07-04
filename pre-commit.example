@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+docker compose exec -T web pre-commit hook-impl --config=.pre-commit-config.yaml --hook-type=pre-commit --hook-dir .
+
