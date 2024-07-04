@@ -23,6 +23,10 @@ pyairtable = "^2.3.3"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.7.1"
+mypy = "^1.10.1"
+types-requests = "^2.32.0.20240622"
+types-flask = "^1.1.6"
+celery-types = "^0.22.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -43,3 +47,4 @@ ignore_missing_imports = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 warn_unused_configs = true
+cache_dir = "/tmp/mypy_cache"
