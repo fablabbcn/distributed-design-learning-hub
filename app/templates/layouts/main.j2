@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="description"
+              content="The Distributed Design Learning Hub aims to..." />
+        <meta name="keywords" content="distributed, design, learning, hub">
+        <link rel="stylesheet"
+              type="text/css"
+              media="all"
+              href="{{ url_for("static", filename="styles.css") }}">
+        <title>Distributed Design Learning Hub</title>
+    </head>
+    <body>
+        {% include "partials/header.j2" %}
+        <main>
+            {% block main %}
+            {% endblock main %}
+        </main>
+        {% include "partials/footer.j2" %}
+        <script src="{{ url_for("static", filename="application.js") }}"
+                type="text/javascript"></script>
+    </body>
+</html>

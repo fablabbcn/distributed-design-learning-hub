@@ -60,17 +60,11 @@ repos:
         language: "system"
         types: ["python"]
         args: ["--check-untyped-defs"]
-
-  - repo: https://github.com/aristanetworks/j2lint
-    rev: v1.1.0
+  - repo: https://github.com/djlint/djLint
+    rev: v1.34.1
     hooks:
-      - id: j2lint
-        name: "Jinja2 Linter"
-        description: "lint Jinja2 templates"
-        language: python
-        entry: j2lint
-        types_or: ["jinja", "html"]
-        require_serial: true
+      - id: djlint-reformat-jinja
+      - id: djlint-jinja
   - repo: local
     hooks:
       - id: pytest-check
