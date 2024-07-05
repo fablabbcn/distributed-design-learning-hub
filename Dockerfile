@@ -43,4 +43,3 @@ RUN chmod +x ./start_flower.sh
 
 
 ENTRYPOINT ["./entrypoint.sh"]
-
