@@ -27,6 +27,7 @@ mypy = "^1.10.1"
 types-requests = "^2.32.0.20240622"
 types-flask = "^1.1.6"
 celery-types = "^0.22.0"
+j2lint = "^1.1.0"
 
 [build-system]
 requires = ["poetry-core"]

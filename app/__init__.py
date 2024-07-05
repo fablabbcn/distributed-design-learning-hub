@@ -37,7 +37,7 @@ def homepage() -> str:
         documents = db.get_all_documents()
 
     return render_template(
-        "index.html",
+        "index.j2",
         subtitle=subtitle,
         documents=documents,
         themes=db.get_all_themes(),

@@ -33,4 +33,9 @@ repos:
     rev: v1.1.0
     hooks:
       - id: j2lint
-        types_or: ["html"]
+        name: "Jinja2 Linter"
+        description: "lint Jinja2 templates"
+        language: python
+        entry: j2lint
+        types_or: ["jinja", "html"]
+        require_serial: true
