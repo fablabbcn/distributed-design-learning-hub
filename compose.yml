@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
@@ -7,11 +7,15 @@ services:
       dockerfile: ./Dockerfile
     image: ddhub_prototype_web
     # '/start' is the shell script used to run the service
-    command: /start_web.sh
+    command: /app/start_web.sh
     # this volume is used to map the files and folders on the host to the container
     # so if we change code on the host, code in the docker container will also be changed
     volumes:
-      - .:/app
+      - type: bind
+        source: .
+        target: /app
+        bind:
+          selinux: z
     ports:
       - 5010:5000
     env_file:
@@ -54,7 +58,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     image: ddhub_celery_worker
-    command: /start_celeryworker.sh
+    command: /app/start_celeryworker.sh
     volumes:
       - .:/app
     env_file:
@@ -70,7 +74,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     image: ddhub_celery_flower
-    command: /start_flower.sh
+    command: /app/start_flower.sh
     volumes:
       - .:/app
     env_file:

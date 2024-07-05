@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "ddhub-prototype"
+version = "0.1.0"
+description = "Distributed Design Learning Hub Prototype"
+authors = ["Tim Cowlishaw <tim@timcowlishaw.co.uk>"]
+readme = "README.md"
+
+package-mode=false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+psycopg2-binary = "^2.9.9"
+python-dotenv = "^1.0.1"
+celery = {extras = ["redis"], version = "^5.4.0"}
+flower = "^2.0.1"
+Flask = "^3.0.3"
+elasticsearch = "^8.14.0"
+requests = "^2.32.3"
+boilerpy3 = "^1.0.7"
+pypdf = "^4.2.0"
+pyairtable = "^2.3.3"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+mypy = "^1.10.1"
+types-requests = "^2.32.0.20240622"
+types-flask = "^1.1.6"
+celery-types = "^0.22.0"
+j2lint = "^1.1.0"
+pytest = "^8.2.2"
+pytest-mock = "^3.14.0"
+pytest-spec = "^3.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py312"]
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+py_version = 312
+
+[mypy]
+python_version = 3.12
+check_untyped_defs = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+cache_dir = "/tmp/mypy_cache"
+
+[pytest]
+mock_use_standalone_module = true
+
+[tool.pytest.ini_options]
+addopts = "--spec"

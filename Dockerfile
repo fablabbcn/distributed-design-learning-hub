@@ -2,10 +2,17 @@ FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONPYCACHEPREFIX=/tmp/pycache
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_CREATE=0
+ENV POETRY_CACHE_DIR=/tmp/poetry_cache
+ENV MYPY_CACHE_DIR=/tmp/mypy_cache
+
+WORKDIR /app
 
 RUN apt-get update \
   # dependencies for building Python packages
-  && apt-get install -y build-essential \
+  && apt-get install -y build-essential git \
   # psycopg2 dependencies
   && apt-get install -y libpq-dev \
   # Additional dependencies
@@ -15,24 +22,24 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 
-# Requirements are installed here to ensure they will be cached.
-COPY ./requirements.txt /requirements.txt
-RUN pip install --ignore-installed -r /requirements.txt
+COPY pyproject.toml poetry.lock ./
 
-COPY ./entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-COPY ./start_web.sh /start_web.sh
-RUN chmod +x /start_web.sh
-
-COPY ./start_celeryworker.sh /start_celeryworker.sh
-RUN chmod +x /start_celeryworker.sh
-
-
-COPY ./start_flower.sh /start_flower.sh
-RUN chmod +x /start_flower.sh
+RUN pip install poetry
+RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
 WORKDIR /app
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY . .
 
+RUN git config --global --add safe.directory /app
+
+RUN chmod +x ./entrypoint.sh
+
+RUN chmod +x ./start_web.sh
+
+RUN chmod +x ./start_celeryworker.sh
+
+RUN chmod +x ./start_flower.sh
+
+
+ENTRYPOINT ["./entrypoint.sh"]
