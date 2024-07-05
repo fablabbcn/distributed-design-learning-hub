@@ -1,8 +1,8 @@
 import os
 from collections import defaultdict
-from typing import Optional, TypedDict
+from typing import Optional, TypedDict, cast
 
-from pyairtable import Api  # type: ignore
+from pyairtable import Api
 
 Document = TypedDict(
     "Document",
@@ -26,11 +26,11 @@ class AirtableDocumentDatabase:
         table_id: Optional[str] = None,
     ):
         if token is None:
-            token = os.environ.get("AIRTABLE_TOKEN")
+            token = os.environ["AIRTABLE_TOKEN"]
         if base_id is None:
-            base_id = os.environ.get("AIRTABLE_BASE_ID")
+            base_id = os.environ["AIRTABLE_BASE_ID"]
         if table_id is None:
-            table_id = os.environ.get("AIRTABLE_TABLE_ID")
+            table_id = os.environ["AIRTABLE_TABLE_ID"]
         self.api = Api(token)
         self.table = self.api.table(base_id, table_id)
         self.documents: dict[str, Document] = {}
@@ -38,7 +38,7 @@ class AirtableDocumentDatabase:
         self.tags: dict[str, list[str]] = defaultdict(list)
         for row in self.table.all():
             document = row["fields"]
-            self.documents[document["link"]] = document
+            self.documents[document["link"]] = cast(Document, document)
             for theme in document.get("themes", []):
                 self.themes[theme].append(document["link"])
             for tag in document.get("tags", []):

@@ -5,8 +5,8 @@ import requests
 from boilerpy3.extractors import CanolaExtractor  # type: ignore
 from celery import Celery
 from celery.app.task import Task
-from elasticsearch import Elasticsearch  # type: ignore
-from pypdf import PdfReader  # type: ignore
+from elasticsearch import Elasticsearch
+from pypdf import PdfReader
 
 # Monkey-patch needed for celery-types: https://github.com/sbdchd/celery-types
 Task.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # type: ignore[attr-defined] # noqa
@@ -40,15 +40,12 @@ def ingest_html(self: Task[[str], None], url: str) -> None:
 def ingest_pdf(self: Task[[str], None], url: str) -> None:
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    pdf_data = BytesIO()
-    pdf_data.write(response.content)
-    pdf_data.seek(0)
+    reader = PdfReader(BytesIO(response.content))
     text = ""
-    reader = PdfReader(pdf_data)
     for page in reader.pages:
         text += page.extract_text()
         text += "\n\n"
-    store.delay(url, text)
+    store.delay(url, text.strip())
 
 
 @app.task(bind=True)
