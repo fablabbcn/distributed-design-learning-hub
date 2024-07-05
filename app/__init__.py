@@ -5,7 +5,6 @@ from flask import Flask, jsonify, render_template, request
 from . import airtable_db, celery
 
 app = Flask(__name__)
-db = airtable_db.AirtableDocumentDatabase()
 
 
 @app.route("/index", methods=["POST"])
@@ -23,6 +22,8 @@ def index() -> Any:
 
 @app.route("/", methods=["GET"])
 def homepage() -> str:
+    db = airtable_db.AirtableDocumentDatabase()
+
     theme = request.args.get("theme")
     tag = request.args.get("tag")
 

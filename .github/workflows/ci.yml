@@ -1,0 +1,38 @@
+name: CI
+
+# Enable Buildkit and let compose use it to speed up image building
+env:
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+on:
+  pull_request:
+    branches: ["master", "main"]
+
+  push:
+    branches: ["master", "main"]
+
+  merge_group:
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+
+      - name: Copy .env.example file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "env.example"
+          target: ".env"
+
+      - name: Build the Stack
+        run: docker compose build
+
+      - name: Run pre-commmit
+        run: docker compose run web pre-commit run --all-files
+
+      - name: Tear down the Stack
+        run: docker compose down
