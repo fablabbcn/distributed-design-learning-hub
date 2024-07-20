@@ -1,0 +1,8 @@
+<div class="carousel container">
+    <h1>{{ headline }}</h1>
+    <div class="documents">
+        {% for document in documents %}
+            {% include "partials/document.j2" %}
+        {% endfor %}
+    </div>
+</div>

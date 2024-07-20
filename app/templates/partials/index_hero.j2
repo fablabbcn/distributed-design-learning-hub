@@ -1,0 +1,19 @@
+<div class="index-hero container">
+    <div class="hero-description-column">
+        <div>
+            <h2 class="hero-prompt">Learn about...</h2>
+            <h2 class="hero-prompt">Find tools and methods for...</h2>
+            <h2 class="hero-prompt">Explore themes such as...</h2>
+        </div>
+        <p class="hero-description">
+            <strong>The learning hub aims to</strong> lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Consequat interdum varius sit amet. Viverra maecenas accumsan lacus vel. Ipsum dolor sit amet consectetur. Mauris pharetra et ultrices neque ornare aenean euismod elementum. Orci dapibus ultrices in iaculis. Gravida cum sociis natoque penatibus et. Augue mauris augue neque gravida. Cursus mattis molestie a iaculis at erat pellentesque. Lacus vel facilisis volutpat est velit egestas dui.
+        </p>
+    </div>
+    <div class="hero-themes-column">
+        {% for theme in themes %}
+            <div class="theme">
+                <a class="btn" href="?theme={{ theme|urlencode }}">{{ theme }}</a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
