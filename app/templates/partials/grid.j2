@@ -1,8 +1,7 @@
-<div class="carousel container">
-    <h1>{{ headline }}</h1>
+<div class="grid container">
     <div class="documents">
         {% for document in documents %}
-            {% with show_tags=True, show_theme=True %}
+            {% with show_format=True %}
                 {% include "partials/document.j2" %}
             {% endwith %}
         {% endfor %}

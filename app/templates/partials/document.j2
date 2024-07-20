@@ -1,19 +1,22 @@
 {% with theme=document.themes | get_first %}
     {% if theme %}
         <div class="document">
-            <a class="btn theme" href="?theme={{ theme | urlencode }}">{{ theme }}</a>
+            {% if show_theme and theme %}
+                <a class="btn theme" href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>
+            {% endif %}
             <div class="image-placeholder">
+                {% if show_format and document.format %}
+                    <div class="format">
+                        <a class="btn transparent invert format variable-width" href="#">{{ document.format }}</a>
+                    </div>
+                {% endif %}
                 <p class="title">{{ document.title }}</p>
             </div>
-            <ul class="tags">
+            {% if show_tags %}
                 {% with tags=document.tags | get_first(3) %}
-                    {% for tag in tags %}
-                        <li>
-                            <a class="btn secondary" href="?tag={{ tag|urlencode }}">{{ tag }}</a>
-                        </li>
-                    {% endfor %}
+                    {% include "partials/tags.j2" %}
                 {% endwith %}
-            </ul>
+            {% endif %}
         </div>
     {% endif %}
 {% endwith %}

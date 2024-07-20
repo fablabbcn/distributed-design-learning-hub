@@ -32,9 +32,11 @@ class TestAirtableDocumentDatabase:
         self.themes_table_id = "THEMES_TABLE_ID"
         self.themes = {
             "theme1_id": {
-                "fields": {"name": "theme1"},
+                "fields": {"name": "theme1", "summary": "Theme 1 summary"},
             },
-            "theme2_id": {"fields": {"name": "theme2"}},
+            "theme2_id": {
+                "fields": {"name": "theme2", "summary": "Theme 2 summary"}
+            },
         }
         self.documents = [
             {
@@ -198,3 +200,43 @@ class TestAirtableDocumentDatabase:
         assert "doc2" not in links1
         assert "doc1" not in links2
         assert "doc2" in links2
+
+    def test_get_tags_for_theme_returns_tags_for_theme_only(self):
+        """
+        get_tags_for_theme returns all, and only, tags for
+        documents with the given theme
+        """
+        db = AirtableDocumentDatabase(
+            self.token,
+            self.base_id,
+            self.documents_table_id,
+            self.themes_table_id,
+        )
+
+        tags1 = db.get_tags_for_theme("theme1")
+        tags2 = db.get_tags_for_theme("theme2")
+
+        assert "tag1" in tags1
+        assert "tag2" in tags1
+        assert "tag2" in tags2
+        assert "tag3" in tags2
+
+    def test_get_theme_returns_theme_metadata(self):
+        """
+        get_theme returns metadata for the passed theme
+        """
+        db = AirtableDocumentDatabase(
+            self.token,
+            self.base_id,
+            self.documents_table_id,
+            self.themes_table_id,
+        )
+
+        theme1 = db.get_theme("theme1")
+        theme2 = db.get_theme("theme2")
+
+        assert theme1 is not None
+        assert theme2 is not None
+
+        assert theme1["summary"] == "Theme 1 summary"
+        assert theme2["summary"] == "Theme 2 summary"
