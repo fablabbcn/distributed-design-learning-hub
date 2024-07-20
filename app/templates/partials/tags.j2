@@ -1,0 +1,7 @@
+<ul class="tags">
+    {% for tag in tags %}
+        <li>
+            <a class="btn secondary" href="{{ url_for("tag", tag=tag) }}">{{ tag }}</a>
+        </li>
+    {% endfor %}
+</ul>

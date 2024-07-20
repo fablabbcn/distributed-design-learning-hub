@@ -24,22 +24,40 @@ def index() -> Any:
 def homepage() -> str:
     db = airtable_db.AirtableDocumentDatabase()
 
-    theme = request.args.get("theme")
-    tag = request.args.get("tag")
-
-    if theme is not None:
-        subtitle = f"Theme: {theme}"
-        documents = db.get_documents_for_theme(theme)
-    elif tag is not None:
-        subtitle = f"Tag: {tag}"
-        documents = db.get_documents_for_tag(tag)
-    else:
-        subtitle = None
-        documents = db.get_all_documents()
+    documents = db.get_all_documents()
 
     return render_template(
         "pages/index.j2",
-        subtitle=subtitle,
+        documents=random.sample(documents, k=len(documents)),
+        themes=db.get_all_themes(),
+        tags=db.get_all_tags(),
+    )
+
+
+@app.route("/themes/<theme_name>", methods=["GET"])
+def theme(theme_name: str) -> str:
+    db = airtable_db.AirtableDocumentDatabase()
+
+    documents = db.get_documents_for_theme(theme_name)
+    tags = db.get_tags_for_theme(theme_name)
+    theme = db.get_theme(theme_name)
+
+    return render_template(
+        "pages/theme.j2",
+        documents=documents,
+        tags=tags,
+        theme=theme,
+    )
+
+
+@app.route("/tags/<tag>", methods=["GET"])
+def tag(tag: str) -> str:
+    db = airtable_db.AirtableDocumentDatabase()
+
+    documents = db.get_documents_for_tag(tag)
+
+    return render_template(
+        "pages/index.j2",
         documents=random.sample(documents, k=len(documents)),
         themes=db.get_all_themes(),
         tags=db.get_all_tags(),

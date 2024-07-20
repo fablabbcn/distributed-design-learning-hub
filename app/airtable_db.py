@@ -11,6 +11,7 @@ Document = TypedDict(
         "author": str,
         "title": str,
         "topic": str,
+        "format": str,
         "description": str,
         "themes": list[str],
         "tags": list[str],
@@ -19,7 +20,7 @@ Document = TypedDict(
 
 Theme = TypedDict(
     "Theme",
-    {"name": str, "documents": list[str]},
+    {"name": str, "summary": str, "documents": list[str], "tags": set[str]},
 )
 
 
@@ -52,10 +53,13 @@ class AirtableDocumentDatabase:
                     theme_fields = self.themes_table.get(theme_id)["fields"]
                     self.themes[theme_id] = {
                         "name": theme_fields["name"],
+                        "summary": theme_fields["summary"],
                         "documents": [],
+                        "tags": set(),
                     }
 
                 self.themes[theme_id]["documents"].append(document["link"])
+                self.themes[theme_id]["tags"].update(document.get("tags", []))
             document["themes"] = [
                 self.themes[theme_id]["name"]
                 for theme_id in document.get("themes", [])
@@ -83,3 +87,15 @@ class AirtableDocumentDatabase:
             if theme_name == theme["name"]:
                 return [self.documents[link] for link in theme["documents"]]
         return []
+
+    def get_tags_for_theme(self, theme_name: str) -> list[str]:
+        for theme in self.themes.values():
+            if theme_name == theme["name"]:
+                return list(theme["tags"])
+        return []
+
+    def get_theme(self, theme_name: str) -> Optional[Theme]:
+        for theme in self.themes.values():
+            if theme_name == theme["name"]:
+                return theme
+        return None

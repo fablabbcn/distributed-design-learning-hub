@@ -1,6 +1,6 @@
 <div class="index-hero container">
     <div class="hero-description-column">
-        <div>
+        <div class="hero-prompts">
             <h2 class="hero-prompt">Learn about...</h2>
             <h2 class="hero-prompt">Find tools and methods for...</h2>
             <h2 class="hero-prompt">Explore themes such as...</h2>
@@ -12,7 +12,7 @@
     <div class="hero-themes-column">
         {% for theme in themes %}
             <div class="theme">
-                <a class="btn" href="?theme={{ theme|urlencode }}">{{ theme }}</a>
+                <a class="btn" href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>
             </div>
         {% endfor %}
     </div>
