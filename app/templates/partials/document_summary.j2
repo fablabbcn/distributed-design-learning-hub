@@ -1,0 +1,22 @@
+<div class="document-summary container">
+    <div class="info-column">
+        <a class="image-link" href="{{ document.link }}" target="_blank">
+            <div class="image-placeholder">
+                <div class="format-container">
+                    <span class="format">{{ document.format }}</span>
+                </div>
+            </div>
+        </a>
+        <div>
+            <a class="btn" href={{ document.link }} target="_blank">Go to document <span class="emoji">🔗</span></a>
+        </div>
+        {% with tags=document.tags %}
+            {% include "partials/tags.j2" %}
+        {% endwith %}
+    </div>
+    <div class="summary-column">
+        {% markdown %}
+        {{ document.description }}
+    {% endmarkdown %}
+</div>
+</div>

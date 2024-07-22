@@ -2,6 +2,8 @@ from typing import Optional, TypeVar, Union
 
 from flask import current_app as app
 
+from .utils import url_to_id
+
 U = TypeVar("U")
 
 
@@ -18,3 +20,4 @@ def get_first(
 
 
 app.jinja_env.filters["get_first"] = get_first
+app.jinja_env.filters["url_to_id"] = url_to_id
