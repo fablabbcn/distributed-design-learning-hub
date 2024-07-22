@@ -384,13 +384,13 @@ p {
   }
 }
 
-.theme-header {
+.theme-tag-header {
   padding-top: calc(2 * var(--spacer-unit));
   padding-bottom: calc(2 * var(--spacer-unit));
   & h1 {
     margin-bottom: 0;
   }
-  & h2.theme-subhead {
+  & h2.theme-tag-subhead {
     margin-bottom: 0;
   }
 }
