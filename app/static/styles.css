@@ -449,6 +449,8 @@ p {
         margin-bottom: 0;
         & a {
           width: 100%;
+          height: 3rem;
+          line-height: 1rem;
           &:hover {
             background-color: var(--soft-black);
           }
@@ -589,9 +591,6 @@ p {
   .document-summary {
     & .info-column {
       width: 25%;
-      & .tags {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
     }
     & .summary-column {
       width: 75%;
@@ -604,4 +603,10 @@ p {
     padding-left: calc(11 * var(--spacer-unit));
     padding-right: calc(11 * var(--spacer-unit));
   }
+  .document-summary {
+    & .info-column {
+      & .tags {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 }
