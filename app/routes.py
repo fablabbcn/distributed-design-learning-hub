@@ -57,8 +57,7 @@ def tag(tag: str) -> str:
     documents = db.get_documents_for_tag(tag)
 
     return render_template(
-        "pages/index.j2",
-        documents=random.sample(documents, k=len(documents)),
-        themes=db.get_all_themes(),
-        tags=db.get_all_tags(),
+        "pages/tag.j2",
+        tag=tag,
+        documents=documents,
     )
