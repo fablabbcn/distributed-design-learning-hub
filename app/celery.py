@@ -1,4 +1,3 @@
-from hashlib import sha256
 from io import BytesIO
 
 import requests
@@ -7,6 +6,8 @@ from celery import Celery
 from celery.app.task import Task
 from elasticsearch import Elasticsearch
 from pypdf import PdfReader
+
+from .utils import url_to_id
 
 # Monkey-patch needed for celery-types: https://github.com/sbdchd/celery-types
 Task.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # type: ignore[attr-defined] # noqa
@@ -56,7 +57,3 @@ def store(self: Task[[str, str], None], url: str, text: str) -> None:
         id=url_to_id(url),
         document={"url": url, "text": text},
     )
-
-
-def url_to_id(url: str) -> str:
-    return sha256(url.encode("UTF-8")).hexdigest()

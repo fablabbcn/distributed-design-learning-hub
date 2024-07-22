@@ -4,6 +4,8 @@ from typing import Optional, TypedDict, cast
 
 from pyairtable import Api
 
+from .utils import url_to_id
+
 Document = TypedDict(
     "Document",
     {
@@ -68,7 +70,9 @@ class AirtableDocumentDatabase:
                 document["tags"] = []
             for tag in document["tags"]:
                 self.tags[tag].append(document["link"])
-            self.documents[document["link"]] = cast(Document, document)
+            self.documents[url_to_id(document["link"])] = cast(
+                Document, document
+            )
 
     def get_all_documents(self) -> list[Document]:
         return list(self.documents.values())
@@ -80,12 +84,15 @@ class AirtableDocumentDatabase:
         return [theme["name"] for theme in self.themes.values()]
 
     def get_documents_for_tag(self, tag: str) -> list[Document]:
-        return [self.documents[link] for link in self.tags[tag]]
+        return [self.documents[url_to_id(link)] for link in self.tags[tag]]
 
     def get_documents_for_theme(self, theme_name: str) -> list[Document]:
         for theme in self.themes.values():
             if theme_name == theme["name"]:
-                return [self.documents[link] for link in theme["documents"]]
+                return [
+                    self.documents[url_to_id(link)]
+                    for link in theme["documents"]
+                ]
         return []
 
     def get_tags_for_theme(self, theme_name: str) -> list[str]:
@@ -99,3 +106,6 @@ class AirtableDocumentDatabase:
             if theme_name == theme["name"]:
                 return theme
         return None
+
+    def get_document(self, id: str) -> Optional[Document]:
+        return self.documents.get(id)
