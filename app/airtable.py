@@ -13,6 +13,7 @@ class AirtableConfig:
     token: str
     base_id: str
     table_ids: dict[str, str]
+    view_ids: dict[str, str]
 
 
 @dataclass
@@ -62,7 +63,9 @@ class AirtableDB:
     def _uncached_all(self, table_name: str) -> Sequence[RecordDict]:
         table_id = self._table_id(table_name)
         if table_id:
-            return self.api.table(self.config.base_id, table_id).all()
+            return self.api.table(self.config.base_id, table_id).all(
+                view=self._view_id(table_name)
+            )
         return []
 
     def _uncached_get(self, table_name: str, id: str) -> Optional[RecordDict]:
@@ -73,6 +76,9 @@ class AirtableDB:
 
     def _table_id(self, table_name: str) -> Optional[str]:
         return self.config.table_ids.get(table_name)
+
+    def _view_id(self, table_name: str) -> Optional[str]:
+        return self.config.view_ids.get(table_name)
 
 
 def get_db_instance() -> AirtableDB:
@@ -87,6 +93,12 @@ def get_db_instance() -> AirtableDB:
                 "AIRTABLE_FEATURED_DOCUMENTS_TABLE_ID"
             ],
             "ui_strings": os.environ["AIRTABLE_UI_STRINGS_TABLE_ID"],
+        },
+        view_ids={
+            "themes": os.environ["AIRTABLE_THEMES_VIEW_ID"],
+            "featured_documents": os.environ[
+                "AIRTABLE_FEATURED_DOCUMENTS_VIEW_ID"
+            ],
         },
     )
 

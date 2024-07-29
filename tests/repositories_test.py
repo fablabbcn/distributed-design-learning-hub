@@ -8,6 +8,10 @@ from app.repositories import DocumentsRepository
 class TestDocumentsRepository:
 
     def setup_method(self, method):
+        self.featured_documents = [
+            {"id": "fd_1", "fields": {"document": ["doc3_id"]}},
+            {"id": "fd_2", "fields": {"document": ["doc1_id"]}},
+        ]
         self.themes = [
             {
                 "id": "theme1_id",
@@ -41,12 +45,22 @@ class TestDocumentsRepository:
                     "format": ["format_id"],
                 },
             },
+            {
+                "id": "doc3_id",
+                "fields": {
+                    "link": "doc3",
+                    "themes": ["theme2_id"],
+                    "tags": ["tag2", "tag3"],
+                    "format": ["format_id"],
+                },
+            },
         ]
 
         self.airtable_data = {
             "themes": self.themes,
             "documents": self.documents,
             "formats": self.formats,
+            "featured_documents": self.featured_documents,
         }
 
         self.airtable = MagicMock()
@@ -177,3 +191,15 @@ class TestDocumentsRepository:
 
         assert theme1["summary"] == "Theme 1 summary"
         assert theme2["summary"] == "Theme 2 summary"
+
+    def test_get_featured_documents_returns_featured_documents(self):
+        """
+        getting featured documents returns only featured documents, in order.
+        """
+        db = self.create_db()
+
+        featured = db.get_featured_documents()
+
+        assert len(featured) == 2
+        assert featured[0]["link"] == "doc3"
+        assert featured[1]["link"] == "doc1"

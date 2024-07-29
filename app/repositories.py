@@ -35,14 +35,24 @@ class DocumentsRepository:
     def __init__(self, airtable: AirtableDB):
         self.airtable: AirtableDB = airtable
         self.documents: dict[str, Document] = {}
+        self.featured_document_ids: list[str] = []
+        self.airtable_ids_to_ids: dict[str, str] = {}
         self.themes: OrderedDict[str, Theme] = OrderedDict()
         self.tags: dict[str, list[str]] = defaultdict(list)
+
+        for row in self.airtable.all("featured_documents"):
+            self._ingest_featured_document(row)
 
         for row in self.airtable.all("themes"):
             self._ingest_theme(row)
 
         for row in self.airtable.all("documents"):
             self._ingest_document(row)
+
+    def _ingest_featured_document(self, row: RecordDict) -> None:
+        airtable_id = _.get(row, "fields.document.0")
+        if airtable_id:
+            self.featured_document_ids.append(airtable_id)
 
     def _ingest_document(self, row: RecordDict) -> None:
         document = row["fields"]
@@ -67,7 +77,9 @@ class DocumentsRepository:
                 document["format"] = format["name"]
                 document["format_type"] = format["type"]
 
-        self.documents[url_to_id(document["link"])] = cast(Document, document)
+        id = url_to_id(document["link"])
+        self.airtable_ids_to_ids[row["id"]] = id
+        self.documents[id] = cast(Document, document)
 
     def _ingest_theme(self, row: RecordDict) -> None:
         fields = row["fields"]
@@ -114,3 +126,14 @@ class DocumentsRepository:
 
     def get_document(self, id: str) -> Optional[Document]:
         return self.documents.get(id)
+
+    def get_featured_documents(self) -> list[Document]:
+        return cast(
+            list[Document],
+            _.compact(
+                [
+                    self.get_document(self.airtable_ids_to_ids[id])
+                    for id in self.featured_document_ids
+                ]
+            ),
+        )

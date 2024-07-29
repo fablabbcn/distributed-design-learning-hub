@@ -1,4 +1,3 @@
-import random
 from typing import Any
 
 from flask import current_app as app
@@ -28,13 +27,12 @@ def index() -> Any:
 def homepage() -> str:
     db = _get_documents_repository()
 
-    documents = db.get_all_documents()
+    documents = db.get_featured_documents()
+    themes = db.get_all_themes()
+    tags = db.get_all_tags()
 
     return render_template(
-        "pages/index.j2",
-        documents=random.sample(documents, k=len(documents)),
-        themes=db.get_all_themes(),
-        tags=db.get_all_tags(),
+        "pages/index.j2", documents=documents, themes=themes, tags=tags
     )
 
 
