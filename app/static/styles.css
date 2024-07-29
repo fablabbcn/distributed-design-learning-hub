@@ -271,8 +271,24 @@ p {
     display: flex;
     flex-direction: column-reverse;
 
-    & .hero-prompts {
-      margin-top: var(--spacer-unit);
+    & .hero-description {
+      font-size: 1.5rem;
+    }
+
+    & .stat {
+      font-weight: bold;
+      &.text {
+        color: var(--type-text-highlight-color);
+      }
+      &.audiovisual {
+        color: var(--type-audiovisual-highlight-color);
+      }
+      &.course {
+        color: var(--type-course-highlight-color);
+      }
+      &.tool {
+        color: var(--type-tool-highlight-color);
+      }
     }
   }
 

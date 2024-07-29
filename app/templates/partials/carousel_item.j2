@@ -1,28 +1,31 @@
 <div class="carousel-item {{ document.format_type }}">
-  <div class="details">
-    <div class="blurb">
-
-      <span class="format {{document|document_css_classes}}">{{ document.format }}</span>
-      <h3 class="title"><a href="{{url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a></h3>
-      <div class="meta">
-        <p><strong>From:</strong> {{document.author}} </p>
-      </div>
-      <div class="description">
-        {% markdown %}
-        {{ document.description }}
-        {% endmarkdown %}
-      </div>
+    <div class="details">
+        <div class="blurb">
+            <span class="format {{ document|document_css_classes }}">{{ document.format }}</span>
+            <h3 class="title">
+                <a href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
+            </h3>
+            <div class="meta">
+                <p>
+                    <strong>From:</strong> {{ document.author }}
+                </p>
+            </div>
+            <div class="description">
+                {% markdown %}
+                {{ document.description }}
+            {% endmarkdown %}
+        </div>
     </div>
     {% with tags=document.tags %}
-    {% include "partials/tags.j2" %}
+        {% include "partials/tags.j2" %}
     {% endwith %}
-  </div>
-  <div class="image">
+</div>
+<div class="image">
     <a class="image-link"
-      href="{{ url_for("document", document_id=document.link|url_to_id) }}">
-      {% with show_format=false, show_title=false %}
-      {% include "partials/image_placeholder.j2" %}
-      {% endwith %}
+       href="{{ url_for("document", document_id=document.link|url_to_id) }}">
+        {% with show_format=false, show_title=false %}
+            {% include "partials/image_placeholder.j2" %}
+        {% endwith %}
     </a>
-  </div>
+</div>
 </div>

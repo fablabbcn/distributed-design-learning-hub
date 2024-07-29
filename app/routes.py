@@ -30,9 +30,14 @@ def homepage() -> str:
     documents = db.get_featured_documents()
     themes = db.get_all_themes()
     tags = db.get_all_tags()
+    stats = db.get_stats()
 
     return render_template(
-        "pages/index.j2", documents=documents, themes=themes, tags=tags
+        "pages/index.j2",
+        documents=documents,
+        themes=themes,
+        tags=tags,
+        stats=stats,
     )
 
 

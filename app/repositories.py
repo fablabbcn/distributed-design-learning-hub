@@ -1,4 +1,4 @@
-from collections import OrderedDict, defaultdict
+from collections import Counter, OrderedDict, defaultdict
 from typing import Optional, TypedDict, cast
 
 import more_itertools as mit
@@ -29,6 +29,19 @@ Theme = TypedDict(
     {"name": str, "summary": str, "documents": list[str], "tags": set[str]},
 )
 
+Stats = TypedDict(
+    "Stats",
+    {
+        "total_documents": int,
+        "total_themes": int,
+        "total_text_format": int,
+        "total_audiovisual_format": int,
+        "total_tool_format": int,
+        "total_course_format": int,
+        "total_unique_authors": int,
+    },
+)
+
 
 class DocumentsRepository:
 
@@ -39,6 +52,8 @@ class DocumentsRepository:
         self.airtable_ids_to_ids: dict[str, str] = {}
         self.themes: OrderedDict[str, Theme] = OrderedDict()
         self.tags: dict[str, list[str]] = defaultdict(list)
+        self.authors: set[str] = set()
+        self.format_types_count: Counter[str] = Counter()
 
         for row in self.airtable.all("featured_documents"):
             self._ingest_featured_document(row)
@@ -76,6 +91,10 @@ class DocumentsRepository:
             if format is not None:
                 document["format"] = format["name"]
                 document["format_type"] = format["type"]
+                self.format_types_count[format["type"]] += 1
+
+        if "author" in document:
+            self.authors.add(document["author"])
 
         id = url_to_id(document["link"])
         self.airtable_ids_to_ids[row["id"]] = id
@@ -137,3 +156,14 @@ class DocumentsRepository:
                 ]
             ),
         )
+
+    def get_stats(self) -> Stats:
+        return {
+            "total_documents": len(self.documents),
+            "total_themes": len(self.themes),
+            "total_text_format": self.format_types_count["text"],
+            "total_audiovisual_format": self.format_types_count["audiovisual"],
+            "total_tool_format": self.format_types_count["tool"],
+            "total_course_format": self.format_types_count["course"],
+            "total_unique_authors": len(self.authors),
+        }
