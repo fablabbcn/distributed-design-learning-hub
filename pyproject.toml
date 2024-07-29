@@ -20,6 +20,8 @@ boilerpy3 = "^1.0.7"
 pypdf = "^4.2.0"
 pyairtable = "^2.3.3"
 jinja-markdown2 = "^0.4.0"
+more-itertools = "^10.3.0"
+redis = "^5.0.7"
 
 
 [tool.poetry.group.dev.dependencies]
