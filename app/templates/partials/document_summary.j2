@@ -1,11 +1,9 @@
 <div class="document-summary container">
     <div class="info-column">
         <a class="image-link" href="{{ document.link }}" target="_blank">
-            <div class="image-placeholder">
-                <div class="format-container">
-                    <span class="format">{{ document.format }}</span>
-                </div>
-            </div>
+            {% with show_format=true, show_title=false %}
+                {% include "partials/image_placeholder.j2" %}
+            {% endwith %}
         </a>
         <div>
             <a class="btn" href={{ document.link }} target="_blank">Go to document <span class="emoji">🔗</span></a>

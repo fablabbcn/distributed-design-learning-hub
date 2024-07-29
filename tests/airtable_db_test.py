@@ -27,7 +27,8 @@ class TestAirtableDocumentDatabase:
             self.ui_strings_table,
         ]
         self.themes_table.all.return_value = [
-                {"id": id, "fields": fields} for (id, fields) in self.themes.items()
+            {"id": id, "fields": fields}
+            for (id, fields) in self.themes.items()
         ]
         self.documents_table.all.return_value = [
             {"fields": document} for document in self.documents
@@ -43,7 +44,7 @@ class TestAirtableDocumentDatabase:
         self.ui_strings_table_id = "UI_STRINGS_TABLE_ID"
         self.themes = {
             "theme1_id": {"name": "theme1", "summary": "Theme 1 summary"},
-            "theme2_id": {"name": "theme2", "summary": "Theme 2 summary"}
+            "theme2_id": {"name": "theme2", "summary": "Theme 2 summary"},
         }
         self.formats = {
             "format_id": {"fields": {"name": "Format", "type": "type"}}
@@ -136,14 +137,8 @@ class TestAirtableDocumentDatabase:
         get_all_themes returns all the themes used in
         every document in the table
         """
-        db = AirtableDocumentDatabase(
-            self.token,
-            self.base_id,
-            self.documents_table_id,
-            self.themes_table_id,
-        )
+        db = self.create_db()
         themes = db.get_all_themes()
-        print(themes)
         assert "theme1" in themes
         assert "theme2" in themes
 

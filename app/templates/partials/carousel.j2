@@ -3,7 +3,7 @@
     <div class="documents">
         {% for document in documents %}
             {% with show_tags=True, show_theme=True %}
-                {% include "partials/document.j2" %}
+                {% include "partials/carousel_item.j2" %}
             {% endwith %}
         {% endfor %}
     </div>

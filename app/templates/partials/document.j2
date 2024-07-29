@@ -6,14 +6,9 @@
             {% endif %}
             <a class="image-link"
                href="{{ url_for("document", document_id=document.link|url_to_id) }}">
-                <div class="image-placeholder">
-                    {% if show_format and document.format %}
-                        <div class="format-container">
-                            <span class="format">{{ document.format }}</span>
-                        </div>
-                    {% endif %}
-                    <p class="title">{{ document.title }}</p>
-                </div>
+                {% with show_format=true, show_title=true %}
+                    {% include "partials/image_placeholder.j2" %}
+                {% endwith %}
             </a>
             {% if show_tags %}
                 {% with tags=document.tags | get_first(3) %}

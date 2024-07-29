@@ -18,6 +18,10 @@
   --strong-fg-color: var(--white);
   --link-color: var(--yellow);
   --link-color-visited: var(--yellow);
+  --type-text-highlight-color: var(--green);
+  --type-course-highlight-color: var(--purple);
+  --type-audiovisual-highlight-color: var(--orange);
+  --type-tool-highlight-color: var(--electric-blue);
   --font-weight-headings-light: 200;
   --font-weight-headings: 700;
   --font-weight-light: 200;
@@ -50,21 +54,21 @@
 }
 
 @font-face {
-  font-family: 'Aileron';
+  font-family: "Aileron";
   src:
-    url('/static/fonts/Aileron-Thin.ttf') format('truetype'),
-    url('/static/fonts/Aileron-Thin.woff') format('woff'),
-    url('/static/fonts/Aileron-Thin.woff2') format('woff2');
+    url("/static/fonts/Aileron-Thin.ttf") format("truetype"),
+    url("/static/fonts/Aileron-Thin.woff") format("woff"),
+    url("/static/fonts/Aileron-Thin.woff2") format("woff2");
   font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Aileron';
+  font-family: "Aileron";
   src:
-    url('/static/fonts/Aileron-ThinItalic.ttf') format('truetype'),
-    url('/static/fonts/Aileron-ThinItalic.woff') format('woff'),
-    url('/static/fonts/Aileron-ThinItalic.woff2') format('woff2');
+    url("/static/fonts/Aileron-ThinItalic.ttf") format("truetype"),
+    url("/static/fonts/Aileron-ThinItalic.woff") format("woff"),
+    url("/static/fonts/Aileron-ThinItalic.woff2") format("woff2");
   font-weight: 200;
   font-style: italic;
 }
@@ -254,7 +258,7 @@ p {
 }
 
 .index-hero {
-  background-color: var(--strong-bg-color);
+  background-color: var(--main-bg-color);
   display: flex;
   flex-direction: column;
   padding-top: var(--spacer-unit);
@@ -318,7 +322,7 @@ p {
 }
 
 .carousel {
-  padding: calc(3 * var(--spacer-unit)) var(--spacer-unit);
+  padding: 0 var(--spacer-unit) !important;
   & h1 {
     text-align: center;
     margin-bottom: calc(3 * var(--spacer-unit));
@@ -326,10 +330,65 @@ p {
   & .documents {
     box-sizing: border-box;
     display: flex;
+    border-top: 1px solid var(--main-fg-color);
+    border-bottom: 1px solid var(--main-fg-color);
     gap: calc(2 * var(--spacer-unit));
     & .document {
       width: 100%;
     }
+  }
+}
+
+.carousel-item {
+  display: flex;
+  justify-content: space-between;
+  border-left: 1px solid var(--main-fg-color);
+  border-right: 1px solid var(--main-fg-color);
+  width: calc(100% - 8 * var(--spacer-unit));
+  margin: 0 auto;
+  padding: calc(2 * var(--spacer-unit));
+  &.text {
+    background: var(--main-bg-color);
+    background: linear-gradient(
+      -35deg,
+      var(--main-bg-color) 33%,
+      var(--type-text-highlight-color) 100%
+    );
+  }
+  &.audiovisual {
+    background: var(--main-bg-color);
+    background: linear-gradient(
+      -35deg,
+      var(--main-bg-color) 33%,
+      var(--type-audiovisual-highlight-color) 100%
+    );
+  }
+  &.course {
+    background: var(--main-bg-color);
+    background: linear-gradient(
+      -35deg,
+      var(--main-bg-color) 33%,
+      var(--type-course-highlight-color) 100%
+    );
+  }
+  &.tool {
+    background: var(--main-bg-color);
+    background: linear-gradient(
+      -35deg,
+      var(--main-bg-color) 33%,
+      var(--type-tool-highlight-color) 100%
+    );
+  }
+  & .details {
+    width: 33%;
+    & .title {
+      font-size: 2rem;
+      font-weight: var(--font-weight-light);
+      font-family: "Aileron";
+    }
+  }
+  & .image {
+    width: 33%;
   }
 }
 
@@ -382,14 +441,43 @@ p {
   width: 100%;
   aspect-ratio: 1;
   border-radius: 2rem;
-  background-color: var(--electric-blue);
-  padding: 1rem;
+  position: relative;
+  background-color: var(--yellow);
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: start;
   color: var(--strong-fg-color);
+  &.with-image:after {
+    content: "";
+    border-radius: 2rem;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+  }
+  &.text {
+    background-color: var(--type-text-highlight-color);
+  }
+  &.audiovisual {
+    background-color: var(--type-audiovisual-highlight-color);
+  }
+  &.course {
+    background-color: var(--type-course-highlight-color);
+  }
+  &.tool {
+    background-color: var(--type-tool-highlight-color);
+  }
+  & .inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    padding: var(--spacer-unit);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    z-index: 100;
+  }
 }
 
 & .format {
@@ -566,13 +654,6 @@ p {
       width: 50%;
     }
   }
-  .carousel {
-    & .documents {
-      & .document {
-        width: 33%;
-      }
-    }
-  }
 
   .grid .documents {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -639,4 +720,5 @@ p {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
+  }
 }

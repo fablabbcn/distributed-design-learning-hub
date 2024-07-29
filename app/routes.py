@@ -68,7 +68,6 @@ def document(document_id: str) -> str:
     db = airtable_db.AirtableDocumentDatabase()
 
     document = db.get_document(document_id)
-    print(document)
     return render_template(
         "pages/document.j2",
         document=document,
