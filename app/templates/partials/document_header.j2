@@ -1,4 +1,10 @@
 <div class="theme-tag-document-header container">
+    <span class="format colored {{ document|document_css_classes }}">{{ document.format }}</span>
     <h2 class="theme-tag-document-subhead">{{ document.themes|get_first }}:</h2>
     <h1>{{ document.title }}</h1>
+    <div class="meta">
+        <p>
+            <strong>From:</strong> {{ document.author }}
+        </p>
+    </div>
 </div>
