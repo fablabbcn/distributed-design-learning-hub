@@ -1,9 +1,10 @@
 from functools import partial
 from operator import is_not
-from typing import Optional, TypeVar, Union
+from typing import Callable, Optional, TypeGuard, TypeVar, Union, cast
 
 from flask import current_app as app
 
+from .repositories import Document
 from .utils import url_to_id
 
 U = TypeVar("U")
@@ -21,10 +22,13 @@ def get_first(
             return None
 
 
-def document_css_classes(document):
+def document_css_classes(document: Document) -> str:
+    not_none = cast(
+        Callable[[str | None], TypeGuard[str]], partial(is_not, None)
+    )
     return " ".join(
         filter(
-            partial(is_not, None),
+            not_none,
             [
                 document.get("format_type"),
                 (

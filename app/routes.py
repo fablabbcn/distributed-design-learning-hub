@@ -4,7 +4,11 @@ from typing import Any
 from flask import current_app as app
 from flask import jsonify, render_template, request
 
-from . import airtable_db, celery
+from . import airtable, celery, repositories
+
+
+def _get_documents_repository() -> repositories.DocumentsRepository:
+    return repositories.DocumentsRepository(airtable.get_db_instance())
 
 
 @app.route("/index", methods=["POST"])
@@ -22,7 +26,7 @@ def index() -> Any:
 
 @app.route("/", methods=["GET"])
 def homepage() -> str:
-    db = airtable_db.AirtableDocumentDatabase()
+    db = _get_documents_repository()
 
     documents = db.get_all_documents()
 
@@ -36,7 +40,7 @@ def homepage() -> str:
 
 @app.route("/themes/<theme_name>", methods=["GET"])
 def theme(theme_name: str) -> str:
-    db = airtable_db.AirtableDocumentDatabase()
+    db = _get_documents_repository()
 
     documents = db.get_documents_for_theme(theme_name)
     tags = db.get_tags_for_theme(theme_name)
@@ -52,7 +56,7 @@ def theme(theme_name: str) -> str:
 
 @app.route("/tags/<tag>", methods=["GET"])
 def tag(tag: str) -> str:
-    db = airtable_db.AirtableDocumentDatabase()
+    db = _get_documents_repository()
 
     documents = db.get_documents_for_tag(tag)
 
@@ -65,7 +69,7 @@ def tag(tag: str) -> str:
 
 @app.route("/documents/<document_id>", methods=["GET"])
 def document(document_id: str) -> str:
-    db = airtable_db.AirtableDocumentDatabase()
+    db = _get_documents_repository()
 
     document = db.get_document(document_id)
     return render_template(
