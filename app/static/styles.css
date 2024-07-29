@@ -443,6 +443,7 @@ p {
   border-radius: 2rem;
   position: relative;
   background-color: var(--yellow);
+  background-size: cover;
   box-sizing: border-box;
   color: var(--strong-fg-color);
   &.with-image:after {
