@@ -1,4 +1,4 @@
-<div class="image-placeholder {{ document|document_css_classes }}"
+<div class="image-placeholder {{ document|document_css_classes }} {% if show_format and document.format or show_title -%}overlay{% endif -%}"
      style="background-image: url('{{ document.image_url }}')">
     <div class="inner">
         {% if show_format and document.format %}
