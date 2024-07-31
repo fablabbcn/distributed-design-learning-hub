@@ -2,7 +2,7 @@
     <div class="documents">
         {% for document in documents %}
             {% with show_format=True %}
-                {% include "partials/document.j2" %}
+                {% include "partials/grid_document.j2" %}
             {% endwith %}
         {% endfor %}
     </div>

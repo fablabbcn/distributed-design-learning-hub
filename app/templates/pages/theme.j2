@@ -1,7 +1,11 @@
 {% extends "layouts/main.j2" %}
 {% block main %}
     {% include "partials/theme_header.j2" %}
-    {% include "partials/theme_summary.j2" %}
-    <div class="tags-container container">{% include "partials/tags.j2" %}</div>
-    {% include "partials/grid.j2" %}
+    <div class="theme-layout">
+        <div class="description-column">
+            {% include "partials/theme_summary.j2" %}
+            <div class="tags-container container">{% include "partials/tags.j2" %}</div>
+        </div>
+        <div class="documents-column">{% include "partials/table.j2" %}</div>
+    </div>
 {% endblock main %}

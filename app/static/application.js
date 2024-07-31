@@ -1,4 +1,4 @@
-const mediumBreakpoint = 900;
+const statAnimationTime = 1000.0;
 
 class Carousel {
   constructor(element) {
@@ -60,7 +60,7 @@ function animateStat(element) {
     } else {
       window.clearInterval(interval);
     }
-  }, 1);
+  }, statAnimationTime / finalValue);
 }
 
 const setupCarousels = () => {
