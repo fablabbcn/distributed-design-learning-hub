@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   web:
     build:
@@ -24,7 +22,7 @@ services:
       - FLASK_APP=app
     depends_on:
       - redis
-      - db
+      - elasticsearch
 
   elasticsearch:
     image: elasticsearch:8.13.0
@@ -40,15 +38,6 @@ services:
 
     volumes:
       - es_data:/usr/share/elasticsearch/data
-
-  db:
-    image: postgres:16.2
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_DB=ddhub_prototype
-      - POSTGRES_USER=ddhub_prototype
-      - POSTGRES_PASSWORD=ddhub_prototype
 
   redis:
     image: redis:7.2
@@ -67,7 +56,7 @@ services:
       - FLASK_APP=app
     depends_on:
       - redis
-      - db
+      - elasticsearch
 
   flower:
     build:
@@ -85,7 +74,6 @@ services:
       - 5557:5555
     depends_on:
       - redis
-      - db
 
   elasticvue:
     image: cars10/elasticvue
@@ -97,5 +85,4 @@ services:
       - elasticsearch
 
 volumes:
-  postgres_data:
   es_data:

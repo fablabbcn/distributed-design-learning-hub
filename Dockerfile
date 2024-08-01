@@ -25,6 +25,7 @@ RUN apt-get update \
 COPY pyproject.toml poetry.lock ./
 
 RUN pip install poetry
+RUN poetry lock --no-update
 RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
 WORKDIR /app

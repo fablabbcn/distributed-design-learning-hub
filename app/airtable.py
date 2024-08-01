@@ -92,7 +92,6 @@ def get_db_instance() -> AirtableDB:
             "featured_documents": os.environ[
                 "AIRTABLE_FEATURED_DOCUMENTS_TABLE_ID"
             ],
-            "ui_strings": os.environ["AIRTABLE_UI_STRINGS_TABLE_ID"],
         },
         view_ids={
             "themes": os.environ["AIRTABLE_THEMES_VIEW_ID"],
