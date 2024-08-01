@@ -57,4 +57,4 @@ def ingest_pdf(self: Task[[str], None], url: str) -> None:
 
 @app.task(bind=True)
 def store(self: Task[[str, str], None], url: str, text: str) -> None:
-    elasticsearch.index(url_to_id(url), url=url, text=text)
+    elasticsearch.update(url_to_id(url), text=text)

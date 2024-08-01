@@ -1,13 +1,13 @@
 import pytest  # type: ignore
 
-from app.celery import store
+from app.tasks import store
 
 
 class TestIngestPDF:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.elasticsearch = mocker.patch("app.celery.elasticsearch")
-        self.url_to_id = mocker.patch("app.celery.url_to_id")
+        self.elasticsearch = mocker.patch("app.tasks.elasticsearch")
+        self.url_to_id = mocker.patch("app.tasks.url_to_id")
         self.url_to_id.return_value = self.id
 
     def setup_method(self, method):
@@ -25,13 +25,12 @@ class TestIngestPDF:
 
     def test_it_indexes_the_document(self):
         """
-        It indexes the document in elasticsearch
+        It indexes the document in elasticsearch, updadting an existing record
         """
         # TODO: Extract the index name out into an env var and
         # test that its passed
         store.apply(args=(self.url, self.text)).get()
-        self.elasticsearch.index.assert_called_with(
+        self.elasticsearch.update.assert_called_with(
             self.id,
-            url=self.url,
             text=self.text,
         )

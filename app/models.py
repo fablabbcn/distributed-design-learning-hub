@@ -1,5 +1,5 @@
 import warnings
-from dataclasses import dataclass, fields
+from dataclasses import asdict, dataclass, fields
 from typing import TYPE_CHECKING, Any, NewType, Optional, TypeVar
 
 if TYPE_CHECKING:
@@ -24,6 +24,9 @@ class Model:
         }
         return cls(**{**nulls, **allowed_values})
 
+    def asdict(self: DataClassSubtype) -> dict[str, Any]:
+        return asdict(self)
+
     def __getitem__(self, field: str) -> Any:
         warnings.warn(
             "Accessing fields of %s using subscript notation is deprecated!"
@@ -33,7 +36,7 @@ class Model:
 
     def __setitem(self, field: str, value: Any) -> None:
         warnings.warn(
-            "Accessing fields of %s using subscript notation is deprecated!"
+            "Accessing fields of %s using subscript notation is deprecated! "
             % type(self)
         )
         return setattr(self, field, value)

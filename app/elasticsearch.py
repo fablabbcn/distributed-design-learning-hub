@@ -11,3 +11,12 @@ def index(id: str, **document: Any) -> None:
         id=id,
         document=document,
     )
+
+
+def update(id: str, **fields: Any) -> None:
+    client = Elasticsearch(environ["ELASTICSEARCH_URL"])
+    client.update(
+        index=environ["ELASTICSEARCH_INDEX"],
+        id=id,
+        doc=fields,
+    )

@@ -2,20 +2,20 @@ from unittest.mock import ANY, MagicMock
 
 import pytest  # type: ignore
 
-from app.celery import ingest_pdf
+from app.tasks import ingest_pdf
 
 
 class TestIngestPDF:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.environ = mocker.patch("app.celery.environ")
+        self.environ = mocker.patch("app.tasks.environ")
         self.environ.__getitem__.return_value = self.user_agent
-        self.store_task = mocker.patch("app.celery.store")
-        self.requests = mocker.patch("app.celery.requests")
+        self.store_task = mocker.patch("app.tasks.store")
+        self.requests = mocker.patch("app.tasks.requests")
         self.requests.utils.default_headers.return_value = {}
-        self.bytes_io_constructor = mocker.patch("app.celery.BytesIO")
+        self.bytes_io_constructor = mocker.patch("app.tasks.BytesIO")
         self.bytes_io_constructor.return_value = self.bytes_io
-        self.pdf_reader_constructor = mocker.patch("app.celery.PdfReader")
+        self.pdf_reader_constructor = mocker.patch("app.tasks.PdfReader")
         self.pdf_reader_constructor.return_value = self.pdf_reader
         self.requests.get.return_value = self.response
 
