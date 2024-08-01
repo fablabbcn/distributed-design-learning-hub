@@ -8,8 +8,11 @@ from app.celery import ingest_pdf
 class TestIngestPDF:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
+        self.environ = mocker.patch("app.celery.environ")
+        self.environ.__getitem__.return_value = self.user_agent
         self.store_task = mocker.patch("app.celery.store")
         self.requests = mocker.patch("app.celery.requests")
+        self.requests.utils.default_headers.return_value = {}
         self.bytes_io_constructor = mocker.patch("app.celery.BytesIO")
         self.bytes_io_constructor.return_value = self.bytes_io
         self.pdf_reader_constructor = mocker.patch("app.celery.PdfReader")
@@ -19,6 +22,7 @@ class TestIngestPDF:
     def setup_method(self, method):
         self.url = "http://example.com"
         self.response_content = "this is the response content"
+        self.user_agent = "this-is/the-USER-AGENT"
         self.page_texts = [
             "the text of page 1",
             "the text of page 2",
@@ -47,7 +51,7 @@ class TestIngestPDF:
         """
         ingest_pdf.apply(args=(self.url,)).get()
         headers = self.requests.get.call_args.kwargs["headers"]
-        assert headers["User-Agent"] == "FablabBCN-DDLH-indexer/0.0.0"
+        assert headers["User-Agent"] == self.user_agent
 
     def test_it_raises_on_http_errors(self):
         """

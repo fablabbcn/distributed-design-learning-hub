@@ -19,6 +19,7 @@ class TestDispatch:
         self.ingest_html_task = mocker.patch("app.celery.ingest_html")
         self.ingest_pdf_task = mocker.patch("app.celery.ingest_pdf")
         self.requests = mocker.patch("app.celery.requests")
+        self.requests.utils.default_headers.return_value = {}
         self.requests.head.return_value = self.response
 
     def setup_method(self, method):
