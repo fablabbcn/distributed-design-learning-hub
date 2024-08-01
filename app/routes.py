@@ -1,9 +1,10 @@
-from typing import Any
+from typing import Any, cast
 
 from flask import current_app as app
-from flask import jsonify, render_template, request
+from flask import jsonify, render_template, request, url_for
 
-from . import airtable, celery, repositories
+from . import airtable, celery, repositories, utils
+from .repositories import Document, Theme
 
 
 def _get_documents_repository() -> repositories.DocumentsRepository:
@@ -47,10 +48,19 @@ def theme(theme_name: str) -> str:
 
     documents = db.get_documents_for_theme(theme_name)
     tags = db.get_tags_for_theme(theme_name)
-    theme = db.get_theme(theme_name)
+    theme = cast(Theme, db.get_theme(theme_name))
+
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "Themes"},
+        {
+            "title": theme["name"],
+            "url": url_for("theme", theme_name=theme["name"]),
+        },
+    )
 
     return render_template(
         "pages/theme.j2",
+        breadcrumbs=breadcrumbs,
         documents=documents,
         tags=tags,
         theme=theme,
@@ -63,8 +73,12 @@ def tag(tag: str) -> str:
 
     documents = db.get_documents_for_tag(tag)
 
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "Tags"}, {"title": tag, "url": url_for("tag", tag=tag)}
+    )
     return render_template(
         "pages/tag.j2",
+        breadcrumbs=breadcrumbs,
         tag=tag,
         documents=documents,
     )
@@ -74,8 +88,19 @@ def tag(tag: str) -> str:
 def document(document_id: str) -> str:
     db = _get_documents_repository()
 
-    document = db.get_document(document_id)
+    document = cast(Document, db.get_document(document_id))
+
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "Documents"},
+        {
+            "title": document["title"],
+            "url": url_for(
+                "document", document_id=utils.url_to_id(document["link"])
+            ),
+        },
+    )
     return render_template(
         "pages/document.j2",
+        breadcrumbs=breadcrumbs,
         document=document,
     )
