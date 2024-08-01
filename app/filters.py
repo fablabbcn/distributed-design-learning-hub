@@ -4,7 +4,7 @@ from typing import Callable, Optional, TypeGuard, TypeVar, Union, cast
 
 from flask import current_app as app
 
-from .repositories import Document
+from .models import Document
 from .utils import url_to_id
 
 U = TypeVar("U")

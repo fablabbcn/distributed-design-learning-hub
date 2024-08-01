@@ -4,7 +4,7 @@ from flask import current_app as app
 from flask import jsonify, render_template, request, url_for
 
 from . import airtable, celery, repositories, utils
-from .repositories import Document, Theme
+from .models import Document, Theme
 
 
 def _get_documents_repository() -> repositories.DocumentsRepository:
@@ -53,8 +53,8 @@ def theme(theme_name: str) -> str:
     breadcrumbs = utils.get_breadcrumbs(
         {"title": "Themes"},
         {
-            "title": theme["name"],
-            "url": url_for("theme", theme_name=theme["name"]),
+            "title": theme.name,
+            "url": url_for("theme", theme_name=theme.name),
         },
     )
 
@@ -93,9 +93,9 @@ def document(document_id: str) -> str:
     breadcrumbs = utils.get_breadcrumbs(
         {"title": "Documents"},
         {
-            "title": document["title"],
+            "title": document.title,
             "url": url_for(
-                "document", document_id=utils.url_to_id(document["link"])
+                "document", document_id=utils.url_to_id(document.link)
             ),
         },
     )

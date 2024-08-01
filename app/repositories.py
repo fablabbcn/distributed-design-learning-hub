@@ -1,46 +1,13 @@
 from collections import Counter, OrderedDict, defaultdict
-from typing import Optional, TypedDict, cast
+from typing import Optional, cast
 
 import more_itertools as mit
 from pyairtable.api.types import RecordDict
 from pydash import _
 
 from .airtable import AirtableDB
+from .models import Document, Stats, Theme
 from .utils import url_to_id
-
-Document = TypedDict(
-    "Document",
-    {
-        "link": str,
-        "author": str,
-        "title": str,
-        "topic": str,
-        "format": str,
-        "format_type": str,
-        "description": str,
-        "themes": list[str],
-        "tags": list[str],
-        "image_url": Optional[str],
-    },
-)
-
-Theme = TypedDict(
-    "Theme",
-    {"name": str, "summary": str, "documents": list[str], "tags": set[str]},
-)
-
-Stats = TypedDict(
-    "Stats",
-    {
-        "total_documents": int,
-        "total_themes": int,
-        "total_text_format": int,
-        "total_audiovisual_format": int,
-        "total_tool_format": int,
-        "total_course_format": int,
-        "total_unique_authors": int,
-    },
-)
 
 
 class DocumentsRepository:
@@ -98,17 +65,17 @@ class DocumentsRepository:
 
         id = url_to_id(document["link"])
         self.airtable_ids_to_ids[row["id"]] = id
-        self.documents[id] = cast(Document, document)
+        self.documents[id] = Document.from_dict(**document)
 
     def _ingest_theme(self, row: RecordDict) -> None:
         fields = row["fields"]
         id = row["id"]
-        self.themes[id] = {
-            "name": fields["name"],
-            "summary": fields["summary"],
-            "documents": [],
-            "tags": set(),
-        }
+        self.themes[id] = Theme(
+            name=fields["name"],
+            summary=fields["summary"],
+            documents=[],
+            tags=set(),
+        )
 
     def get_all_documents(self) -> list[Document]:
         return list(self.documents.values())
@@ -158,12 +125,12 @@ class DocumentsRepository:
         )
 
     def get_stats(self) -> Stats:
-        return {
-            "total_documents": len(self.documents),
-            "total_themes": len(self.themes),
-            "total_text_format": self.format_types_count["text"],
-            "total_audiovisual_format": self.format_types_count["audiovisual"],
-            "total_tool_format": self.format_types_count["tool"],
-            "total_course_format": self.format_types_count["course"],
-            "total_unique_authors": len(self.authors),
-        }
+        return Stats(
+            total_documents=len(self.documents),
+            total_themes=len(self.themes),
+            total_text_format=self.format_types_count["text"],
+            total_audiovisual_format=self.format_types_count["audiovisual"],
+            total_tool_format=self.format_types_count["tool"],
+            total_course_format=self.format_types_count["course"],
+            total_unique_authors=len(self.authors),
+        )
