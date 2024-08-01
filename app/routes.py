@@ -1,27 +1,14 @@
-from typing import Any, cast
+from typing import cast
 
 from flask import current_app as app
-from flask import jsonify, render_template, request, url_for
+from flask import render_template, url_for
 
-from . import airtable, celery, repositories, utils
+from . import airtable, repositories, utils
 from .models import Document, Theme
 
 
 def _get_documents_repository() -> repositories.DocumentsRepository:
     return repositories.DocumentsRepository(airtable.get_db_instance())
-
-
-@app.route("/index", methods=["POST"])
-def index() -> Any:
-    url = request.json.get("url")
-    celery.dispatch(url)
-    return jsonify(
-        {
-            "result": "OK",
-            "code": 200,
-            "details": f"URL {url} Queued for indexing",
-        }
-    )
 
 
 @app.route("/", methods=["GET"])
