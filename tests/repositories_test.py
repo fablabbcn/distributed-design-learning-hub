@@ -123,7 +123,7 @@ class TestDocumentsRepository:
         get_all_documents returns all the documents in the table
         """
         db = self.create_db()
-        links = [doc["link"] for doc in db.get_all_documents()]
+        links = [doc.link for doc in db.get_all_documents()]
         assert "doc1" in links
         assert "doc2" in links
 
