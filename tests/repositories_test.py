@@ -154,9 +154,9 @@ class TestDocumentsRepository:
         documents for the given tag
         """
         db = self.create_db()
-        links1 = [doc["link"] for doc in db.get_documents_for_tag("tag1")]
-        links2 = [doc["link"] for doc in db.get_documents_for_tag("tag2")]
-        links3 = [doc["link"] for doc in db.get_documents_for_tag("tag3")]
+        links1 = [doc.link for doc in db.get_documents_for_tag("tag1")]
+        links2 = [doc.link for doc in db.get_documents_for_tag("tag2")]
+        links3 = [doc.link for doc in db.get_documents_for_tag("tag3")]
         assert "doc1" in links1
         assert "doc2" not in links1
         assert "doc1" in links2
@@ -170,8 +170,8 @@ class TestDocumentsRepository:
         documents for the given theme
         """
         db = self.create_db()
-        links1 = [doc["link"] for doc in db.get_documents_for_theme("theme1")]
-        links2 = [doc["link"] for doc in db.get_documents_for_theme("theme2")]
+        links1 = [doc.link for doc in db.get_documents_for_theme("theme1")]
+        links2 = [doc.link for doc in db.get_documents_for_theme("theme2")]
         assert "doc1" in links1
         assert "doc2" not in links1
         assert "doc1" not in links2
@@ -203,8 +203,8 @@ class TestDocumentsRepository:
         assert theme1 is not None
         assert theme2 is not None
 
-        assert theme1["summary"] == "Theme 1 summary"
-        assert theme2["summary"] == "Theme 2 summary"
+        assert theme1.summary == "Theme 1 summary"
+        assert theme2.summary == "Theme 2 summary"
 
     def test_get_featured_documents_returns_featured_documents(self):
         """
@@ -215,5 +215,5 @@ class TestDocumentsRepository:
         featured = db.get_featured_documents()
 
         assert len(featured) == 2
-        assert featured[0]["link"] == "doc3"
-        assert featured[1]["link"] == "doc1"
+        assert featured[0].link == "doc3"
+        assert featured[1].link == "doc1"
