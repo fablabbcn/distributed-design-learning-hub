@@ -40,10 +40,10 @@ class DocumentsRepository:
         document = row["fields"]
 
         for theme_id in document.get("themes", []):
-            self.themes[theme_id]["documents"].append(document["link"])
-            self.themes[theme_id]["tags"].update(document.get("tags", []))
+            self.themes[theme_id].documents.append(document["link"])
+            self.themes[theme_id].tags.update(document.get("tags", []))
         document["themes"] = [
-            self.themes[theme_id]["name"]
+            self.themes[theme_id].name
             for theme_id in document.get("themes", [])
         ]
 
@@ -84,29 +84,28 @@ class DocumentsRepository:
         return list(self.tags.keys())
 
     def get_all_themes(self) -> list[str]:
-        return [theme["name"] for theme in self.themes.values()]
+        return [theme.name for theme in self.themes.values()]
 
     def get_documents_for_tag(self, tag: str) -> list[Document]:
         return [self.documents[url_to_id(link)] for link in self.tags[tag]]
 
     def get_documents_for_theme(self, theme_name: str) -> list[Document]:
         for theme in self.themes.values():
-            if theme_name == theme["name"]:
+            if theme_name == theme.name:
                 return [
-                    self.documents[url_to_id(link)]
-                    for link in theme["documents"]
+                    self.documents[url_to_id(link)] for link in theme.documents
                 ]
         return []
 
     def get_tags_for_theme(self, theme_name: str) -> list[str]:
         for theme in self.themes.values():
-            if theme_name == theme["name"]:
-                return list(theme["tags"])
+            if theme_name == theme.name:
+                return list(theme.tags)
         return []
 
     def get_theme(self, theme_name: str) -> Optional[Theme]:
         for theme in self.themes.values():
-            if theme_name == theme["name"]:
+            if theme_name == theme.name:
                 return theme
         return None
 

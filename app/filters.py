@@ -30,12 +30,8 @@ def document_css_classes(document: Document) -> str:
         filter(
             not_none,
             [
-                document.get("format_type"),
-                (
-                    "with-image"
-                    if document.get("image_url") is not None
-                    else None
-                ),
+                document.format_type,
+                ("with-image" if document.image_url is not None else None),
             ],
         )
     )

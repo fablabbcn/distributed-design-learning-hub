@@ -1,3 +1,4 @@
+import traceback
 import warnings
 from dataclasses import asdict, dataclass, fields
 from typing import TYPE_CHECKING, Any, NewType, Optional, TypeVar
@@ -27,24 +28,32 @@ class Model:
     def asdict(self: DataClassSubtype) -> dict[str, Any]:
         return asdict(self)
 
-    def __getitem__(self, field: str) -> Any:
-        warnings.warn(
-            "Accessing fields of %s using subscript notation is deprecated!"
-            % type(self)
+    def _warn_dict_like_access_deprecated(
+        self, method_name: str = "subscript notation"
+    ) -> None:
+        template = (
+            "Accessing fields of %s using %s is deprecated! "
+            "Use dot notation to access model fields. Traceback:\n%s"
         )
+        warnings.warn(
+            template
+            % (
+                type(self),
+                method_name,
+                "\n".join(traceback.format_stack(limit=5)),
+            )
+        )
+
+    def __getitem__(self, field: str) -> Any:
+        self._warn_dict_like_access_deprecated()
         return getattr(self, field)
 
     def __setitem(self, field: str, value: Any) -> None:
-        warnings.warn(
-            "Accessing fields of %s using subscript notation is deprecated! "
-            % type(self)
-        )
+        self._warn_dict_like_access_deprecated()
         return setattr(self, field, value)
 
     def get(self, field: str, default: Optional[T] = None) -> Any:
-        warnings.warn(
-            "Accessing fields of %s using get is deprecated!" % type(self)
-        )
+        self._warn_dict_like_access_deprecated(method_name="get")
         value = getattr(self, field)
         if value:
             return value
