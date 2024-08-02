@@ -8,8 +8,8 @@ from celery.app.task import Task
 from pypdf import PdfReader
 from requests.structures import CaseInsensitiveDict
 
-from app import elasticsearch
-from app.utils import url_to_id
+from ddlh import elasticsearch
+from ddlh.utils import url_to_id
 
 # Monkey-patch needed for celery-types: https://github.com/sbdchd/celery-types
 Task.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # type: ignore[attr-defined] # noqa

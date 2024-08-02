@@ -2,7 +2,7 @@ from unittest.mock import ANY, MagicMock
 
 import pytest  # type: ignore
 
-from app.tasks import dispatch
+from ddlh.tasks import dispatch
 
 
 class TestDispatch:
@@ -16,9 +16,9 @@ class TestDispatch:
 
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.ingest_html_task = mocker.patch("app.tasks.ingest_html")
-        self.ingest_pdf_task = mocker.patch("app.tasks.ingest_pdf")
-        self.requests = mocker.patch("app.tasks.requests")
+        self.ingest_html_task = mocker.patch("ddlh.tasks.ingest_html")
+        self.ingest_pdf_task = mocker.patch("ddlh.tasks.ingest_pdf")
+        self.requests = mocker.patch("ddlh.tasks.requests")
         self.requests.utils.default_headers.return_value = {}
         self.requests.head.return_value = self.response
 

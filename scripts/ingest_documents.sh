@@ -1,2 +1,2 @@
 #!/bin/bash
-python -m app.scripts.ingest_documents
+python -m ddlh.scripts.ingest_documents

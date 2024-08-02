@@ -3,4 +3,4 @@
 set -o errexit
 set -o nounset
 
-celery -A app.tasks worker --loglevel=info
+celery -A ddlh.tasks worker --loglevel=info

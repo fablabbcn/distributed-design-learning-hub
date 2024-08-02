@@ -1,5 +1,5 @@
 services:
-  web:
+  app:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -19,7 +19,7 @@ services:
     env_file:
       - .env
     environment:
-      - FLASK_APP=app
+      - FLASK_APP=ddlh
     depends_on:
       - redis
       - elasticsearch
@@ -53,7 +53,7 @@ services:
     env_file:
       - .env
     environment:
-      - FLASK_APP=app
+      - FLASK_APP=ddlh
     depends_on:
       - redis
       - elasticsearch
@@ -69,7 +69,7 @@ services:
     env_file:
       - .env
     environment:
-      - FLASK_APP=app
+      - FLASK_APP=ddlh
     ports:
       - 5557:5555
     depends_on:

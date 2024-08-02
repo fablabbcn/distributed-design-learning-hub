@@ -2,18 +2,18 @@ from unittest.mock import ANY, MagicMock
 
 import pytest  # type: ignore
 
-from app.tasks import ingest_html
+from ddlh.tasks import ingest_html
 
 
 class TestIngestHTML:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.environ = mocker.patch("app.tasks.environ")
+        self.environ = mocker.patch("ddlh.tasks.environ")
         self.environ.__getitem__.return_value = self.user_agent
-        self.store_task = mocker.patch("app.tasks.store")
-        self.extractor_constructor = mocker.patch("app.tasks.CanolaExtractor")
+        self.store_task = mocker.patch("ddlh.tasks.store")
+        self.extractor_constructor = mocker.patch("ddlh.tasks.CanolaExtractor")
         self.extractor_constructor.return_value = self.extractor
-        self.requests = mocker.patch("app.tasks.requests")
+        self.requests = mocker.patch("ddlh.tasks.requests")
         self.requests.utils.default_headers.return_value = {}
         self.requests.get.return_value = self.response
 

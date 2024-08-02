@@ -1,6 +1,6 @@
-from app import airtable, elasticsearch, tasks
-from app.repositories import DocumentsRepository
-from app.utils import url_to_id
+from ddlh import airtable, elasticsearch, tasks
+from ddlh.repositories import DocumentsRepository
+from ddlh.utils import url_to_id
 
 
 def ingest_documents() -> None:

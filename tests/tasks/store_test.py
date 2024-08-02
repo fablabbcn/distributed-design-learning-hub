@@ -1,13 +1,13 @@
 import pytest  # type: ignore
 
-from app.tasks import store
+from ddlh.tasks import store
 
 
 class TestIngestPDF:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.elasticsearch = mocker.patch("app.tasks.elasticsearch")
-        self.url_to_id = mocker.patch("app.tasks.url_to_id")
+        self.elasticsearch = mocker.patch("ddlh.tasks.elasticsearch")
+        self.url_to_id = mocker.patch("ddlh.tasks.url_to_id")
         self.url_to_id.return_value = self.id
 
     def setup_method(self, method):

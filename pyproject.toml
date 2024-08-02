@@ -63,4 +63,4 @@ cache_dir = "/tmp/mypy_cache"
 mock_use_standalone_module = true
 
 [tool.pytest.ini_options]
-addopts = "--spec --cov=app"
+addopts = "--spec --cov=ddlh"

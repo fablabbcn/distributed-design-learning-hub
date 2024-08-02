@@ -2,7 +2,7 @@ from unittest.mock import MagicMock, call
 
 import more_itertools as mit
 
-from app.repositories import DocumentsRepository
+from ddlh.repositories import DocumentsRepository
 
 
 class TestDocumentsRepository:
