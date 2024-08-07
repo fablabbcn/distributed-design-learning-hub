@@ -10,9 +10,7 @@ from .utils import url_to_id
 U = TypeVar("U")
 
 
-def get_first(
-    items: list[U], n: Optional[int] = None
-) -> Optional[Union[U, list[U]]]:
+def get_first(items: list[U], n: Optional[int] = None) -> Optional[Union[U, list[U]]]:
     if items is not None:
         if n is not None:
             return items[0:n]

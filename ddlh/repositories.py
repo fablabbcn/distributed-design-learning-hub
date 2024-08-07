@@ -43,8 +43,7 @@ class DocumentsRepository:
             self.themes[theme_id].documents.append(document["link"])
             self.themes[theme_id].tags.update(document.get("tags", []))
         document["themes"] = [
-            self.themes[theme_id].name
-            for theme_id in document.get("themes", [])
+            self.themes[theme_id].name for theme_id in document.get("themes", [])
         ]
 
         if "tags" not in document:
@@ -92,9 +91,7 @@ class DocumentsRepository:
     def get_documents_for_theme(self, theme_name: str) -> list[Document]:
         for theme in self.themes.values():
             if theme_name == theme.name:
-                return [
-                    self.documents[url_to_id(link)] for link in theme.documents
-                ]
+                return [self.documents[url_to_id(link)] for link in theme.documents]
         return []
 
     def get_tags_for_theme(self, theme_name: str) -> list[str]:

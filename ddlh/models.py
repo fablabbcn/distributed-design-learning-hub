@@ -20,9 +20,7 @@ class Model:
     ) -> DataClassSubtype:
         allowed_keys = set(f.name for f in fields(cls))
         nulls = {k: None for k in allowed_keys}
-        allowed_values = {
-            k: v for (k, v) in kwargs.items() if k in allowed_keys
-        }
+        allowed_values = {k: v for (k, v) in kwargs.items() if k in allowed_keys}
         return cls(**{**nulls, **allowed_values})
 
     def asdict(self: DataClassSubtype) -> dict[str, Any]:

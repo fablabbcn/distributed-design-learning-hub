@@ -31,9 +31,7 @@ class RedisCache:
         self.config = config
         self.redis = redis.from_url(config.redis_url)
 
-    def cached(
-        self, prefix: str, args: list[str], func: Callable[..., T]
-    ) -> T:
+    def cached(self, prefix: str, args: list[str], func: Callable[..., T]) -> T:
         key = self._get_key(prefix, args)
         cached_value = self.redis.get(key)
         if cached_value is not None:
@@ -89,15 +87,11 @@ def get_db_instance() -> AirtableDB:
             "documents": os.environ["AIRTABLE_DOCUMENTS_TABLE_ID"],
             "themes": os.environ["AIRTABLE_THEMES_TABLE_ID"],
             "formats": os.environ["AIRTABLE_FORMATS_TABLE_ID"],
-            "featured_documents": os.environ[
-                "AIRTABLE_FEATURED_DOCUMENTS_TABLE_ID"
-            ],
+            "featured_documents": os.environ["AIRTABLE_FEATURED_DOCUMENTS_TABLE_ID"],
         },
         view_ids={
             "themes": os.environ["AIRTABLE_THEMES_VIEW_ID"],
-            "featured_documents": os.environ[
-                "AIRTABLE_FEATURED_DOCUMENTS_VIEW_ID"
-            ],
+            "featured_documents": os.environ["AIRTABLE_FEATURED_DOCUMENTS_VIEW_ID"],
         },
     )
 

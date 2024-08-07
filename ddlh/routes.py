@@ -81,9 +81,7 @@ def document(document_id: str) -> str:
         {"title": "Documents"},
         {
             "title": document.title,
-            "url": url_for(
-                "document", document_id=utils.url_to_id(document.link)
-            ),
+            "url": url_for("document", document_id=utils.url_to_id(document.link)),
         },
     )
     return render_template(
