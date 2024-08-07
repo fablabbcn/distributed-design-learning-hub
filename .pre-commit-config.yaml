@@ -60,6 +60,7 @@ repos:
         language: "system"
         types: ["python"]
         args: ["--check-untyped-defs"]
+
   - repo: https://github.com/djlint/djLint
     rev: v1.34.1
     hooks:
