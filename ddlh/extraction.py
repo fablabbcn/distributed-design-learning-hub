@@ -1,4 +1,3 @@
-from collections.abc import Buffer
 from io import BytesIO
 from typing import cast
 
@@ -11,7 +10,7 @@ def extract_html(html: str) -> str:
     return cast(str, extractor.get_content(html))
 
 
-def extract_pdf(bytes: Buffer) -> str:
+def extract_pdf(bytes: bytes) -> str:
     reader = PdfReader(BytesIO(bytes))
     text = ""
     for page in reader.pages:

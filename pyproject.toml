@@ -22,6 +22,11 @@ jinja-markdown2 = "^0.4.0"
 more-itertools = "^10.3.0"
 redis = "^5.0.7"
 pydash = "^8.0.3"
+llama-index = "^0.10.59"
+llama-index-vector-stores-elasticsearch = "^0.2.5"
+llama-index-llms-mistralai = "^0.1.19"
+llama-index-embeddings-mistralai = "^0.1.4"
+llama-index-storage-docstore-elasticsearch = "^0.1.2"
 
 
 [tool.poetry.group.dev.dependencies]

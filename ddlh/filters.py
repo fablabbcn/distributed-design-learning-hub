@@ -1,11 +1,9 @@
-from functools import partial
-from operator import is_not
-from typing import Callable, Optional, TypeGuard, TypeVar, Union, cast
+from typing import Optional, TypeVar, Union
 
 from flask import current_app as app
 
 from .models import Document
-from .utils import url_to_id
+from .utils import compact, url_to_id
 
 U = TypeVar("U")
 
@@ -21,16 +19,12 @@ def get_first(items: list[U], n: Optional[int] = None) -> Optional[Union[U, list
 
 
 def document_css_classes(document: Document) -> str:
-    not_none = cast(
-        Callable[[str | None], TypeGuard[str]], partial(is_not, None)
-    )
     return " ".join(
-        filter(
-            not_none,
+        compact(
             [
                 document.format_type,
                 ("with-image" if document.image_url is not None else None),
-            ],
+            ]
         )
     )
 

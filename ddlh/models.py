@@ -1,7 +1,11 @@
+from __future__ import annotations
+
 import traceback
 import warnings
 from dataclasses import asdict, dataclass, fields
 from typing import TYPE_CHECKING, Any, NewType, Optional, TypeVar
+
+from ddlh.utils import compact, url_to_id
 
 if TYPE_CHECKING:
     from _typeshed import DataclassInstance
@@ -72,6 +76,35 @@ class Document(Model):
     tags: list[str]
     image_url: Optional[str]
 
+    @property
+    def id(self) -> str:
+        return url_to_id(self.link)
+
+    @property
+    def embeddable_text(self) -> str:
+        return "\n\n".join(
+            compact(
+                [
+                    self.title,
+                    self.description,
+                    "Themes: " + ", ".join(self.themes),
+                    "Tags: " + ", ".join(self.tags),
+                ]
+            )
+        )
+
+    def enrich_with_text(self, text: str) -> DocumentWithText:
+        return DocumentWithText.from_dict(**{**self.asdict(), **{"text": text}})
+
+
+@dataclass
+class DocumentWithText(Document):
+    text: str
+
+    @property
+    def embeddable_text(self) -> str:
+        return "\n\n------\n\n".join([super().embeddable_text, self.text])
+
 
 @dataclass
 class Theme(Model):
@@ -90,3 +123,10 @@ class Stats(Model):
     total_tool_format: int
     total_course_format: int
     total_unique_authors: int
+
+
+@dataclass
+class QueryResult:
+    query: str
+    summary: str
+    documents: list[Document]

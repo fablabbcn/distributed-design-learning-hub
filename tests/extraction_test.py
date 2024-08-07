@@ -9,15 +9,13 @@ class TestExtractHTML:
 
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.extractor_constructor = mocker.patch(
-            "ddlh.extraction.CanolaExtractor"
-        )
-        self.extractor_constructor.return_value = self.extractor
-
-    def setup_method(self, method):
-        self.extractor = MagicMock()
         self.raw_html = "<p>This is the raw html</p>"
         self.extracted_text = "This is the extracted text"
+        self.extractor = MagicMock()
+
+        self.extractor_constructor = mocker.patch("ddlh.extraction.CanolaExtractor")
+
+        self.extractor_constructor.return_value = self.extractor
         self.extractor.get_content.return_value = self.extracted_text
 
     def test_boilerpipe_called(self):
@@ -39,25 +37,27 @@ class TestExtractHTML:
 class TestExtractPDF:
     @pytest.fixture(autouse=True)
     def setup_mocks(self, mocker):
-        self.bytes_io_constructor = mocker.patch("ddlh.extraction.BytesIO")
-        self.bytes_io_constructor.return_value = self.bytes_io
-        self.pdf_reader_constructor = mocker.patch("ddlh.extraction.PdfReader")
-        self.pdf_reader_constructor.return_value = self.pdf_reader
-
-    def setup_method(self, method):
         self.page_texts = [
             "the text of page 1",
             "the text of page 2",
         ]
+
         self.pages = []
         for page_text in self.page_texts:
             page = MagicMock()
             page.extract_text.return_value = page_text
             self.pages.append(page)
+
         self.bytes_io = MagicMock()
         self.pdf_reader = MagicMock()
-        self.pdf_reader.pages = self.pages
         self.response_content = MagicMock()
+
+        self.bytes_io_constructor = mocker.patch("ddlh.extraction.BytesIO")
+        self.pdf_reader_constructor = mocker.patch("ddlh.extraction.PdfReader")
+
+        self.pdf_reader.pages = self.pages
+        self.bytes_io_constructor.return_value = self.bytes_io
+        self.pdf_reader_constructor.return_value = self.pdf_reader
 
     def test_it_reads_the_response_as_a_pdf(self):
         """

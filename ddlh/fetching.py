@@ -12,9 +12,7 @@ def _headers() -> CaseInsensitiveDict[str]:
     return headers
 
 
-def content_type(url: str) -> Optional[str]:
-    response = requests.head(url, headers=_headers())
-    response.raise_for_status()
+def content_type(response: requests.Response) -> Optional[str]:
     return response.headers["Content-Type"].split(";")[0]
 
 
