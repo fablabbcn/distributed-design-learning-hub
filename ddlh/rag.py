@@ -142,9 +142,10 @@ def _generate_document_summaries(
             break
         response = _response_synthesizer().synthesize(
             DOCUMENT_SUMMARY_PROMPT.format(query=query),
-            nodes=[NodeWithScore(node=doc["document"], score=doc["score"])],
+            # nodes=[NodeWithScore(node=doc["document"], score=doc["score"])],
+            nodes=doc["results"],
         )
-        if not re.search("irrelevant", response.response):
+        if not re.search("(not |ir)relevant", response.response):
             responses.append((doc, response))
     return responses
 
