@@ -27,6 +27,8 @@ llama-index-vector-stores-elasticsearch = "^0.2.5"
 llama-index-llms-mistralai = "^0.1.19"
 llama-index-embeddings-mistralai = "^0.1.4"
 llama-index-storage-docstore-elasticsearch = "^0.1.2"
+flask-socketio = "^5.3.6"
+gevent = "^24.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -34,6 +36,8 @@ pre-commit = "^3.7.1"
 mypy = "^1.10.1"
 types-requests = "^2.32.0.20240622"
 types-flask = "^1.1.6"
+types-Flask-SocketIO = "^5.3.0"
+types-gevent = "^24.2.0"
 celery-types = "^0.22.0"
 j2lint = "^1.1.0"
 pytest = "^8.2.2"

@@ -4,4 +4,4 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-flask run --host=0.0.0.0
+python -m ddlh.app

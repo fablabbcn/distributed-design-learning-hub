@@ -6,4 +6,3 @@ set -o pipefail
 # exits if any of your variables is not set
 set -o nounset
 docker compose exec -T app pre-commit hook-impl --config=.pre-commit-config.yaml --hook-type=pre-commit --hook-dir .
-sudo chown -R $(id -u):$(id -g) .
