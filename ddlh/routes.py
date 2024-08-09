@@ -1,14 +1,21 @@
+import uuid
 from typing import cast
 
 from flask import current_app as app
-from flask import render_template, url_for
+from flask import render_template, request, session, url_for
 
-from . import airtable, repositories, utils
+from . import airtable, rag, repositories, tasks, utils
 from .models import Document, Theme
 
 
 def _get_documents_repository() -> repositories.DocumentsRepository:
     return repositories.DocumentsRepository(airtable.get_db_instance())
+
+
+@app.before_request
+def set_session() -> None:
+    if "uid" not in session:
+        session["uid"] = str(uuid.uuid4())
 
 
 @app.route("/", methods=["GET"])
@@ -88,4 +95,27 @@ def document(document_id: str) -> str:
         "pages/document.j2",
         breadcrumbs=breadcrumbs,
         document=document,
+    )
+
+
+@app.route("/query", methods=["GET"])
+def query() -> str:
+    query = request.args["query"]
+    tags: list[str] = []
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "Themes"},
+        {
+            "title": query,
+            "url": url_for("query", query=theme),
+        },
+    )
+    documents = rag.get_documents_for_query(query)
+    task = tasks.query.delay(query, session["uid"])
+    return render_template(
+        "pages/theme.j2",
+        breadcrumbs=breadcrumbs,
+        documents=documents,
+        tags=tags,
+        theme={"name": query},
+        query_task_id=task.id,
     )

@@ -24,7 +24,10 @@ from llama_index.storage.kvstore.elasticsearch import (  # type: ignore
     ElasticsearchKVStore,
 )
 
-from ddlh.models import DocumentWithText
+from ddlh import airtable
+from ddlh.models import Document, DocumentWithText
+from ddlh.repositories import DocumentsRepository
+from ddlh.utils import compact
 
 from llama_index.vector_stores.elasticsearch import (  # type: ignore # isort:skip
     ElasticsearchStore as ElasticsearchVectorStore,
@@ -49,6 +52,15 @@ TOP_SENTENCE_PROMPT: str = """
 <s>[INST]Provide a one or two sentence description of \"{query}\"
  based on the information given.[/INST] {query}</s>
 """
+
+DocumentResult = TypedDict(
+    "DocumentResult",
+    {"doc_id": str, "score": float, "document": Node, "results": List[NodeWithScore]},
+)
+
+QueryResponse = tuple[
+    list[Node], list[DocumentResult], list[tuple[DocumentResult, Response]], Response
+]
 
 
 def _vector_store() -> ElasticsearchVectorStore:
@@ -82,12 +94,6 @@ def _llm() -> MistralAI:
 
 def _response_synthesizer() -> BaseSynthesizer:
     return get_response_synthesizer(llm=_llm(), response_mode=RESPONSE_MODE)
-
-
-DocumentResult = TypedDict(
-    "DocumentResult",
-    {"doc_id": str, "score": float, "document": Node, "results": List[NodeWithScore]},
-)
 
 
 def _collate_and_rerank_by_document_ids(
@@ -172,18 +178,26 @@ def index_documents(documents: List[DocumentWithText]) -> None:
     pipeline.run(documents=llama_documents)
 
 
-def query(
-    query: str,
-) -> tuple[
-    list[Node], list[DocumentResult], list[tuple[DocumentResult, Response]], Response
-]:
+def _query_to_sorted_docs(query: str) -> tuple[list[Node], List[DocumentResult]]:
     embed_model = _embedding_model()
     index = VectorStoreIndex.from_vector_store(_vector_store(), embed_model=embed_model)
     index.storage_context.docstore = _docstore()
     retriever = index.as_retriever(similarity_top_k=TOP_K)
     bundle = QueryBundle(query, embedding=embed_model.get_query_embedding(query))
     results = retriever.retrieve(bundle)
-    sorted_docs = _collate_and_rerank_by_document_ids(results)
+    return (results, _collate_and_rerank_by_document_ids(results))
+
+
+def get_documents_for_query(query: str) -> List[Document]:
+    sorted_docs = _query_to_sorted_docs(query)[1]
+    repository = DocumentsRepository(airtable.get_db_instance())
+    return compact([repository.get_document(doc["doc_id"]) for doc in sorted_docs])
+
+
+def query(
+    query: str,
+) -> QueryResponse:
+    (results, sorted_docs) = _query_to_sorted_docs(query)
     responses = _generate_document_summaries(sorted_docs, query)
     top_sentence = _generate_top_sentence(responses, query)
     return (results, sorted_docs, responses, top_sentence)

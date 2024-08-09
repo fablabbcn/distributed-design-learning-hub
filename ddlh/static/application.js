@@ -75,7 +75,21 @@ const setupStats = () => {
   });
 };
 
+const setupSocket = () => {
+  const socket = io();
+
+  socket.on("connect", () => {
+    socket.emit("join_room");
+  });
+
+  socket.on("msg", (data) => {
+    const element = document.getElementById("theme-summary-container");
+    element.innerHTML = data.msg;
+  });
+};
+
 document.addEventListener("DOMContentLoaded", (event) => {
   setupCarousels();
   setupStats();
+  setupSocket();
 });

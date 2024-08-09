@@ -20,6 +20,8 @@
             {% endblock main %}
         </main>
         {% include "partials/footer.j2" %}
+        <script src="{{ url_for("static", filename="socket.io.js") }}"
+                type="text/javascript"></script>
         <script src="{{ url_for("static", filename="application.js") }}"
                 type="text/javascript"></script>
     </body>

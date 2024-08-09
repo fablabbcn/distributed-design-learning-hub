@@ -3,11 +3,12 @@ from typing import List
 
 from celery import Celery
 from celery.app.task import Task
+from flask_socketio import SocketIO
 
+from ddlh import rag
 from ddlh.extraction import extract_html, extract_pdf
 from ddlh.fetching import content_type, get
 from ddlh.models import Document, DocumentWithText
-from ddlh.rag import index_documents
 
 # Monkey-patch needed for celery-types: https://github.com/sbdchd/celery-types
 Task.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # type: ignore[attr-defined] # noqa
@@ -44,4 +45,16 @@ def fetch(
 def index(
     self: Task[[List[DocumentWithText]], None], documents: List[DocumentWithText]
 ) -> None:
-    index_documents(documents)
+    rag.index_documents(documents)
+
+
+@app.task(bind=True)
+def query(
+    self: Task[[str, str], None],
+    query: str,
+    room: str,
+) -> None:
+    response = rag.query(query)
+    msg = response[3].response
+    socketio = SocketIO(message_queue=environ["REDIS_URL"])
+    socketio.emit("msg", {"msg": msg}, to=room)
