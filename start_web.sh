@@ -4,4 +4,6 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-python -m ddlh.app
+COMMAND="python"
+ARGS="-m ddlh.app"
+watchmedo auto-restart -d ddlh/ -R --patterns="*.py" $COMMAND -- $ARGS

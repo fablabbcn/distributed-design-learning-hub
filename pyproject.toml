@@ -29,6 +29,7 @@ llama-index-embeddings-mistralai = "^0.1.4"
 llama-index-storage-docstore-elasticsearch = "^0.1.2"
 flask-socketio = "^5.3.6"
 gevent = "^24.2.1"
+watchdog = {extras = ["watchmedo"], version = "^4.0.1"}
 
 
 [tool.poetry.group.dev.dependencies]
