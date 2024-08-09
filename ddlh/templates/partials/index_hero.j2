@@ -16,10 +16,21 @@
         </p>
     </div>
     <div class="hero-themes-column">
-        {% for theme in themes %}
-            <div class="theme">
-                <a class="btn" href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>
-            </div>
-        {% endfor %}
+        <div class="themes">
+            {% for theme in themes %}
+                <div class="theme">
+                    <a class="btn" href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>
+                </div>
+            {% endfor %}
+        </div>
+        <form action="{{ url_for("query") }}" class="query-form" method="get">
+            <input type="text" name="query" placeholder="Or any other theme or topic..." />
+            <span class="emoji">
+                <input type="submit"
+                       name="Submit"
+                       aria-label="Create a personalised theme page"
+                       value="➕" />
+            </span>
+        </form>
     </div>
 </div>

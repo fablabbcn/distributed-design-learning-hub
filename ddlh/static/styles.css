@@ -131,6 +131,22 @@ http://emojisymbols.com/
   src: url("/static/fonts/EmojiSymbols-Regular.woff") format("woff2");
 }
 
+/* ***RESETS***/
+
+button,
+input,
+select,
+textarea {
+  all: unset;
+  font-family: inherit;
+  color: inherit;
+  font-size: 100%;
+  &::placeholder {
+    opacity: 1;
+    color: inherit;
+  }
+}
+
 /* ***GLOBAL*** */
 
 /* (Default is smallest (< 600px) breakpoint) */
@@ -324,15 +340,42 @@ p {
   }
 
   & .hero-themes-column {
-    grid-auto-rows: 1fr;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: var(--spacer-unit);
-    gap: var(--spacer-unit);
-    & .theme {
+    & .themes {
+      grid-auto-rows: 1fr;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: var(--spacer-unit);
+      gap: var(--spacer-unit);
+      & .theme {
+        width: 100%;
+        & a {
+          height: 100%;
+        }
+      }
+    }
+
+    & .query-form {
+      display: flex;
+      margin-top: var(--spacer-unit);
+      height: calc(5 * var(--spacer-unit));
       width: 100%;
-      & a {
-        height: 100%;
+      border: 1px solid var(--main-fg-color);
+      border-radius: 2rem;
+      padding: var(--spacer-unit) calc(2 * var(--spacer-unit));
+      box-sizing: border-box;
+      align-items: center;
+      & input::placeholder {
+        font-style: italic;
+      }
+      & input:focus::placeholder {
+        color: transparent;
+      }
+      & input[type="text"] {
+        flex-grow: 1;
+        border-bottom: 1px solid var(--main-fg-color);
+      }
+      & input[type="submit"] {
+        vertical-align: middle;
       }
     }
   }
@@ -911,9 +954,11 @@ p {
 
   .index-hero {
     & .hero-themes-column {
-      grid-template-columns: 1fr 1fr;
-      & a {
-        height: 100%;
+      & .themes {
+        grid-template-columns: 1fr 1fr;
+        & a {
+          height: 100%;
+        }
       }
     }
   }
