@@ -1,7 +1,7 @@
 from os import environ
 from typing import List
 
-from celery import Celery
+from celery import Celery, current_task
 from celery.app.task import Task
 from flask_socketio import SocketIO
 
@@ -50,11 +50,10 @@ def index(
 
 @app.task(bind=True)
 def query(
-    self: Task[[str, str], None],
+    self: Task[[str], None],
     query: str,
-    room: str,
 ) -> None:
     response = rag.query(query)
     msg = response[3].response
     socketio = SocketIO(message_queue=environ["REDIS_URL"])
-    socketio.emit("msg", {"msg": msg}, to=room)
+    socketio.emit("msg", {"msg": msg}, to=current_task.request.id)

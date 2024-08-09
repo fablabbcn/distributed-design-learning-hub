@@ -76,16 +76,23 @@ const setupStats = () => {
 };
 
 const setupSocket = () => {
-  const socket = io();
+  const element = document.getElementById("theme-summary-container");
+  if (element) {
+    const roomId = element.dataset["queryTaskId"];
+    console.log(roomId);
+    if (roomId) {
+      const socket = io();
 
-  socket.on("connect", () => {
-    socket.emit("join_room");
-  });
+      socket.on("connect", () => {
+        socket.emit("join_room", { room_id: roomId });
+      });
 
-  socket.on("msg", (data) => {
-    const element = document.getElementById("theme-summary-container");
-    element.innerHTML = data.msg;
-  });
+      socket.on("msg", (data) => {
+        const element = document.getElementById("theme-summary-container");
+        element.innerHTML = data.msg;
+      });
+    }
+  }
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
