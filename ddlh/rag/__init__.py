@@ -1,6 +1,7 @@
 import re
 from collections import defaultdict
-from typing import List, TypedDict
+from os import environ
+from typing import List, Optional, TypedDict
 
 from ddlh import airtable
 from ddlh.models import (
@@ -16,6 +17,7 @@ from ddlh.rag.llamaindex import (
     RetrievalResult,
     get_llamaindex_instance,
 )
+from ddlh.redis_cache import RedisCache, create_cache
 from ddlh.repositories import DocumentsRepository
 from ddlh.utils import compact
 
@@ -42,10 +44,16 @@ DocumentResult = TypedDict(
 
 class RAGIndex:
     def __init__(
-        self, llamaindex: LlamaIndex, document_repository: DocumentsRepository
+        self,
+        llamaindex: LlamaIndex,
+        document_repository: DocumentsRepository,
+        cache: RedisCache,
+        max_document_summaries: int,
     ):
         self.llamaindex = llamaindex
         self.document_repository = document_repository
+        self.cache = cache
+        self.max_document_summaries = max_document_summaries
 
     def _collate_and_rerank_by_document_ids(
         self,
@@ -80,7 +88,7 @@ class RAGIndex:
     ) -> List[tuple[DocumentResult, GenerationResult]]:
         responses: list[tuple[DocumentResult, GenerationResult]] = []
         for doc in sorted_docs:
-            if len(responses) > 2:
+            if len(responses) > self.max_document_summaries - 1:
                 break
             response = self.llamaindex.synthesize(
                 DOCUMENT_SUMMARY_PROMPT.format(query=query),
@@ -126,16 +134,7 @@ class RAGIndex:
             document_summaries=document_summaries,
         )
 
-    def get_documents_for_query(self, query: str) -> List[Document]:
-        sorted_docs = self._query_docs(query)
-        return compact(
-            [
-                self.document_repository.get_document(doc["doc_id"])
-                for doc in sorted_docs
-            ]
-        )
-
-    def query(
+    def _uncached_query(
         self,
         query: str,
     ) -> SearchResult:
@@ -149,6 +148,31 @@ class RAGIndex:
             summary=summary,
         )
 
+    def get_documents_for_query(self, query: str) -> List[Document]:
+        sorted_docs = self._query_docs(query)
+        return compact(
+            [
+                self.document_repository.get_document(doc["doc_id"])
+                for doc in sorted_docs
+            ]
+        )
+
+    def query(self, query: str) -> SearchResult:
+        return self.cache.cached(
+            "query",
+            [query],
+            self._uncached_query,
+            serializer=lambda sr: sr.asdict(),
+            deserializer=lambda attrs: SearchResult.from_dict(**attrs),
+        )
+
+    def get_cached_query_response(self, query: str) -> Optional[SearchResult]:
+        return self.cache.get_if_cached(
+            "query",
+            [query],
+            deserializer=lambda attrs: SearchResult.from_dict(**attrs),
+        )
+
     def index_documents(self, documents: List[DocumentWithText]) -> None:
         self.llamaindex.index_documents(documents)
 
@@ -156,4 +180,6 @@ class RAGIndex:
 def get_rag_index_instance() -> RAGIndex:
     llamaindex = get_llamaindex_instance()
     repository = DocumentsRepository(airtable.get_db_instance())
-    return RAGIndex(llamaindex, repository)
+    cache = create_cache(prefix=environ["REDIS_QUERY_CACHE_PREFIX"])
+    max_document_summaries = int(environ["RETRIEVAL_MAX_DOCUMENT_SUMMARIES"])
+    return RAGIndex(llamaindex, repository, cache, max_document_summaries)

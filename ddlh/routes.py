@@ -4,6 +4,7 @@ from flask import current_app as app
 from flask import render_template, request, url_for
 
 from . import airtable, rag, repositories, tasks, utils
+from .formatters import format_summary
 from .models import Document, Theme
 
 
@@ -104,12 +105,20 @@ def query() -> str:
     )
     rag_index = rag.get_rag_index_instance()
     documents = rag_index.get_documents_for_query(query)
-    task = tasks.query.delay(query)
+    query_response = rag_index.get_cached_query_response(query)
+    if query_response and query_response.summary:
+        summary = format_summary(query_response.summary)
+        task_id = None
+    else:
+        task = tasks.query.delay(query)
+        task_id = task.task_id
+        summary = None
     return render_template(
         "pages/theme.j2",
         breadcrumbs=breadcrumbs,
         documents=documents,
         tags=tags,
         theme={"name": query},
-        query_task_id=task.task_id,
+        query_task_id=task_id,
+        query_summary=summary,
     )

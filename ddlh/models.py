@@ -3,7 +3,7 @@ from __future__ import annotations
 import traceback
 import warnings
 from dataclasses import asdict, dataclass, fields
-from typing import TYPE_CHECKING, Any, NewType, Optional, TypeVar
+from typing import TYPE_CHECKING, Any, NewType, Optional, TypeVar, cast
 
 from ddlh.utils import compact, url_to_id
 
@@ -50,7 +50,7 @@ class Model:
         self._warn_dict_like_access_deprecated()
         return getattr(self, field)
 
-    def __setitem__(self, field: str, value: Any) -> None:
+    def __setitem(self, field: str, value: Any) -> None:
         self._warn_dict_like_access_deprecated()
         return setattr(self, field, value)
 
@@ -136,9 +136,25 @@ class Summary(Model):
     top_sentence: Optional[str]
     document_summaries: list[DocumentSummary]
 
+    @classmethod
+    def from_dict(cls, **kwargs: dict[str, Any]) -> Summary:
+        top_sentence = cast(str, kwargs["top_sentence"])
+        summaries_data = cast(list[dict[str, Any]], kwargs["document_summaries"])
+        document_summaries = [DocumentSummary.from_dict(**ds) for ds in summaries_data]
+        return Summary(top_sentence=top_sentence, document_summaries=document_summaries)
+
 
 @dataclass
 class SearchResult(Model):
     query: str
     documents: list[str]
     summary: Optional[Summary]
+
+    @classmethod
+    def from_dict(cls, **kwargs: dict[str, Any]) -> SearchResult:
+        query = cast(str, kwargs["query"])
+        documents = cast(list[str], kwargs["documents"])
+        summary_data = kwargs.get("summary")
+        if summary_data:
+            summary = Summary.from_dict(**summary_data)
+        return SearchResult(query=query, documents=documents, summary=summary)
