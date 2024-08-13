@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 else:
 
     class FakeGenericMeta(type):
-        def __getitem__(self, item):
+        def __getitem__(self, _item):
             return self
 
     class Task(celery.Task, metaclass=FakeGenericMeta):

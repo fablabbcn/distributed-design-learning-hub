@@ -3,6 +3,7 @@ from flask import render_template
 from ddlh import airtable
 from ddlh.models import Summary
 from ddlh.repositories import DocumentsRepository
+from ddlh.utils import downcase_first
 
 
 def format_summary(summary: Summary) -> str:
@@ -12,7 +13,10 @@ def format_summary(summary: Summary) -> str:
         document = repository.get_document(document_summary.document)
         if document:
             document_summaries.append(
-                {"document": document, "summary": document_summary.summary}
+                {
+                    "document": document,
+                    "summary": downcase_first(document_summary.summary),
+                }
             )
     return render_template(
         "partials/search_summary.j2",

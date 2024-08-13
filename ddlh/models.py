@@ -50,7 +50,7 @@ class Model:
         self._warn_dict_like_access_deprecated()
         return getattr(self, field)
 
-    def __setitem(self, field: str, value: Any) -> None:
+    def __setitem__(self, field: str, value: Any) -> None:
         self._warn_dict_like_access_deprecated()
         return setattr(self, field, value)
 
