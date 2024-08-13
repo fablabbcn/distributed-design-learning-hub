@@ -41,6 +41,10 @@ services:
 
   redis:
     image: redis:7.2
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_ARGS="--appendonly yes"
 
   celery_worker:
     build:
@@ -86,3 +90,4 @@ services:
 
 volumes:
   es_data:
+  redis_data:
