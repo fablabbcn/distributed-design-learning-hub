@@ -1,14 +1,6 @@
 import re
 from collections import defaultdict
-from typing import List, TypedDict, cast
-
-from llama_index.core.base.response.schema import Response
-from llama_index.core.schema import (
-    NodeRelationship,
-    NodeWithScore,
-    RelatedNodeInfo,
-    TextNode,
-)
+from typing import List, TypedDict
 
 from ddlh import airtable
 from ddlh.models import (
@@ -18,7 +10,12 @@ from ddlh.models import (
     SearchResult,
     Summary,
 )
-from ddlh.rag.llamaindex import LlamaIndex, get_llamaindex_instance
+from ddlh.rag.llamaindex import (
+    GenerationResult,
+    LlamaIndex,
+    RetrievalResult,
+    get_llamaindex_instance,
+)
 from ddlh.repositories import DocumentsRepository
 from ddlh.utils import compact
 
@@ -38,8 +35,7 @@ DocumentResult = TypedDict(
     {
         "doc_id": str,
         "score": float,
-        "document": TextNode,
-        "results": List[NodeWithScore],
+        "results": List[RetrievalResult],
     },
 )
 
@@ -53,36 +49,25 @@ class RAGIndex:
 
     def _collate_and_rerank_by_document_ids(
         self,
-        results: List[NodeWithScore],
+        results: List[RetrievalResult],
     ) -> List[DocumentResult]:
         scores: dict[str, float] = defaultdict(float)
         counter: dict[str, int] = defaultdict(int)
-        results_by_doc_id: dict[str, List[NodeWithScore]] = defaultdict(list)
-        docs = {}
+        results_by_doc_id: dict[str, List[RetrievalResult]] = defaultdict(list)
         for result in results:
-            source_node = cast(
-                RelatedNodeInfo, result.node.relationships[NodeRelationship.SOURCE]
-            )
-            doc_id = source_node.node_id
-            try:
-                self.llamaindex.get_document(doc_id)
-            except Exception:
-                print("doc id %s not found!" % doc_id)
-                continue
-            counter[doc_id] += 1
-            scores[doc_id] = (
-                scores[doc_id] * (counter[doc_id] - 1) / counter[doc_id]
-                + (result.score or 0.0) / counter[doc_id]
-            )
-            if doc_id not in docs:
-                docs[doc_id] = self.llamaindex.get_document(doc_id)
-            results_by_doc_id[doc_id].append(result)
+            doc_id = self.llamaindex.get_document_id_for_result(result)
+            if doc_id:
+                counter[doc_id] += 1
+                scores[doc_id] = (
+                    scores[doc_id] * (counter[doc_id] - 1) / counter[doc_id]
+                    + (result.score or 0.0) / counter[doc_id]
+                )
+                results_by_doc_id[doc_id].append(result)
 
         return [
             {
                 "doc_id": id,
                 "score": score,
-                "document": docs[id],
                 "results": results_by_doc_id[id],
             }
             for (id, score) in sorted(
@@ -92,14 +77,13 @@ class RAGIndex:
 
     def _generate_document_summaries(
         self, sorted_docs: List[DocumentResult], query: str
-    ) -> List[tuple[DocumentResult, Response]]:
-        responses: list[tuple[DocumentResult, Response]] = []
+    ) -> List[tuple[DocumentResult, GenerationResult]]:
+        responses: list[tuple[DocumentResult, GenerationResult]] = []
         for doc in sorted_docs:
             if len(responses) > 2:
                 break
             response = self.llamaindex.synthesize(
                 DOCUMENT_SUMMARY_PROMPT.format(query=query),
-                # nodes=[NodeWithScore(node=doc["document"], score=doc["score"])],
                 nodes=doc["results"],
             )
             if response.response and not re.search(
@@ -109,22 +93,24 @@ class RAGIndex:
         return responses
 
     def _generate_top_sentence(
-        self, responses: list[tuple[DocumentResult, Response]], query: str
-    ) -> Response:
+        self, responses: list[tuple[DocumentResult, GenerationResult]], query: str
+    ) -> GenerationResult:
         return self.llamaindex.synthesize(
             TOP_SENTENCE_PROMPT.format(query=query),
             nodes=[r2 for (d, _r) in responses for r2 in d["results"]],
         )
 
-    def _query_to_sorted_docs(
+    def _query_docs(
         self,
         query: str,
-    ) -> tuple[list[NodeWithScore], List[DocumentResult]]:
-        results = self.llamaindex.query_documents(query)
-        return (results, self._collate_and_rerank_by_document_ids(results))
+    ) -> List[DocumentResult]:
+        results = self.llamaindex.query_results(query)
+        return self._collate_and_rerank_by_document_ids(results)
 
     def _make_summary(
-        self, top_sentence: Response, responses: list[tuple[DocumentResult, Response]]
+        self,
+        top_sentence: GenerationResult,
+        responses: list[tuple[DocumentResult, GenerationResult]],
     ) -> Summary:
         document_summaries = []
         for document, response in responses:
@@ -141,7 +127,7 @@ class RAGIndex:
         )
 
     def get_documents_for_query(self, query: str) -> List[Document]:
-        sorted_docs = self._query_to_sorted_docs(query)[1]
+        sorted_docs = self._query_docs(query)
         return compact(
             [
                 self.document_repository.get_document(doc["doc_id"])
@@ -153,7 +139,7 @@ class RAGIndex:
         self,
         query: str,
     ) -> SearchResult:
-        (results, sorted_docs) = self._query_to_sorted_docs(query)
+        sorted_docs = self._query_docs(query)
         responses = self._generate_document_summaries(sorted_docs, query)
         top_sentence = self._generate_top_sentence(responses, query)
         summary = self._make_summary(top_sentence, responses)

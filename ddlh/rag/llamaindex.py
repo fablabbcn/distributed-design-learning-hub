@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from os import environ
-from typing import Sequence, Union, cast
+from typing import Optional, Sequence, Union, cast
 
 from llama_index.core import Document as LlamaDocument
 from llama_index.core import QueryBundle, VectorStoreIndex, get_response_synthesizer
@@ -8,7 +8,12 @@ from llama_index.core.base.response.schema import Response
 from llama_index.core.ingestion import IngestionPipeline
 from llama_index.core.node_parser import SentenceSplitter
 from llama_index.core.response_synthesizers import ResponseMode
-from llama_index.core.schema import BaseNode, NodeWithScore, TextNode
+from llama_index.core.schema import (
+    BaseNode,
+    NodeRelationship,
+    NodeWithScore,
+    RelatedNodeInfo,
+)
 from llama_index.embeddings.mistralai import MistralAIEmbedding  # type: ignore
 from llama_index.llms.mistralai import MistralAI  # type: ignore
 from llama_index.storage.docstore.elasticsearch import (  # type: ignore
@@ -25,6 +30,9 @@ from llama_index.vector_stores.elasticsearch import (  # type: ignore # isort:sk
 )
 
 AnyNode = Union[BaseNode, NodeWithScore]
+
+GenerationResult = Response
+RetrievalResult = NodeWithScore
 
 
 @dataclass
@@ -101,13 +109,21 @@ class LlamaIndex:
         ]
         self.pipeline.run(documents=llama_documents)
 
-    def get_document(self, doc_id: str) -> TextNode:
-        return cast(TextNode, self.docstore.get_document(doc_id))
+    def get_document_id_for_result(self, result: NodeWithScore) -> Optional[str]:
+        source_node = cast(
+            RelatedNodeInfo, result.node.relationships[NodeRelationship.SOURCE]
+        )
+        doc_id = source_node.node_id
+        try:
+            self.docstore.get_document(doc_id)
+            return doc_id
+        except Exception:
+            return None
 
     def synthesize(self, prompt: str, nodes: Sequence[AnyNode]) -> Response:
         return cast(Response, self.response_synthesizer.synthesize(prompt, nodes=nodes))
 
-    def query_documents(self, query: str) -> list[NodeWithScore]:
+    def query_results(self, query: str) -> list[NodeWithScore]:
         bundle = QueryBundle(
             query, embedding=self.embedding_model.get_query_embedding(query)
         )
