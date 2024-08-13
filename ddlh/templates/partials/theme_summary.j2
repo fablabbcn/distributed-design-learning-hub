@@ -1,8 +1,10 @@
 <div id="theme-summary-container"
      class="theme-summary container"
      data-query-task-id="{{ query_task_id }}">
-    {% markdown %}
-    {{ theme.summary }}
-{% endmarkdown %}
-{{ query_summary }}
+    {% if theme.summary %}
+        {% markdown %}
+        {{ theme.summary }}
+    {% endmarkdown %}
+{% endif %}
+{% if query_summary %}{{ query_summary }}{% endif %}
 </div>
