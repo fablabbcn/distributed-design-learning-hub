@@ -114,7 +114,7 @@ class LlamaIndex:
         return cast(list[NodeWithScore], self.retriever.retrieve(bundle))
 
 
-def create_instance() -> LlamaIndex:
+def get_llamaindex_instance() -> LlamaIndex:
     config = LlamaIndexConfig(
         es_url=environ["ELASTICSEARCH_URL"],
         es_embeddings_index=environ["ELASTICSEARCH_EMBEDDINGS_INDEX"],

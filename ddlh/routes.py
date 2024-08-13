@@ -102,7 +102,8 @@ def query() -> str:
             "url": url_for("query", query=theme),
         },
     )
-    documents = rag.get_documents_for_query(query)
+    rag_index = rag.get_rag_index_instance()
+    documents = rag_index.get_documents_for_query(query)
     task = tasks.query.delay(query)
     return render_template(
         "pages/theme.j2",

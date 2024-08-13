@@ -35,14 +35,16 @@ def fetch(document: Document) -> DocumentWithText:
 
 @shared_task
 def index(documents: List[DocumentWithText]) -> None:
-    rag.index_documents(documents)
+    rag_index = rag.get_rag_index_instance()
+    rag_index.index_documents(documents)
 
 
 @shared_task
 def query(
     query: str,
 ) -> None:
-    response = rag.query(query)
+    rag_index = rag.get_rag_index_instance()
+    response = rag_index.query(query)
     with app.test_request_context("localhost"):
         if response.summary:
             msg = format_summary(response.summary)
