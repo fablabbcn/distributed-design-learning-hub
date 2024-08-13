@@ -126,7 +126,19 @@ class Stats(Model):
 
 
 @dataclass
-class QueryResult:
-    query: str
+class DocumentSummary(Model):
+    document: str
     summary: str
-    documents: list[Document]
+
+
+@dataclass
+class Summary(Model):
+    top_sentence: Optional[str]
+    document_summaries: list[DocumentSummary]
+
+
+@dataclass
+class SearchResult(Model):
+    query: str
+    documents: list[str]
+    summary: Optional[Summary]

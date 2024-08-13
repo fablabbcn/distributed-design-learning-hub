@@ -1,0 +1,8 @@
+<p>{{ top_sentence }}</p>
+{% for summary in document_summaries %}
+    <p class="search-result-summary"
+       data-document-id="{{ summary.document.id }}">
+        <a class="summary-document-link"
+           href="{{ url_for("document", document_id=summary.document.id) }}">{{ summary.document.title }}</a> {{ summary.summary }}
+    </p>
+{% endfor %}

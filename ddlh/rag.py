@@ -25,7 +25,13 @@ from llama_index.storage.kvstore.elasticsearch import (  # type: ignore
 )
 
 from ddlh import airtable
-from ddlh.models import Document, DocumentWithText
+from ddlh.models import (
+    Document,
+    DocumentSummary,
+    DocumentWithText,
+    SearchResult,
+    Summary,
+)
 from ddlh.repositories import DocumentsRepository
 from ddlh.utils import compact
 
@@ -189,6 +195,23 @@ def _query_to_sorted_docs(query: str) -> tuple[list[Node], List[DocumentResult]]
     return (results, _collate_and_rerank_by_document_ids(results))
 
 
+def _make_summary(
+    top_sentence: Response, responses: list[tuple[DocumentResult, Response]]
+) -> Summary:
+    document_summaries = []
+    for document, response in responses:
+        if response.response:
+            summary = re.sub(
+                "^th(e|is) document", "", response.response, flags=re.IGNORECASE
+            )
+            document_summaries.append(
+                DocumentSummary(document=document["doc_id"], summary=summary)
+            )
+    return Summary(
+        top_sentence=top_sentence.response or "", document_summaries=document_summaries
+    )
+
+
 def get_documents_for_query(query: str) -> List[Document]:
     sorted_docs = _query_to_sorted_docs(query)[1]
     repository = DocumentsRepository(airtable.get_db_instance())
@@ -197,8 +220,13 @@ def get_documents_for_query(query: str) -> List[Document]:
 
 def query(
     query: str,
-) -> QueryResponse:
+) -> SearchResult:
     (results, sorted_docs) = _query_to_sorted_docs(query)
     responses = _generate_document_summaries(sorted_docs, query)
     top_sentence = _generate_top_sentence(responses, query)
-    return (results, sorted_docs, responses, top_sentence)
+    summary = _make_summary(top_sentence, responses)
+    return SearchResult(
+        query=query,
+        documents=[d["doc_id"] for d in sorted_docs],
+        summary=summary,
+    )
