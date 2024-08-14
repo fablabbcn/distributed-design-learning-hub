@@ -29,7 +29,7 @@ jobs:
           target: ".env"
 
       - name: Build the Stack
-        run: docker compose build
+        run: "USER_ID=`id -u` docker compose build"
 
       - name: Run pre-commmit
         run: docker compose run app pre-commit run --all-files

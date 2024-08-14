@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
+      args:
+        uid: "${USER_ID:-${UID:-1000}}"
     image: ddhub_prototype_web
     # '/start' is the shell script used to run the service
     command: /app/start_web.sh
