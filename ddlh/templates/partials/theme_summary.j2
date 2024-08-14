@@ -7,4 +7,9 @@
     {% endmarkdown %}
 {% endif %}
 {% if query_summary %}{{ query_summary }}{% endif %}
+{% if wait_message %}
+    <p class="wait-mesage">
+        Please wait while we generate a summary<span class="type-it">...</span>
+    </p>
+{% endif %}
 </div>

@@ -9,7 +9,7 @@ from flask_socketio import SocketIO
 from ddlh import rag
 from ddlh.extraction import extract_html, extract_pdf
 from ddlh.fetching import content_type, get
-from ddlh.formatters import format_summary
+from ddlh.formatters import format_search_result
 from ddlh.models import Document, DocumentWithText
 
 # Monkey-patch needed for celery-types: https://github.com/sbdchd/celery-types
@@ -47,6 +47,6 @@ def query(
     response = rag_index.query(query)
     with app.test_request_context("localhost"):
         if response.summary:
-            msg = format_summary(response.summary)
+            msg = format_search_result(response)
             socketio = SocketIO(message_queue=environ["REDIS_URL"])
             socketio.emit("msg", {"msg": msg}, to=current_task.request.id)

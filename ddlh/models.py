@@ -148,13 +148,12 @@ class Summary(Model):
 class SearchResult(Model):
     query: str
     documents: list[str]
-    summary: Optional[Summary]
+    summary: Summary
 
     @classmethod
     def from_dict(cls, **kwargs: dict[str, Any]) -> SearchResult:
         query = cast(str, kwargs["query"])
         documents = cast(list[str], kwargs["documents"])
-        summary_data = kwargs.get("summary")
-        if summary_data:
-            summary = Summary.from_dict(**summary_data)
+        summary_data = kwargs["summary"]
+        summary = Summary.from_dict(**summary_data)
         return SearchResult(query=query, documents=documents, summary=summary)

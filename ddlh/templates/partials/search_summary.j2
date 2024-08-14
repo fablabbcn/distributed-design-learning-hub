@@ -1,8 +1,17 @@
-<p>{{ top_sentence }}</p>
+<p class="summary-commentary">
+    (This is an automatically generated summary of information in the Learning Hub about "{{ query }}", intended to help you find the most useful references. Please remember to check the sources! <a>Learn more</a> about how and why we generate these summaries.)
+</p>
+<p>
+    <span class="robot-text">
+        <span class="emoji">✨</span> {{ top_sentence }}
+    </span>
+</p>
 {% for summary in document_summaries %}
     <p class="search-result-summary"
        data-document-id="{{ summary.document.id }}">
-        <a class="summary-document-link"
-           href="{{ url_for("document", document_id=summary.document.id) }}">{{ summary.document.title }}</a> {{ summary.summary }}
+        <span class="robot-text">
+            <span class="emoji">✨</span> <a class="summary-document-link"
+    href="{{ url_for("document", document_id=summary.document.id) }}">{{ summary.document.title }}</a> {{ summary.summary }}
+        </span>
     </p>
 {% endfor %}

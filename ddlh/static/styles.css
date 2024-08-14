@@ -121,7 +121,7 @@
 
 /*
 EmojiSymbols Font (c)blockworks - Kenichi Kaneko
-http://emojisymbols.com/
+https://blockworks.jp/emoji/
 */
 
 @font-face {
@@ -303,6 +303,15 @@ p {
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+.summary-commentary {
+  font-style: italic;
+  color: var(--warm-grey-darker);
+}
+
+.robot-text {
+  color: var(--light-blue);
 }
 
 .index-hero {
