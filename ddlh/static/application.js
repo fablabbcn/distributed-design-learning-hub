@@ -79,7 +79,6 @@ const setupSocket = () => {
   const element = document.getElementById("theme-summary-container");
   if (element) {
     const roomId = element.dataset["queryTaskId"];
-    console.log(roomId);
     if (roomId) {
       const socket = io();
 
@@ -90,13 +89,45 @@ const setupSocket = () => {
       socket.on("msg", (data) => {
         const element = document.getElementById("theme-summary-container");
         element.innerHTML = data.msg;
+        setupDocumentLinkHighlight();
       });
     }
   }
+};
+
+const setupTyping = () => {
+  if (document.querySelector(".type-it")) {
+    new TypeIt(".type-it", { loop: true }).go();
+  }
+};
+
+const setupDocumentLinkHighlight = () => {
+  const container = document.getElementById("theme-summary-container");
+  const links = container.querySelectorAll("a");
+  links.forEach((link) => {
+    const href = link.getAttribute("href");
+    if (href && href.match(/^\/documents/)) {
+      const doc_id = href.replace("/documents/", "");
+      link.addEventListener("mouseover", () => {
+        const elems = document.querySelectorAll(`.document-${doc_id}`);
+        elems.forEach((elem) => {
+          elem.classList.add("focused");
+        });
+      });
+      link.addEventListener("mouseout", () => {
+        const elems = document.querySelectorAll(`.document-${doc_id}`);
+        elems.forEach((elem) => {
+          elem.classList.remove("focused");
+        });
+      });
+    }
+  });
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
   setupCarousels();
   setupStats();
   setupSocket();
+  setupTyping();
+  setupDocumentLinkHighlight();
 });

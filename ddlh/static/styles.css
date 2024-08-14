@@ -12,6 +12,7 @@
   --warm-grey: #f2f2ed;
   --warm-grey-darker: rgb(218, 218, 213);
   --soft-black: #383839;
+  --soft-black-lighter: #454546;
   --main-bg-color: var(--soft-black);
   --strong-bg-color: var(--black);
   --main-fg-color: var(--warm-grey);
@@ -876,6 +877,9 @@ p {
     grid-column: 1/-1;
     gap: var(--spacer-unit);
     grid-template-columns: subgrid;
+    &.focused {
+      background-color: var(--soft-black-lighter);
+    }
     & > * {
       padding-top: calc(1 * var(--spacer-unit));
       padding-bottom: calc(1 * var(--spacer-unit));

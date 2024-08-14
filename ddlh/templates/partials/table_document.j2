@@ -1,4 +1,4 @@
-<div class="document {{ document|document_css_classes }}">
+<div class="document {{ document|document_css_classes }} document-{{ document.id }}">
     <div class="format colored {{ document |document_css_classes }}">{{ document.format }}</div>
     <div class="title-container">
         {% with theme=document.themes|get_first %}
