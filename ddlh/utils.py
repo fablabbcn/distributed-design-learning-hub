@@ -1,9 +1,12 @@
+from collections import Counter
 from functools import partial
 from hashlib import sha256
 from operator import is_not
 from typing import Callable, Optional, TypedDict, TypeGuard, TypeVar, cast
 
 from flask import url_for
+
+from ddlh import models
 
 T = TypeVar("T")
 
@@ -35,6 +38,11 @@ def compact(lst: list[Optional[T]]) -> list[T]:
     """
     not_none = cast(Callable[[T | None], TypeGuard[T]], partial(is_not, None))
     return list(filter(not_none, lst))
+
+
+def tags_for_document_collection(docs: list["models.Document"]) -> list[str]:
+    counter = Counter([t for d in docs for t in d.tags])
+    return [tag for (tag, count) in counter.most_common()]
 
 
 def downcase_first(s: str) -> str:

@@ -95,7 +95,6 @@ def document(document_id: str) -> str:
 @app.route("/query", methods=["GET"])
 def query() -> str:
     query = request.args["query"]
-    tags: list[str] = []
     breadcrumbs = utils.get_breadcrumbs(
         {"title": "Themes"},
         {
@@ -105,6 +104,7 @@ def query() -> str:
     )
     rag_index = rag.get_rag_index_instance()
     documents = rag_index.get_documents_for_query(query)
+    tags = utils.tags_for_document_collection(documents)
     query_response = rag_index.get_cached_query_response(query)
     if query_response:
         summary = format_search_result(query_response)
