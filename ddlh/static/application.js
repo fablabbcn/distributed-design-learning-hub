@@ -103,25 +103,36 @@ const setupTyping = () => {
 
 const setupDocumentLinkHighlight = () => {
   const container = document.getElementById("theme-summary-container");
-  const links = container.querySelectorAll("a");
-  links.forEach((link) => {
-    const href = link.getAttribute("href");
-    if (href && href.match(/^\/documents/)) {
-      const doc_id = href.replace("/documents/", "");
-      link.addEventListener("mouseover", () => {
-        const elems = document.querySelectorAll(`.document-${doc_id}`);
-        elems.forEach((elem) => {
-          elem.classList.add("focused");
+  if (container) {
+    const links = container.querySelectorAll("a");
+    links.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (href && href.match(/^\/documents/)) {
+        const doc_id = href.replace("/documents/", "");
+        link.addEventListener("mouseover", () => {
+          const elems = document.querySelectorAll(`.document-${doc_id}`);
+          elems.forEach((elem) => {
+            elem.classList.add("focused");
+          });
         });
-      });
-      link.addEventListener("mouseout", () => {
-        const elems = document.querySelectorAll(`.document-${doc_id}`);
-        elems.forEach((elem) => {
-          elem.classList.remove("focused");
+        link.addEventListener("mouseout", () => {
+          const elems = document.querySelectorAll(`.document-${doc_id}`);
+          elems.forEach((elem) => {
+            elem.classList.remove("focused");
+          });
         });
-      });
-    }
-  });
+      }
+    });
+  }
+};
+
+const setupFormClickHandler = () => {
+  const form = document.querySelector(".query-form");
+  if (form) {
+    form.addEventListener("click", () => {
+      form.querySelector('input[name="query"]').focus();
+    });
+  }
 };
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -130,4 +141,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   setupSocket();
   setupTyping();
   setupDocumentLinkHighlight();
+  setupFormClickHandler();
 });
