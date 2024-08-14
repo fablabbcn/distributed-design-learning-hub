@@ -807,12 +807,8 @@ p {
   }
 
   & .table .documents {
+    margin-bottom: -1px; /* No double border when documents are longer than summary*/
     border-top: 1px solid var(--main-fg-color);
-    & .document {
-      &:last-child {
-        border-bottom: none;
-      }
-    }
   }
 }
 
