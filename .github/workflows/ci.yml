@@ -32,7 +32,7 @@ jobs:
         run: docker compose build
 
       - name: Run pre-commmit
-        run: docker compose run web pre-commit run --all-files
+        run: docker compose run app pre-commit run --all-files
 
       - name: Tear down the Stack
         run: docker compose down
