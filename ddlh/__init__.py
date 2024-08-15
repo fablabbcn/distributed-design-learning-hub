@@ -58,7 +58,11 @@ def create_app() -> Flask:
     celery_init_app(app)
     app.jinja_env.add_extension(MarkdownExtension)
     app.secret_key = environ["SECRET_KEY"]
-    socketio.init_app(app, message_queue=environ["REDIS_URL"])
+    socketio.init_app(
+        app,
+        message_queue=environ["REDIS_URL"],
+        cors_allowed_origins=[environ["HOSTNAME"]],
+    )
     with app.app_context():
         from . import filters, routes  # noqa
 
