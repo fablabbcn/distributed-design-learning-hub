@@ -125,3 +125,17 @@ def query() -> str:
         query_summary=summary,
         wait_message=wait_message,
     )
+
+
+@app.route("/about-our-use-of-llms", methods={"GET"})
+def about_llms() -> str:
+    breadcrumbs = utils.get_breadcrumbs(
+        {
+            "title": "About our use of Large Language Models",
+            "url": url_for("about_llms"),
+        },
+    )
+    return render_template(
+        "pages/about_llms.j2",
+        breadcrumbs=breadcrumbs,
+    )

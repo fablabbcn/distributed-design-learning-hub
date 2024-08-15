@@ -306,6 +306,18 @@ p {
   }
 }
 
+.static-page-content {
+  padding-top: var(--spacer-unit);
+  padding-bottom: calc(2 * var(--spacer-unit));
+  & li {
+    margin-bottom: var(--spacer-unit);
+  }
+  & h2 {
+    margin-top: calc(2 * var(--spacer-unit));
+    margin-bottom: calc(2 * var(--spacer-unit));
+  }
+}
+
 .summary-commentary {
   font-style: italic;
   color: var(--warm-grey-darker);
@@ -1081,6 +1093,10 @@ p {
         }
       }
     }
+  }
+
+  .static-page-content {
+    width: 50%;
   }
 
   .index-hero {
