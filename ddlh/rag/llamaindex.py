@@ -50,6 +50,7 @@ class LlamaIndexConfig:
     embedding_chunk_size: int
     embedding_chunk_overlap: int
     retrieval_top_k: int
+    safe_prompt: bool
 
 
 class LlamaIndex:
@@ -91,7 +92,7 @@ class LlamaIndex:
             docstore=docstore,
         )
         retriever = index.as_retriever(similarity_top_k=config.retrieval_top_k)
-
+        self.safe_prompt = config.safe_prompt
         self.retriever = retriever
         self.pipeline = pipeline
         self.embedding_model = embedding_model
@@ -121,7 +122,12 @@ class LlamaIndex:
             return None
 
     def synthesize(self, prompt: str, nodes: Sequence[AnyNode]) -> Response:
-        return cast(Response, self.response_synthesizer.synthesize(prompt, nodes=nodes))
+        return cast(
+            Response,
+            self.response_synthesizer.synthesize(
+                prompt, nodes=nodes, safe_prompt=self.safe_prompt
+            ),
+        )
 
     def query_results(self, query: str) -> list[NodeWithScore]:
         bundle = QueryBundle(
@@ -145,5 +151,6 @@ def get_llamaindex_instance() -> LlamaIndex:
         embedding_chunk_size=int(environ["EMBEDDING_CHUNK_SIZE"]),
         embedding_chunk_overlap=int(environ["EMBEDDING_CHUNK_OVERLAP"]),
         retrieval_top_k=int(environ["RETRIEVAL_TOP_K"]),
+        safe_prompt=environ.get("DISABLE_MISTRAL_AI_GUARDRALS") != "1",
     )
     return LlamaIndex(config)
