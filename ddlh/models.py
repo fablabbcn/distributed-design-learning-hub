@@ -75,6 +75,8 @@ class Document(Model):
     themes: list[str]
     tags: list[str]
     image_url: Optional[str]
+    invisible_link: Optional[str]
+    invisible_text: Optional[str]
 
     @property
     def id(self) -> str:
@@ -87,6 +89,7 @@ class Document(Model):
                 [
                     self.title,
                     self.description,
+                    self.invisible_text,
                     "Themes: " + ", ".join(self.themes),
                     "Tags: " + ", ".join(self.tags),
                 ]
