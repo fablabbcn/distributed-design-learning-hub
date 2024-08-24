@@ -16,9 +16,7 @@ from ddlh.models import Document, DocumentWithText
 Task.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # type: ignore[attr-defined] # noqa
 
 
-@shared_task(ignore_result=False)
-def fetch(document: Document) -> DocumentWithText:
-    url = document.link
+def extract_text_from_link(url: str) -> str:
     try:
         response = get(url)
         match content_type(response):
@@ -30,6 +28,14 @@ def fetch(document: Document) -> DocumentWithText:
                 text = ""
     except Exception:
         text = ""
+    return text
+
+
+@shared_task(ignore_result=False)
+def fetch(document: Document) -> DocumentWithText:
+    text = extract_text_from_link(document.link)
+    if document.invisible_link:
+        text += "\n\n\n" + extract_text_from_link(document.invisible_link)
     return document.enrich_with_text(text)
 
 

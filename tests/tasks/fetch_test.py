@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, call
 
 import pytest  # type: ignore
 
@@ -7,9 +7,13 @@ from ddlh.tasks import fetch
 
 class TestFetch:
 
-    @pytest.fixture(autouse=True, params=["text/html", "application/pdf"])
+    @pytest.fixture(
+        autouse=True,
+        params=["text/html", "application/pdf"],
+    )
     def setup_mocks(self, request, mocker):
         self.content_type = request.param
+        self.invisible_link = None
         self.url = "http://example.com"
 
         self.document = MagicMock()
@@ -23,15 +27,32 @@ class TestFetch:
         self.get = mocker.patch("ddlh.tasks.get")
 
         self.document.link = self.url
+        self.document.invisible_link = self.invisible_link
         self.document.enrich_with_text.return_value = self.enriched_document
+
         self.get.return_value = self.response
         self.extract_pdf.return_value = self.text
         self.extract_html.return_value = self.text
         self.content_type_function.return_value = self.content_type
 
     def test_it_gets_the_url(self):
+        """
+        It gets the content at the given link
+        """
         fetch.apply(args=(self.document,)).get()
         self.get.assert_called_with(self.url)
+
+    def test_it_appends_text_from_invisible_link(self):
+        """
+        When an invisible link is provided,
+        It also gets and parses the content at that link
+        """
+        self.document.invisible_link = self.invisible_link = (
+            "https://example.com/alternate"
+        )
+        fetch.apply(args=(self.document,)).get()
+        calls = self.get.call_args_list
+        assert call(self.invisible_link) in calls
 
     def test_it_parses_the_content_type(self):
         """
