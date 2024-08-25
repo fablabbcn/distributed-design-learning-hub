@@ -23,6 +23,7 @@ def homepage() -> str:
 
     return render_template(
         "pages/index.j2",
+        breadcrumbs=[],
         documents=documents,
         themes=themes,
         tags=tags,

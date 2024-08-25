@@ -11,7 +11,7 @@
               type="text/css"
               media="all"
               href="{{ url_for("static", filename="styles.css") }}">
-        <title>Distributed Design Learning Hub</title>
+        <title>{{ breadcrumbs|page_title_from_breadcrumbs }}</title>
     </head>
     <body>
         {% include "partials/header.j2" %}

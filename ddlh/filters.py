@@ -3,7 +3,7 @@ from typing import Optional, TypeVar, Union
 from flask import current_app as app
 
 from .models import Document
-from .utils import compact, url_to_id
+from .utils import Breadcrumb, compact, url_to_id
 
 U = TypeVar("U")
 
@@ -29,6 +29,13 @@ def document_css_classes(document: Document) -> str:
     )
 
 
+def page_title_from_breadcrumbs(breadcrumbs: list[Breadcrumb]) -> str:
+    return " | ".join(
+        ["Distributed Design Learning Hub"] + [b["title"] for b in breadcrumbs[1:]]
+    )
+
+
 app.jinja_env.filters["get_first"] = get_first
 app.jinja_env.filters["url_to_id"] = url_to_id
 app.jinja_env.filters["document_css_classes"] = document_css_classes
+app.jinja_env.filters["page_title_from_breadcrumbs"] = page_title_from_breadcrumbs
