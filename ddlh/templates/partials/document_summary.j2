@@ -8,13 +8,13 @@
         <div>
             <a class="btn" href={{ document.link }} target="_blank">Go to document <span class="emoji">🔗</span></a>
         </div>
-        {% with tags=document.tags %}
-            {% include "partials/tags.j2" %}
-        {% endwith %}
     </div>
     <div class="summary-column">
         {% markdown %}
         {{ document.description }}
     {% endmarkdown %}
+    {% with tags=document.tags %}
+        {% include "partials/tags.j2" %}
+    {% endwith %}
 </div>
 </div>
