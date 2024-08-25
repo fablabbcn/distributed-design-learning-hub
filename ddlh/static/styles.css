@@ -864,6 +864,14 @@ p {
   padding-bottom: 0;
 
   border-bottom: none !important;
+
+  &.tags-small-breakpoint {
+    margin-top: calc(2 * var(--spacer-unit));
+  }
+
+  &.tags-large-breakpoint {
+    display: none;
+  }
 }
 
 .grid {
@@ -1144,6 +1152,15 @@ p {
       & .table .documents {
         border-top: none;
       }
+    }
+  }
+
+  .tags-container {
+    &.tags-small-breakpoint {
+      display: none;
+    }
+    &.tags-large-breakpoint {
+      display: block;
     }
   }
 
