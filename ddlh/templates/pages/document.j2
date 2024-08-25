@@ -2,4 +2,12 @@
 {% block main %}
     {% include "partials/document_header.j2" %}
     {% include "partials/document_summary.j2" %}
+    <div class="related-resources-container container">
+        {% if related_documents|any %}
+            <h2>Other related resources in our collection:</h2>
+            {% with with_theme=true, documents=related_documents %}
+                {% include "partials/table.j2" %}
+            {% endwith %}
+        {% endif %}
+    </div>
 {% endblock main %}

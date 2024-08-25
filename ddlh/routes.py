@@ -78,6 +78,8 @@ def document(document_id: str) -> str:
     db = _get_documents_repository()
 
     document = cast(Document, db.get_document(document_id))
+    rag_index = rag.get_rag_index_instance()
+    related_documents = rag_index.get_related_documents(document, limit=5)
 
     breadcrumbs = utils.get_breadcrumbs(
         {"title": "Documents"},
@@ -90,6 +92,7 @@ def document(document_id: str) -> str:
         "pages/document.j2",
         breadcrumbs=breadcrumbs,
         document=document,
+        related_documents=related_documents,
     )
 
 

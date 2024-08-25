@@ -157,6 +157,15 @@ class RAGIndex:
             ]
         )
 
+    def get_related_documents(
+        self, query_doc: Document, limit: Optional[int] = None
+    ) -> List[Document]:
+        return [
+            doc
+            for doc in self.get_documents_for_query(query_doc.embeddable_text)
+            if doc != query_doc
+        ][0:limit]
+
     def query(self, query: str) -> SearchResult:
         return self.cache.cached(
             "query",

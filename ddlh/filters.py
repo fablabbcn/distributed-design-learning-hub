@@ -35,7 +35,12 @@ def page_title_from_breadcrumbs(breadcrumbs: list[Breadcrumb]) -> str:
     )
 
 
+def any(collection: list[U]) -> bool:
+    return len(collection) > 0
+
+
 app.jinja_env.filters["get_first"] = get_first
 app.jinja_env.filters["url_to_id"] = url_to_id
 app.jinja_env.filters["document_css_classes"] = document_css_classes
 app.jinja_env.filters["page_title_from_breadcrumbs"] = page_title_from_breadcrumbs
+app.jinja_env.filters["any"] = any
