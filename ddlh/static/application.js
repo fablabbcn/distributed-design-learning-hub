@@ -2,7 +2,8 @@ const statAnimationTime = 1000.0;
 
 class Carousel {
   constructor(element) {
-    this.container = element;
+    this.container = element.querySelector(".documents");
+    this.outer = element;
     this.currentIndex = 0;
     this.setupListeners();
     this.updatePosition();
@@ -48,14 +49,14 @@ class Carousel {
       xDelta = 0;
       this.updatePosition();
     });
-    this.container
-      .querySelect(".carousel-shadow.left")
+    this.outer
+      .querySelector(".carousel-shadow.left")
       .addEventListener("click", (event) => {
         this.currentIndex = this.currentIndex - 1;
         this.updatePosition();
       });
-    this.container
-      .querySelect(".carousel-shadow.right")
+    this.outer
+      .querySelector(".carousel-shadow.right")
       .addEventListener("click", (event) => {
         this.currentIndex = this.currentIndex + 1;
         this.updatePosition();
@@ -112,7 +113,7 @@ function animateStat(element) {
 }
 
 const setupCarousels = () => {
-  document.querySelectorAll(".carousel .documents").forEach((container) => {
+  document.querySelectorAll(".carousel").forEach((container) => {
     new Carousel(container);
   });
 };
