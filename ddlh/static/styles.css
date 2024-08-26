@@ -3,6 +3,7 @@
 :root {
   --yellow: #fcff6a;
   --light-blue: #bee6ef;
+  --light-blue-saturated: #b4ecf9;
   --purple: #d28eff;
   --orange: #ff955b;
   --green: #69c087;
@@ -12,8 +13,9 @@
   --warm-grey: #f2f2ed;
   --warm-grey-darker: rgb(218, 218, 213);
   --soft-black: #383839;
+  --soft-black-darker: #29292a;
   --soft-black-lighter: #454546;
-  --main-bg-color: var(--soft-black);
+  --main-bg-color: var(--soft-black-darker);
   --strong-bg-color: var(--black);
   --main-fg-color: var(--warm-grey);
   --strong-fg-color: var(--white);
@@ -324,7 +326,7 @@ p {
 }
 
 .robot-text {
-  color: var(--light-blue);
+  color: var(--light-blue-saturated);
 }
 
 .index-hero {
@@ -422,7 +424,7 @@ p {
             width: calc(1.5 * var(--spacer-unit));
             height: 100%;
             border-radius: 0 2rem 2rem 0;
-            background-color: var(--soft-black);
+            background-color: var(--main-bg-color);
             padding-left: calc(0.75 * var(--spacer-unit));
             padding-right: var(--spacer-unit);
             margin: 0;
