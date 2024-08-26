@@ -344,6 +344,22 @@ p {
 
     & .hero-description {
       font-size: 1.5rem;
+      line-height: 2.1rem;
+    }
+
+    & .theme-hint {
+      color: var(--main-bg-color);
+      background-color: var(--main-fg-color);
+      padding: 0 calc(0.5 * var(--spacer-unit));
+      border-radius: 0.5rem;
+      display: inline-block;
+    }
+
+    & .search-hint {
+      padding: 0 calc(0.5 * var(--spacer-unit));
+      border-radius: 0.5rem;
+      border: 1px solid var(--main-fg-color);
+      display: inline-block;
     }
 
     & .stat {
@@ -386,7 +402,8 @@ p {
         box-sizing: border-box;
         align-items: center;
         &:hover,
-        &:focus {
+        &:focus,
+        &:has(input:focus) {
           background-color: var(--warm-grey-darker);
           & input[type="text"] {
             color: var(--strong-bg-color);

@@ -184,6 +184,18 @@ const setupFormClickHandler = () => {
   }
 };
 
+const setupSearchHint = () => {
+  const hint = document.querySelector(".search-hint");
+  if (hint) {
+    hint.addEventListener("click", () => {
+      input = document.querySelector(".query-form input[type='text']");
+      if (input) {
+        input.focus();
+      }
+    });
+  }
+};
+
 document.addEventListener("DOMContentLoaded", (event) => {
   setupCarousels();
   setupStats();
@@ -191,4 +203,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   setupTyping();
   setupDocumentLinkHighlight();
   setupFormClickHandler();
+  setupSearchHint();
 });
