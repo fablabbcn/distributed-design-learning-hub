@@ -48,6 +48,18 @@ class Carousel {
       xDelta = 0;
       this.updatePosition();
     });
+    this.container
+      .querySelect(".carousel-shadow.left")
+      .addEventListener("click", (event) => {
+        this.currentIndex = this.currentIndex - 1;
+        this.updatePosition();
+      });
+    this.container
+      .querySelect(".carousel-shadow.right")
+      .addEventListener("click", (event) => {
+        this.currentIndex = this.currentIndex + 1;
+        this.updatePosition();
+      });
   }
 
   updatePosition() {

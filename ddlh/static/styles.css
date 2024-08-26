@@ -484,6 +484,32 @@ p {
     text-align: center;
     margin-bottom: calc(2 * var(--spacer-unit));
   }
+  & .carousel-inner {
+    position: relative;
+  }
+  & .carousel-shadow {
+    position: absolute;
+    z-index: 100;
+    width: 2rem;
+    top: 1px;
+    bottom: 1px;
+    &.left {
+      left: 0;
+      background: linear-gradient(
+        90deg,
+        var(--main-bg-color) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+    &.right {
+      right: 0;
+      background: linear-gradient(
+        -90deg,
+        var(--main-bg-color) 0%,
+        rgba(255, 255, 255, 0) 100%
+      );
+    }
+  }
   & .documents {
     box-sizing: border-box;
     display: flex;
@@ -511,38 +537,6 @@ p {
   &:last-child {
     border-right: none;
   }
-  &.text {
-    background: var(--main-bg-color);
-    background: linear-gradient(
-      -35deg,
-      var(--main-bg-color) 66%,
-      var(--type-text-highlight-color) 100%
-    );
-  }
-  &.audiovisual {
-    background: var(--main-bg-color);
-    background: linear-gradient(
-      -35deg,
-      var(--main-bg-color) 66%,
-      var(--type-audiovisual-highlight-color) 100%
-    );
-  }
-  &.course {
-    background: var(--main-bg-color);
-    background: linear-gradient(
-      -35deg,
-      var(--main-bg-color) 66%,
-      var(--type-course-highlight-color) 100%
-    );
-  }
-  &.tool {
-    background: var(--main-bg-color);
-    background: linear-gradient(
-      -35deg,
-      var(--main-bg-color) 66%,
-      var(--type-tool-highlight-color) 100%
-    );
-  }
   & .details {
     width: 100%;
     display: flex;
@@ -552,7 +546,11 @@ p {
     padding: var(--spacer-unit);
     & .format {
       display: inline-flex;
-      margin-bottom: var(--spacer-unit);
+      margin-left: calc(-1 * var(--spacer-unit));
+      margin-top: calc(-2 * var(--spacer-unit));
+      padding: calc(1 * var(--spacer-unit));
+      margin-bottom: calc(1 * var(--spacer-unit));
+      line-height: 1rem;
     }
 
     & .title {
@@ -749,18 +747,16 @@ p {
   }
 }
 
-& .format {
+.format {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: transparent;
   color: var(--strong-fg-color);
   width: auto;
-  border-radius: 1rem;
-  padding: calc(0.5 * var(--spacer-unit));
+  padding: calc(0.5 * var(--spacer-unit)) var(--spacer-unit);
   text-align: left;
   box-sizing: border-box;
-  border: 1px solid var(--strong-fg-color);
   vertical-align: middle;
   &.colored.text {
     background-color: var(--type-text-highlight-color);
@@ -1064,6 +1060,11 @@ p {
     & .details {
       width: 66%;
       padding: 0;
+      & .format {
+        margin-left: calc(-2 * var(--spacer-unit));
+        padding: calc(2 * var(--spacer-unit));
+        margin-bottom: calc(2 * var(--spacer-unit));
+      }
       & .tags {
         & li {
           display: inline-block;
@@ -1164,6 +1165,10 @@ p {
     & .hero-themes-column {
       width: 50%;
     }
+  }
+
+  .carousel-shadow {
+    width: 6rem;
   }
 
   .carousel-item {
