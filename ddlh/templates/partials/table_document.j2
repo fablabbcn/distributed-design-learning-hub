@@ -1,15 +1,18 @@
 <div class="document {{ document|document_css_classes }} document-{{ document.id }}">
+    <a class="card-link"
+       href="{{ url_for("document", document_id=document.link|url_to_id) }}"><span class="sr-only">{{ document.title }}</span></a>
     <div class="format colored {{ document |document_css_classes }}">{{ document.format }}</div>
     <div class="title-container">
         {% with theme=document.themes|get_first %}
             {% if with_theme and theme %}
                 <p class="theme">
-                    <a href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>:
+                    <a class="theme-link" href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>:
                 </p>
             {% endif %}
         {% endwith %}
         <h3 class="title">
-            <a href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
+            <a class="title-link"
+               href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
         </h3>
     </div>
     <div class="meta">

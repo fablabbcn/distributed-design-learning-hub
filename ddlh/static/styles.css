@@ -940,6 +940,26 @@ p {
     grid-column: 1/-1;
     gap: var(--spacer-unit);
     grid-template-columns: subgrid;
+    position: relative;
+    & .card-link {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      z-index: 0;
+    }
+    &:has(:hover) .title-link {
+      text-decoration: underline;
+    }
+    &:has(.theme-link:hover) .title-link {
+      text-decoration: none;
+    }
+    & .theme-link {
+      position: relative;
+      z-index: 100;
+    }
     &.focused {
       background-color: var(--soft-black-lighter);
     }
