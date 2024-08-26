@@ -17,6 +17,36 @@ class Carousel {
         this.currentIndex = index;
         this.updatePosition();
       });
+      var xDown = null;
+      var yDown = null;
+    });
+    this.container.addEventListener("swiped-left", (event) => {
+      this.currentIndex = this.currentIndex + 1;
+      this.updatePosition();
+    });
+    this.container.addEventListener("swiped-right", (event) => {
+      this.currentIndex = this.currentIndex - 1;
+      this.updatePosition();
+    });
+    var xDelta = 0;
+    var scrollLeftBefore = this.container.scrollLeft;
+    this.container.addEventListener("touchstart", (event) => {
+      scrollLeftBefore = this.container.scrollLeft;
+      xDelta = event.touches[0].clientX;
+    });
+    this.container.addEventListener("touchmove", (event) => {
+      xDelta = event.touches[0].clientX;
+      this.container.scrollLeft = scrollLeftBefore - xDelta;
+    });
+    this.container.addEventListener("touchend", (event) => {
+      this.container.scrollLeft = scrollLeftBefore;
+      xDelta = 0;
+      this.updatePosition();
+    });
+    this.container.addEventListener("touchcancel", (event) => {
+      this.container.scrollLeft = scrollLeftBefore;
+      xDelta = 0;
+      this.updatePosition();
     });
   }
 
@@ -26,6 +56,12 @@ class Carousel {
     });
     const childWidth = this.container.children[0].offsetWidth;
     const lastIndex = this.container.children.length - 1;
+    if (this.currentIndex < 0) {
+      this.currentIndex = lastIndex;
+    }
+    if (this.currentIndex > lastIndex) {
+      this.currentIndex = 0;
+    }
     var widthOffset = this.currentIndex;
     if (this.currentIndex == 0) {
       const dummyLast = this.container.children[lastIndex].cloneNode(true);
