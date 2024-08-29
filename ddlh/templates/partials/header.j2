@@ -1,4 +1,28 @@
 <header>
-    {% include "partials/logo.j2" %}
-    {% include "partials/breadcrumbs.j2" %}
+    <div class="header-top-row">
+        <nav class="header-links">
+            <a href="#">About</a>
+            <a href="#">Members</a>
+            <a href="#">Services</a>
+            <a href="#">Contact</a>
+        </nav>
+    </div>
+    <div class="header-top-row mobile">
+        <nav class="header-links sub mobile">
+            <a href="#">Events</a>
+            <a href="#">Creatives</a>
+            <a href="#">Impact</a>
+            <a href="#">Community</a>
+        </nav>
+    </div>
+    <div class="header-bottom-row">
+        {% include "partials/logo.j2" %}
+        {% include "partials/breadcrumbs.j2" %}
+        <nav class="header-links sub desktop">
+            <a href="#">Events</a>
+            <a href="#">Creatives</a>
+            <a href="#">Impact</a>
+            <a href="#">Community</a>
+        </nav>
+    </div>
 </header>
