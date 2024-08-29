@@ -270,6 +270,24 @@ footer {
   color: var(--main-fg-color);
   box-sizing: border-box;
   padding: calc(2 * var(--spacer-unit));
+
+  & .footer-partner-logos {
+    filter: invert(100%) sepia(82%) saturate(175%) hue-rotate(18deg)
+      brightness(108%) contrast(0%) grayscale(100%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: calc(0.5 * var(--spacer-unit));
+    margin: calc(2 * var(--spacer-unit)) auto;
+    max-width: 55rem;
+    & figure {
+      margin: 0;
+      & img {
+        max-height: 2rem;
+      }
+    }
+  }
   & .footer-columns {
     display: flex;
     flex-direction: column;

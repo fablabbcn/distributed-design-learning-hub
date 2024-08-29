@@ -75,3 +75,6 @@ mock_use_standalone_module = true
 
 [tool.pytest.ini_options]
 addopts = "--spec --cov=ddlh"
+
+[tool.djlint]
+ignore="H006"
