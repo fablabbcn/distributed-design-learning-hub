@@ -40,6 +40,8 @@ class LlamaIndexConfig:
     embedding_model_name: str
     llm_model_name: str
     es_url: str
+    es_username: Optional[str]
+    es_password: Optional[str]
     es_embeddings_index: str
     es_embeddings_field: str
     es_kv_index: str
@@ -57,6 +59,8 @@ class LlamaIndex:
     def __init__(self, config: LlamaIndexConfig):
         vector_store = ElasticsearchVectorStore(
             es_url=config.es_url,
+            es_user=config.es_username,
+            es_password=config.es_password,
             index_name=config.es_embeddings_index,
             vector_field=config.es_embeddings_field,
         )
@@ -64,6 +68,8 @@ class LlamaIndex:
             elasticsearch_kvstore=ElasticsearchKVStore(
                 index_name=config.es_kv_index,
                 es_url=config.es_url,
+                es_user=config.es_username,
+                es_password=config.es_password,
                 es_client=None,
             ),
             node_collection_index=config.es_node_index,
@@ -139,6 +145,8 @@ class LlamaIndex:
 def get_llamaindex_instance() -> LlamaIndex:
     config = LlamaIndexConfig(
         es_url=environ["ELASTICSEARCH_URL"],
+        es_username=environ.get("ELASTICSEARCH_USERNAME"),
+        es_password=environ.get("ELASTICSEARCH_PASSWORD"),
         es_embeddings_index=environ["ELASTICSEARCH_EMBEDDINGS_INDEX"],
         es_kv_index=environ["ELASTICSEARCH_KV_INDEX"],
         es_node_index=environ["ELASTICSEARCH_NODE_INDEX"],
