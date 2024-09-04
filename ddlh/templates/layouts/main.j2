@@ -11,6 +11,8 @@
               type="text/css"
               media="all"
               href="{{ url_for("static", filename="styles.css") }}">
+        <link rel="shortcut icon"
+              href="{{ url_for("static", filename="favicon.ico") }}">
         <title>{{ breadcrumbs|page_title_from_breadcrumbs }}</title>
     </head>
     <body>
