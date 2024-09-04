@@ -2,6 +2,8 @@
 
 A collective second-brain for the distributed design network.
 
+See the live site [here](https://learn.distributeddesign.eu).
+
 ## Development
 
 You'll need [Docker](https://www.docker.com/).
