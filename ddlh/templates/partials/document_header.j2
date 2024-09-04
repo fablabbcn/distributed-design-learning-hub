@@ -1,5 +1,5 @@
 <div class="theme-tag-document-header container">
-    <span class="format colored {{ document|document_css_classes }}">{{ document.format }}</span>
+    <span class="format colored {{ document|document_css_classes }}"><a href="{{ url_for("format", format=document.format_type) }}">{{ document.format }}</a></span>
     <h2 class="theme-tag-document-subhead">
         {% with theme=document.themes|get_first %}
             {% if theme %}<a href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>:{% endif %}

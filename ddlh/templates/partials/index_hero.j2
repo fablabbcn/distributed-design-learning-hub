@@ -7,10 +7,10 @@
             that explain
             <span class="stat"><span class="n">{{ stats.total_themes }}</span>&nbsp;thematic areas of design</span>
             that aim to support your design practice. The {{ stats.total_documents }} resources contain
-            <span class="stat text"><span class="n">{{ stats.total_text_format }}</span>&nbsp;publications, papers & reports</span>,
-            <span class="stat audiovisual"><span class="n">{{ stats.total_audiovisual_format }}</span>&nbsp;masterclasses, documentaries & podcasts</span>,
-            <span class="stat tool"><span class="n">{{ stats.total_tool_format }}</span>&nbsp;toolkits, methods & frameworks</span>, and
-            <span class="stat course"><span class="n">{{ stats.total_course_format }}</span>&nbsp;interactive learning resources</span>
+            <span class="stat text"><a href="{{ url_for("format", format="text") }}"><span class="n">{{ stats.total_text_format }}</span>&nbsp;publications, papers & reports</a></span>,
+            <span class="stat audiovisual"><a href="{{ url_for("format", format="audiovisual") }}"><span class="n">{{ stats.total_audiovisual_format }}</span>&nbsp;masterclasses, documentaries & podcasts</a></span>,
+            <span class="stat tool"><a href="{{ url_for("format", format="tool") }}"><span class="n">{{ stats.total_tool_format }}</span>&nbsp;toolkits, methods & frameworks</a></span>, and
+            <span class="stat course"><a href="{{ url_for("format", format="course") }}"><span class="n">{{ stats.total_course_format }}</span>&nbsp;interactive learning resources</a></span>
             from more than
             <span class="stat"><span class="n">{{ stats.total_unique_authors }}</span>&nbsp;different authors</span>.
         </p>

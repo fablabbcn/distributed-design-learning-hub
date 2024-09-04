@@ -1,7 +1,7 @@
 <div class="carousel-item {{ document.format_type }}">
     <div class="details">
         <div class="blurb">
-            <span class="format colored {{ document|document_css_classes }}">{{ document.format }}</span>
+            <span class="format colored {{ document|document_css_classes }}"><a href="{{ url_for("format", format=document.format_type) }}">{{ document.format }}</a></span>
             <h3 class="title">
                 <a href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
             </h3>

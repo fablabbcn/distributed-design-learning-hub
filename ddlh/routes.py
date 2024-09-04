@@ -73,6 +73,34 @@ def tag(tag: str) -> str:
     )
 
 
+@app.route("/formats/<format>", methods=["GET"])
+def format(format: str) -> str:
+    FORMAT_NAMES = {
+        "text": "Publications, papers & reports",
+        "tool": "Toolkits, methods & frameworks",
+        "audiovisual": "Masterclasses, documentaries & podcasts",
+        "course": "Interactive learning resources",
+    }
+
+    db = _get_documents_repository()
+
+    documents = db.get_documents_for_format_type(format)
+
+    format_name = FORMAT_NAMES[format]
+
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "Formats"},
+        {"title": format_name, "url": url_for("format", format=format)},
+    )
+    return render_template(
+        "pages/format.j2",
+        breadcrumbs=breadcrumbs,
+        format=format,
+        format_name=format_name,
+        documents=documents,
+    )
+
+
 @app.route("/documents/<document_id>", methods=["GET"])
 def document(document_id: str) -> str:
     db = _get_documents_repository()

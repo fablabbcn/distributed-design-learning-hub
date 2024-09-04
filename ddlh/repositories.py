@@ -1,4 +1,4 @@
-from collections import Counter, OrderedDict, defaultdict
+from collections import OrderedDict, defaultdict
 from typing import Optional, cast
 
 import more_itertools as mit
@@ -20,7 +20,7 @@ class DocumentsRepository:
         self.themes: OrderedDict[str, Theme] = OrderedDict()
         self.tags: dict[str, list[str]] = defaultdict(list)
         self.authors: set[str] = set()
-        self.format_types_count: Counter[str] = Counter()
+        self.by_format_type: dict[str, list[str]] = defaultdict(list)
 
         for row in self.airtable.all("featured_documents"):
             self._ingest_featured_document(row)
@@ -57,7 +57,7 @@ class DocumentsRepository:
             if format is not None:
                 document["format"] = format["name"]
                 document["format_type"] = format["type"]
-                self.format_types_count[format["type"]] += 1
+                self.by_format_type[format["type"]].append(document["link"])
 
         if "author" in document:
             self.authors.add(document["author"])
@@ -94,6 +94,14 @@ class DocumentsRepository:
                 return [self.documents[url_to_id(link)] for link in theme.documents]
         return []
 
+    def get_documents_for_format_type(self, format_type: str) -> list[Document]:
+        if format_type in self.by_format_type:
+            return [
+                self.documents[url_to_id(link)]
+                for link in self.by_format_type[format_type]
+            ]
+        return []
+
     def get_tags_for_theme(self, theme_name: str) -> list[str]:
         for theme in self.themes.values():
             if theme_name == theme.name:
@@ -124,9 +132,9 @@ class DocumentsRepository:
         return Stats(
             total_documents=len(self.documents),
             total_themes=len(self.themes),
-            total_text_format=self.format_types_count["text"],
-            total_audiovisual_format=self.format_types_count["audiovisual"],
-            total_tool_format=self.format_types_count["tool"],
-            total_course_format=self.format_types_count["course"],
+            total_text_format=len(self.by_format_type["text"]),
+            total_audiovisual_format=len(self.by_format_type["audiovisual"]),
+            total_tool_format=len(self.by_format_type["tool"]),
+            total_course_format=len(self.by_format_type["course"]),
             total_unique_authors=len(self.authors),
         )

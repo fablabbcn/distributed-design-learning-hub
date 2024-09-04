@@ -439,6 +439,7 @@ p {
       padding: 0 calc(0.5 * var(--spacer-unit));
       border-radius: 0.5rem;
       display: inline-block;
+      margin-bottom: calc(0.25 * var(--spacer-unit));
     }
 
     & .search-hint {
@@ -446,25 +447,50 @@ p {
       border-radius: 0.5rem;
       border: 1px solid var(--main-fg-color);
       display: inline-block;
+      margin-bottom: calc(0.25 * var(--spacer-unit));
     }
 
     & .stat {
       font-weight: 400;
 
+      & a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
       &.text {
         color: var(--type-text-highlight-color);
+
+        & a {
+          color: var(--type-text-highlight-color);
+        }
       }
 
       &.audiovisual {
         color: var(--type-audiovisual-highlight-color);
+
+        & a {
+          color: var(--type-audiovisual-highlight-color);
+        }
       }
 
       &.course {
         color: var(--type-course-highlight-color);
+
+        & a {
+          color: var(--type-course-highlight-color);
+        }
       }
 
       &.tool {
         color: var(--type-tool-highlight-color);
+
+        & a {
+          color: var(--type-tool-highlight-color);
+        }
       }
     }
   }
@@ -687,6 +713,15 @@ p {
       padding: calc(1 * var(--spacer-unit));
       margin-bottom: calc(1 * var(--spacer-unit));
       line-height: 1rem;
+
+      & a {
+        color: var(--main-bg-color);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     & .title {
@@ -919,24 +954,40 @@ p {
     background-color: var(--type-text-highlight-color);
     color: var(--strong-bg-color);
     border-color: var(--strong-bg-color);
+
+    & a {
+      color: var(--strong-bg-color);
+    }
   }
 
   &.colored.audiovisual {
     background-color: var(--type-audiovisual-highlight-color);
     color: var(--strong-bg-color);
     border-color: var(--strong-bg-color);
+
+    & a {
+      color: var(--strong-bg-color);
+    }
   }
 
   &.colored.course {
     background-color: var(--type-course-highlight-color);
     color: var(--strong-bg-color);
     border-color: var(--strong-bg-color);
+
+    & a {
+      color: var(--strong-bg-color);
+    }
   }
 
   &.colored.tool {
     background-color: var(--type-tool-highlight-color);
     color: var(--strong-bg-color);
     border-color: var(--strong-bg-color);
+
+    & a {
+      color: var(--strong-bg-color);
+    }
   }
 }
 
@@ -1128,6 +1179,10 @@ p {
       text-decoration: none;
     }
 
+    &:has(.format-link:hover) .title-link {
+      text-decoration: none;
+    }
+
     & .theme-link {
       position: relative;
       z-index: 100;
@@ -1174,6 +1229,12 @@ p {
       margin-left: -1px;
       margin-top: -2px;
       color: var(--strong-bg-color) !important;
+
+      a {
+        position: relative;
+        color: var(--strong-bg-color) !important;
+        z-index: 100;
+      }
     }
   }
 }
