@@ -41,6 +41,21 @@ repos:
       - id: prettier
         types_or: [css, yaml, markdown, javascript, toml]
 
+  - repo: https://github.com/djlint/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint-reformat-jinja
+      - id: djlint-jinja
+
+  - repo: https://github.com/thibaudcolas/pre-commit-stylelint
+    rev: v14.4.0
+    hooks:
+      - id: stylelint
+        additional_dependencies:
+          - stylelint@16.9.0
+          - stylelint-config-standard@36.0.1
+        args: [--fix]
+
   - repo: local
     hooks:
       - id: mypy
@@ -61,11 +76,6 @@ repos:
         types: ["python"]
         args: ["--check-untyped-defs"]
 
-  - repo: https://github.com/djlint/djLint
-    rev: v1.34.1
-    hooks:
-      - id: djlint-reformat-jinja
-      - id: djlint-jinja
   - repo: local
     hooks:
       - id: pytest-check
