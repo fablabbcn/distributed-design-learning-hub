@@ -998,7 +998,6 @@ p {
       }
 
       .meta {
-        text-align: right;
         padding-right: var(--spacer-unit);
       }
     }
@@ -1007,12 +1006,10 @@ p {
 
 .table .documents {
   display: grid;
-  grid-template-columns: 1fr 8fr 3fr;
-  grid-auto-rows: 1fr;
+  grid-template-columns: 9fr 3fr;
   align-items: stretch;
   & .document {
     border-bottom: 1px solid var(--main-fg-color);
-    display: grid;
     grid-column: 1/-1;
     gap: var(--spacer-unit);
     grid-template-columns: subgrid;
@@ -1039,10 +1036,6 @@ p {
     &.focused {
       background-color: var(--soft-black-lighter);
     }
-    & > * {
-      padding-top: calc(1 * var(--spacer-unit));
-      padding-bottom: calc(1 * var(--spacer-unit));
-    }
     & a {
       color: var(--main-fg-color);
       text-decoration: none;
@@ -1051,60 +1044,31 @@ p {
       }
     }
     & .title {
-      font-size: 1rem;
-      margin-left: 0;
+      font-size: 1.2rem;
+      margin: var(--spacer-unit);
+      margin-bottom: 0.5rem;
     }
     & .theme {
       margin-bottom: calc(0 * var(--spacer-unit));
     }
     .meta {
       font-size: 0.8rem;
+      margin: var(--spacer-unit);
+      margin-top: calc(0.5 * var(--spacer-unit));
     }
 
     & .format {
-      display: grid;
+      display: inline-block;
       width: auto;
       border: none;
+      font-size: 0.8rem;
       justify-content: left;
       border-radius: 0;
       text-align: left;
-      padding-right: var(--spacer-unit);
-      padding-left: var(--spacer-unit);
+      padding: calc(0.25 * var(--spacer-unit)) var(--spacer-unit);
+      margin-left: -1px;
+      margin-top: -2px;
       color: var(--strong-bg-color) !important;
-      /*
-       &.text {
-         background: var(--main-bg-color);
-         background: linear-gradient(
-         -90deg,
-         var(--main-bg-color) 0%,
-         var(--type-text-highlight-color) 90%
-         );
-       }
-       &.audiovisual {
-         background: var(--main-bg-color);
-         background: linear-gradient(
-         -90deg,
-         var(--main-bg-color) 0%,
-         var(--type-audiovisual-highlight-color) 90%
-         );
-       }
-       &.course {
-         background: var(--main-bg-color);
-         background: linear-gradient(
-         -90deg,
-         var(--main-bg-color) 0%,
-         var(--type-course-highlight-color) 90%
-         );
-       }
-       &.tool {
-         background: var(--main-bg-color);
-         background: linear-gradient(
-         -90deg,
-         var(--main-bg-color) 0%,
-         var(--type-tool-highlight-color) 90%
-         );
-       }
-       */
     }
   }
 }
@@ -1179,6 +1143,22 @@ p {
   }
   .grid .documents {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .table .documents {
+    & .document {
+      display: grid;
+      & > * {
+        padding-bottom: var(--spacer-unit);
+      }
+      & .meta {
+        margin: 0;
+        margin-top: var(--spacer-unit);
+      }
+      & .title {
+        margin-right: 0;
+      }
+    }
   }
 
   .document-summary {
@@ -1312,6 +1292,24 @@ p {
       width: 50%;
       & .table .documents {
         border-top: none;
+        & .document {
+          border-left: 1px solid var(--main-fg-color);
+          &.text {
+            border-left: 1px solid var(--type-text-highlight-color);
+          }
+
+          &.audiovisual {
+            border-left: 1px solid var(--type-audiovisual-highlight-color);
+          }
+
+          &.course {
+            border-left: 1px solid var(--type-course-highlight-color);
+          }
+
+          &.tool {
+            border-left: 1px solid var(--type-tool-highlight-color);
+          }
+        }
       }
     }
   }
@@ -1335,6 +1333,27 @@ p {
     }
     & .summary-column {
       width: 66%;
+    }
+  }
+
+  .related-resources-container {
+    & .document {
+      border-left: 1px solid var(--main-fg-color);
+      &.text {
+        border-left: 1px solid var(--type-text-highlight-color);
+      }
+
+      &.audiovisual {
+        border-left: 1px solid var(--type-audiovisual-highlight-color);
+      }
+
+      &.course {
+        border-left: 1px solid var(--type-course-highlight-color);
+      }
+
+      &.tool {
+        border-left: 1px solid var(--type-tool-highlight-color);
+      }
     }
   }
 }
@@ -1368,10 +1387,6 @@ p {
   .table .documents .document {
     & h3.title {
       font-size: 1.5rem;
-    }
-
-    .meta {
-      font-size: 1rem;
     }
   }
 
