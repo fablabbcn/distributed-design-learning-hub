@@ -205,6 +205,31 @@ const setupSearchHint = () => {
   }
 };
 
+const setupCookieBanner = () => {
+  if (localStorage.getItem("cookie_consent") === null) {
+    const banner = document.querySelector(".cookie-banner");
+    banner.style.display = "flex";
+    accept = banner.querySelector(".accept");
+    accept.addEventListener("click", (event) => {
+      event.preventDefault();
+      localStorage.setItem("cookie_consent", "granted");
+      gtag("consent", "update", {
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+        ad_storage: "granted",
+        analytics_storage: "granted",
+      });
+      banner.style.display = "none";
+    });
+    reject = banner.querySelector(".reject");
+    reject.addEventListener("click", (event) => {
+      event.preventDefault();
+      localStorage.setItem("cookie_consent", "refused");
+      banner.style.display = "none";
+    });
+  }
+};
+
 document.addEventListener("DOMContentLoaded", (event) => {
   setupCarousels();
   setupStats();
@@ -213,4 +238,5 @@ document.addEventListener("DOMContentLoaded", (event) => {
   setupDocumentLinkHighlight();
   setupFormClickHandler();
   setupSearchHint();
+  setupCookieBanner();
 });

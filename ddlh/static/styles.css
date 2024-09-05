@@ -415,6 +415,31 @@ p {
   color: var(--light-blue-saturated);
 }
 
+.cookie-banner {
+  display: none; /* flex, when visible, but hidden by default. this is set in JS */
+  pointer-events: auto;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  background-color: var(--main-bg-color);
+  padding: var(--spacer-unit) calc(2 * var(--spacer-unit));
+  border-top: 1px solid var(--main-fg-color);
+  z-index: 500;
+  gap: var(--spacer-unit);
+
+  & .cookie-buttons {
+    display: flex;
+    gap: calc(0.5 * var(--spacer-unit));
+
+    & a {
+      width: 50%;
+      padding: calc(0.5 * var(--spacer-unit));
+    }
+  }
+}
+
 .index-hero {
   background-color: var(--main-bg-color);
   display: flex;
@@ -1398,6 +1423,15 @@ p {
   .container {
     padding-left: calc(2 * var(--spacer-unit));
     padding-right: calc(2 * var(--spacer-unit));
+  }
+
+  .cookie-banner {
+    flex-direction: row;
+
+    & .cookie-buttons {
+      width: 33%;
+      flex-shrink: 0;
+    }
   }
 
   .related-resources-container {
