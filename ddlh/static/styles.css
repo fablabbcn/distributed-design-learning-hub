@@ -1278,7 +1278,7 @@ p {
     }
 
     .meta {
-      font-size: 0.8rem;
+      font-size: 1rem;
       margin: var(--spacer-unit);
       margin-top: calc(0.5 * var(--spacer-unit));
     }
@@ -1287,7 +1287,7 @@ p {
       display: inline-block;
       width: auto;
       border: none;
-      font-size: 0.8rem;
+      font-size: 1rem;
       justify-content: left;
       border-radius: 0;
       text-align: left;
