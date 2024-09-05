@@ -61,6 +61,20 @@ class Carousel {
         this.currentIndex = this.currentIndex + 1;
         this.updatePosition();
       });
+    this.outer
+      .querySelector(".carousel-arrow.left")
+      .addEventListener("click", (event) => {
+        event.preventDefault();
+        this.currentIndex = this.currentIndex - 1;
+        this.updatePosition();
+      });
+    this.outer
+      .querySelector(".carousel-arrow.right")
+      .addEventListener("click", (event) => {
+        event.preventDefault();
+        this.currentIndex = this.currentIndex + 1;
+        this.updatePosition();
+      });
   }
 
   updatePosition() {
