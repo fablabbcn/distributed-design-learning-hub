@@ -1,8 +1,9 @@
 <div class="carousel container">
     <h1>{{ headline }}</h1>
     <div class="carousel-inner">
-        <div class="carousel-shadow left"></div>
-        <a class="carousel-arrow left" href="#">{% include "partials/carousel_arrow.j2" %}</a>
+        <a class="carousel-shadow left" href="#">
+            <span class="carousel-arrow left">{% include "partials/carousel_arrow.j2" %}</span>
+        </a>
         <div class="documents">
             {% for document in documents %}
                 {% with show_tags=True, show_theme=True %}
@@ -10,7 +11,8 @@
                 {% endwith %}
             {% endfor %}
         </div>
-        <a class="carousel-arrow right" href="#">{% include "partials/carousel_arrow.j2" %}</a>
-        <div class="carousel-shadow right"></div>
+        <a class="carousel-shadow right" href="#">
+            <span class="carousel-arrow right">{% include "partials/carousel_arrow.j2" %}</span>
+        </a>
     </div>
 </div>

@@ -52,24 +52,12 @@ class Carousel {
     this.outer
       .querySelector(".carousel-shadow.left")
       .addEventListener("click", (event) => {
-        this.currentIndex = this.currentIndex - 1;
-        this.updatePosition();
-      });
-    this.outer
-      .querySelector(".carousel-shadow.right")
-      .addEventListener("click", (event) => {
-        this.currentIndex = this.currentIndex + 1;
-        this.updatePosition();
-      });
-    this.outer
-      .querySelector(".carousel-arrow.left")
-      .addEventListener("click", (event) => {
         event.preventDefault();
         this.currentIndex = this.currentIndex - 1;
         this.updatePosition();
       });
     this.outer
-      .querySelector(".carousel-arrow.right")
+      .querySelector(".carousel-shadow.right")
       .addEventListener("click", (event) => {
         event.preventDefault();
         this.currentIndex = this.currentIndex + 1;
@@ -81,6 +69,12 @@ class Carousel {
     this.container.querySelectorAll(".carousel-dummy").forEach((child) => {
       this.container.removeChild(child);
     });
+    this.container
+      .querySelectorAll(".carousel-item.active")
+      .forEach((child) => {
+        child.classList.remove("active");
+      });
+
     const childWidth = this.container.children[0].offsetWidth;
     const lastIndex = this.container.children.length - 1;
     if (this.currentIndex < 0) {
@@ -90,6 +84,7 @@ class Carousel {
       this.currentIndex = 0;
     }
     var widthOffset = this.currentIndex;
+    this.container.children[this.currentIndex].classList.add("active");
     if (this.currentIndex == 0) {
       const dummyLast = this.container.children[lastIndex].cloneNode(true);
       dummyLast.classList.add("carousel-dummy");
