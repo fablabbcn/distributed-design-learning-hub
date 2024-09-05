@@ -12,7 +12,7 @@
             </div>
             <div class="description">
                 {% markdown %}
-                {{ document.description }}
+                {{ document.description|truncate(1000, True, '...') }}
             {% endmarkdown %}
         </div>
     </div>
