@@ -84,10 +84,6 @@ class LlamaIndex:
             chunk_size=config.embedding_chunk_size,
             chunk_overlap=config.embedding_chunk_overlap,
         )
-        index = VectorStoreIndex.from_vector_store(
-            vector_store, embed_model=embedding_model
-        )
-        index.storage_context.docstore = docstore
         response_synthesizer = get_response_synthesizer(
             llm=llm,
             response_mode=ResponseMode.REFINE,
@@ -97,18 +93,13 @@ class LlamaIndex:
             vector_store=vector_store,
             docstore=docstore,
         )
-        retriever = index.as_retriever(similarity_top_k=config.retrieval_top_k)
         self.safe_prompt = config.safe_prompt
-        self.retriever = retriever
+        self.retrieval_top_k = config.retrieval_top_k
         self.pipeline = pipeline
         self.embedding_model = embedding_model
         self.response_synthesizer = response_synthesizer
         self.docstore = docstore
-        # Even though we don't explicitly use these again, we need to
-        # ensure we hold a reference to them, otherwise we get a
-        # "Timeout context manager should be used inside a task" RuntimeError:
         self.vector_store = vector_store
-        self.index = index
 
     def index_documents(self, documents: list[DocumentWithText]) -> None:
         llama_documents = [
@@ -140,7 +131,13 @@ class LlamaIndex:
         bundle = QueryBundle(
             query, embedding=self.embedding_model.get_query_embedding(query)
         )
-        return cast(list[NodeWithScore], self.retriever.retrieve(bundle))
+        index = VectorStoreIndex.from_vector_store(
+            self.vector_store, embed_model=self.embedding_model
+        )
+        index.storage_context.docstore = self.docstore
+
+        retriever = index.as_retriever(similarity_top_k=self.retrieval_top_k)
+        return cast(list[NodeWithScore], retriever.retrieve(bundle))
 
 
 def get_llamaindex_instance() -> LlamaIndex:
