@@ -104,10 +104,11 @@ class LlamaIndex:
         self.embedding_model = embedding_model
         self.response_synthesizer = response_synthesizer
         self.docstore = docstore
-        # Even though we don't explicitly use this again, we need to
-        # ensure we hold a reference to it, otherwise we get a
+        # Even though we don't explicitly use these again, we need to
+        # ensure we hold a reference to them, otherwise we get a
         # "Timeout context manager should be used inside a task" RuntimeError:
         self.vector_store = vector_store
+        self.index = index
 
     def index_documents(self, documents: list[DocumentWithText]) -> None:
         llama_documents = [
