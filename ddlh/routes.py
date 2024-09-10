@@ -3,18 +3,14 @@ from typing import cast
 from flask import current_app as app
 from flask import render_template, request, url_for
 
-from . import airtable, rag, repositories, tasks, utils
+from . import tasks, utils
 from .formatters import format_search_result
 from .models import Document, Theme
 
 
-def _get_documents_repository() -> repositories.DocumentsRepository:
-    return repositories.DocumentsRepository(airtable.get_db_instance())
-
-
 @app.route("/", methods=["GET"])
 def homepage() -> str:
-    db = _get_documents_repository()
+    db = app.config["documents_repository"]
 
     documents = db.get_featured_documents()
     themes = db.get_all_themes()
@@ -33,7 +29,7 @@ def homepage() -> str:
 
 @app.route("/themes/<theme_name>", methods=["GET"])
 def theme(theme_name: str) -> str:
-    db = _get_documents_repository()
+    db = app.config["documents_repository"]
 
     documents = db.get_documents_for_theme(theme_name)
     tags = db.get_tags_for_theme(theme_name)
@@ -58,7 +54,7 @@ def theme(theme_name: str) -> str:
 
 @app.route("/tags/<tag>", methods=["GET"])
 def tag(tag: str) -> str:
-    db = _get_documents_repository()
+    db = app.config["documents_repository"]
 
     documents = db.get_documents_for_tag(tag)
 
@@ -82,7 +78,7 @@ def format(format: str) -> str:
         "course": "Interactive learning resources",
     }
 
-    db = _get_documents_repository()
+    db = app.config["documents_repository"]
 
     documents = db.get_documents_for_format_type(format)
 
@@ -103,10 +99,10 @@ def format(format: str) -> str:
 
 @app.route("/documents/<document_id>", methods=["GET"])
 def document(document_id: str) -> str:
-    db = _get_documents_repository()
+    db = app.config["documents_repository"]
+    rag_index = app.config["rag_index"]
 
     document = cast(Document, db.get_document(document_id))
-    rag_index = rag.get_rag_index_instance()
     related_documents = rag_index.get_related_documents(document, limit=5)
 
     breadcrumbs = utils.get_breadcrumbs(
@@ -126,6 +122,7 @@ def document(document_id: str) -> str:
 
 @app.route("/query", methods=["GET"])
 def query() -> str:
+    rag_index = app.config["rag_index"]
     query = request.args["query"]
     breadcrumbs = utils.get_breadcrumbs(
         {"title": "Themes"},
@@ -134,7 +131,6 @@ def query() -> str:
             "url": url_for("query", query=theme),
         },
     )
-    rag_index = rag.get_rag_index_instance()
     documents = rag_index.get_documents_for_query(query)
     tags = utils.tags_for_document_collection(documents)
     query_response = rag_index.get_cached_query_response(query)

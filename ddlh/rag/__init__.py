@@ -186,9 +186,12 @@ class RAGIndex:
         self.llamaindex.index_documents(documents)
 
 
-def get_rag_index_instance() -> RAGIndex:
+def get_rag_index_instance(
+    documents_repository: Optional[DocumentsRepository] = None,
+) -> RAGIndex:
     llamaindex = get_llamaindex_instance()
-    repository = DocumentsRepository(airtable.get_db_instance())
+    if documents_repository is None:
+        documents_repository = DocumentsRepository(airtable.get_db_instance())
     cache = create_cache(prefix=environ["REDIS_QUERY_CACHE_PREFIX"])
     max_document_summaries = int(environ["RETRIEVAL_MAX_DOCUMENT_SUMMARIES"])
-    return RAGIndex(llamaindex, repository, cache, max_document_summaries)
+    return RAGIndex(llamaindex, documents_repository, cache, max_document_summaries)

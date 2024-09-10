@@ -10,6 +10,7 @@ from celery import Celery  # noqa: E402
 from flask import Flask  # noqa: E402
 from jinja_markdown2 import MarkdownExtension  # noqa: E402
 
+from . import airtable, rag, repositories  # noqa: E402
 from .events import socketio  # noqa: E402
 
 _P = ParamSpec("_P")
@@ -27,6 +28,10 @@ else:
 
     class Task(celery.Task, metaclass=FakeGenericMeta):
         pass
+
+
+def _get_documents_repository() -> repositories.DocumentsRepository:
+    return repositories.DocumentsRepository(airtable.get_db_instance())
 
 
 def celery_init_app(app: Flask) -> Celery:
@@ -55,6 +60,10 @@ def create_app() -> Flask:
         )
     )
     app.config.from_prefixed_env()  # type:ignore
+    app.config["documents_repository"] = _get_documents_repository()
+    app.config["rag_index"] = rag.get_rag_index_instance(
+        app.config["documents_repository"]
+    )
     celery_init_app(app)
     app.jinja_env.add_extension(MarkdownExtension)
     app.secret_key = environ["SECRET_KEY"]

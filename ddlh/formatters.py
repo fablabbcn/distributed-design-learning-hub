@@ -1,14 +1,13 @@
+from flask import current_app as app
 from flask import render_template
 
-from ddlh import airtable
 from ddlh.models import SearchResult
-from ddlh.repositories import DocumentsRepository
 from ddlh.utils import downcase_first
 
 
 def format_search_result(result: SearchResult) -> str:
     document_summaries = []
-    repository = DocumentsRepository(airtable.get_db_instance())
+    repository = app.config["documents_repository"]
     for document_summary in result.summary.document_summaries:
         document = repository.get_document(document_summary.document)
         if document:

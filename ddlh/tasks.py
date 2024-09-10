@@ -6,7 +6,6 @@ from celery.app.task import Task
 from flask import current_app as app
 from flask_socketio import SocketIO
 
-from ddlh import rag
 from ddlh.extraction import extract_html, extract_pdf
 from ddlh.fetching import content_type, get
 from ddlh.formatters import format_search_result
@@ -41,7 +40,7 @@ def fetch(document: Document) -> DocumentWithText:
 
 @shared_task
 def index(documents: List[DocumentWithText]) -> None:
-    rag_index = rag.get_rag_index_instance()
+    rag_index = app.config["rag_index"]
     rag_index.index_documents(documents)
 
 
@@ -49,7 +48,7 @@ def index(documents: List[DocumentWithText]) -> None:
 def query(
     query: str,
 ) -> None:
-    rag_index = rag.get_rag_index_instance()
+    rag_index = app.config["rag_index"]
     response = rag_index.query(query)
     with app.test_request_context("localhost"):
         if response.summary:
