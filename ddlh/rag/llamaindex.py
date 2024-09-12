@@ -57,56 +57,57 @@ class LlamaIndexConfig:
 
 class LlamaIndex:
     def __init__(self, config: LlamaIndexConfig):
-        vector_store = ElasticsearchVectorStore(
-            es_url=config.es_url,
-            es_user=config.es_username,
-            es_password=config.es_password,
-            index_name=config.es_embeddings_index,
-            vector_field=config.es_embeddings_field,
-        )
-        docstore = ElasticsearchDocumentStore(
+        self.config = config
+
+    @property
+    def docstore(self) -> ElasticsearchDocumentStore:
+        return ElasticsearchDocumentStore(
             elasticsearch_kvstore=ElasticsearchKVStore(
-                index_name=config.es_kv_index,
-                es_url=config.es_url,
-                es_user=config.es_username,
-                es_password=config.es_password,
+                index_name=self.config.es_kv_index,
+                es_url=self.config.es_url,
+                es_user=self.config.es_username,
+                es_password=self.config.es_password,
                 es_client=None,
             ),
-            node_collection_index=config.es_node_index,
-            ref_doc_collection_index=config.es_ref_doc_index,
-            metadata_collection_index=config.es_metadata_index,
+            node_collection_index=self.config.es_node_index,
+            ref_doc_collection_index=self.config.es_ref_doc_index,
+            metadata_collection_index=self.config.es_metadata_index,
         )
-        embedding_model = MistralAIEmbedding(
-            config.embedding_model_name, api_key=config.mistral_api_key
+
+    @property
+    def vector_store(self) -> ElasticsearchVectorStore:
+        return ElasticsearchVectorStore(
+            es_url=self.config.es_url,
+            es_user=self.config.es_username,
+            es_password=self.config.es_password,
+            index_name=self.config.es_embeddings_index,
+            vector_field=self.config.es_embeddings_field,
         )
-        llm = MistralAI(config.llm_model_name, api_key=config.mistral_api_key)
+
+    @property
+    def embedding_model(self) -> MistralAIEmbedding:
+        return MistralAIEmbedding(
+            self.config.embedding_model_name, api_key=self.config.mistral_api_key
+        )
+
+    def make_pipeline(self) -> IngestionPipeline:
         splitter = SentenceSplitter(
-            chunk_size=config.embedding_chunk_size,
-            chunk_overlap=config.embedding_chunk_overlap,
+            chunk_size=self.config.embedding_chunk_size,
+            chunk_overlap=self.config.embedding_chunk_overlap,
         )
-        response_synthesizer = get_response_synthesizer(
-            llm=llm,
-            response_mode=ResponseMode.REFINE,
+        return IngestionPipeline(
+            transformations=[splitter, self.embedding_model],
+            vector_store=self.vector_store,
+            docstore=self.docstore,
         )
-        pipeline = IngestionPipeline(
-            transformations=[splitter, embedding_model],
-            vector_store=vector_store,
-            docstore=docstore,
-        )
-        self.safe_prompt = config.safe_prompt
-        self.retrieval_top_k = config.retrieval_top_k
-        self.pipeline = pipeline
-        self.embedding_model = embedding_model
-        self.response_synthesizer = response_synthesizer
-        self.docstore = docstore
-        self.vector_store = vector_store
 
     def index_documents(self, documents: list[DocumentWithText]) -> None:
+        pipeline = self.make_pipeline()
         llama_documents = [
             LlamaDocument(text=document.embeddable_text, doc_id=document.id)
             for document in documents
         ]
-        self.pipeline.run(documents=llama_documents)
+        pipeline.run(documents=llama_documents)
 
     def get_document_id_for_result(self, result: NodeWithScore) -> Optional[str]:
         source_node = cast(
@@ -120,10 +121,15 @@ class LlamaIndex:
             return None
 
     def synthesize(self, prompt: str, nodes: Sequence[AnyNode]) -> Response:
+        llm = MistralAI(self.config.llm_model_name, api_key=self.config.mistral_api_key)
+        response_synthesizer = get_response_synthesizer(
+            llm=llm,
+            response_mode=ResponseMode.REFINE,
+        )
         return cast(
             Response,
-            self.response_synthesizer.synthesize(
-                prompt, nodes=nodes, safe_prompt=self.safe_prompt
+            response_synthesizer.synthesize(
+                prompt, nodes=nodes, safe_prompt=self.config.safe_prompt
             ),
         )
 
@@ -136,7 +142,7 @@ class LlamaIndex:
         )
         index.storage_context.docstore = self.docstore
 
-        retriever = index.as_retriever(similarity_top_k=self.retrieval_top_k)
+        retriever = index.as_retriever(similarity_top_k=self.config.retrieval_top_k)
         return cast(list[NodeWithScore], retriever.retrieve(bundle))
 
 

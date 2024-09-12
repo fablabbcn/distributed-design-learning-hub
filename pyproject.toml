@@ -31,6 +31,7 @@ flask-socketio = "^5.3.6"
 nltk = "^3.9"
 gevent = "^24.2.1"
 watchdog = {extras = ["watchmedo"], version = "^4.0.1"}
+gunicorn = {extras = ["gevent"], version = "^23.0.0"}
 
 
 [tool.poetry.group.dev.dependencies]
