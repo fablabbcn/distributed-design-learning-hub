@@ -30,8 +30,8 @@ else:
         pass
 
 
-def _get_documents_repository() -> repositories.DocumentsRepository:
-    return repositories.DocumentsRepository(airtable.get_db_instance())
+def _get_airtable_instance() -> airtable.AirtableDB:
+    return airtable.get_db_instance()
 
 
 def celery_init_app(app: Flask) -> Celery:
@@ -60,9 +60,9 @@ def create_app() -> Flask:
         )
     )
     app.config.from_prefixed_env()  # type:ignore
-    app.config["documents_repository"] = _get_documents_repository()
+    app.config["airtable_instance"] = _get_airtable_instance()
     app.config["rag_index"] = rag.get_rag_index_instance(
-        app.config["documents_repository"]
+        repositories.DocumentsRepository(app.config["airtable_instance"])
     )
     celery_init_app(app)
     app.jinja_env.add_extension(MarkdownExtension)

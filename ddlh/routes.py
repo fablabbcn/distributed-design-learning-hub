@@ -6,11 +6,12 @@ from flask import render_template, request, url_for
 from . import tasks, utils
 from .formatters import format_search_result
 from .models import Document, Theme
+from .repositories import DocumentsRepository
 
 
 @app.route("/", methods=["GET"])
 def homepage() -> str:
-    db = app.config["documents_repository"]
+    db = DocumentsRepository(app.config["airtable_instance"])
 
     documents = db.get_featured_documents()
     themes = db.get_all_themes()
@@ -29,7 +30,7 @@ def homepage() -> str:
 
 @app.route("/themes/<theme_name>", methods=["GET"])
 def theme(theme_name: str) -> str:
-    db = app.config["documents_repository"]
+    db = DocumentsRepository(app.config["airtable_instance"])
 
     documents = db.get_documents_for_theme(theme_name)
     tags = db.get_tags_for_theme(theme_name)
@@ -54,7 +55,7 @@ def theme(theme_name: str) -> str:
 
 @app.route("/tags/<tag>", methods=["GET"])
 def tag(tag: str) -> str:
-    db = app.config["documents_repository"]
+    db = DocumentsRepository(app.config["airtable_instance"])
 
     documents = db.get_documents_for_tag(tag)
 
@@ -78,7 +79,7 @@ def format(format: str) -> str:
         "course": "Interactive learning resources",
     }
 
-    db = app.config["documents_repository"]
+    db = DocumentsRepository(app.config["airtable_instance"])
 
     documents = db.get_documents_for_format_type(format)
 
@@ -99,7 +100,7 @@ def format(format: str) -> str:
 
 @app.route("/documents/<document_id>", methods=["GET"])
 def document(document_id: str) -> str:
-    db = app.config["documents_repository"]
+    db = DocumentsRepository(app.config["airtable_instance"])
     rag_index = app.config["rag_index"]
 
     document = cast(Document, db.get_document(document_id))
