@@ -161,12 +161,13 @@ const setupTyping = () => {
 
 const setupDocumentLinkHighlight = () => {
   const container = document.getElementById("theme-summary-container");
+  const urlRegex = /^(https:\/\/learn\.distributeddesign\.eu)?\/documents\//;
   if (container) {
     const links = container.querySelectorAll("a");
     links.forEach((link) => {
       const href = link.getAttribute("href");
-      if (href && href.match(/^\/documents/)) {
-        const doc_id = href.replace("/documents/", "");
+      if (href && href.match(urlRegex)) {
+        const doc_id = href.replace(urlRegex, "");
         link.addEventListener("mouseover", () => {
           const elems = document.querySelectorAll(`.document-${doc_id}`);
           elems.forEach((elem) => {
