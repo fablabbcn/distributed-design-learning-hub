@@ -5,5 +5,5 @@ set -o pipefail
 set -o nounset
 
 COMMAND="gunicorn"
-ARGS="-k gevent ddlh.app:app --max-requests 1200"
+ARGS="-k gevent ddlh.app:app --max-requests ${GUNICORN_MAX_REQUESTS:-1200}"
 watchmedo auto-restart -d ddlh/ -R --patterns="*.py" $COMMAND -- $ARGS
