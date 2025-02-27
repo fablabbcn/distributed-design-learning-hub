@@ -8,8 +8,6 @@ ENV POETRY_VIRTUALENVS_CREATE=0
 ENV POETRY_CACHE_DIR=/tmp/poetry_cache
 ENV MYPY_CACHE_DIR=/tmp/mypy_cache
 
-ARG uid=1000
-
 RUN apt-get update \
   # dependencies for building Python packages
   && apt-get install -y build-essential git \
@@ -25,30 +23,20 @@ RUN pip install poetry
 
 WORKDIR /app
 
-RUN adduser --disabled-password --gecos '' -u ${uid} ddlh
-RUN chown -R ddlh:ddlh /app
-
-USER ddlh
 COPY pyproject.toml poetry.lock ./
 
-USER root
-RUN chown -R ddlh:ddlh /app
+RUN poetry lock
 
-USER ddlh
-RUN poetry lock --no-update
-
-USER root
 RUN poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
-USER ddlh
+RUN python -m nltk.downloader stopwords punkt punkt_tab
+
 COPY . .
 RUN git config --global --add safe.directory /app
 
-USER root
 RUN chmod +x ./entrypoint.sh
 RUN chmod +x ./start_web.sh
 RUN chmod +x ./start_celeryworker.sh
 RUN chmod +x ./start_flower.sh
 
-USER ddlh
 ENTRYPOINT ["./entrypoint.sh"]
