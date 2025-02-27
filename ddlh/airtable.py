@@ -1,11 +1,16 @@
 import os
 from dataclasses import dataclass
+from time import sleep
 from typing import Optional, Sequence
 
 from pyairtable import Api
 from pyairtable.api.types import RecordDict
 
 from ddlh.redis_cache import RedisCache, create_cache
+
+# Maximum 5 requests per second per base:
+# see https://airtable.com/developers/web/api/rate-limits
+REQUEST_TIMEOUT = 1 / 5.0
 
 
 @dataclass
@@ -31,15 +36,19 @@ class AirtableDB:
     def _uncached_all(self, table_name: str) -> Sequence[RecordDict]:
         table_id = self._table_id(table_name)
         if table_id:
-            return self.api.table(self.config.base_id, table_id).all(
+            result = self.api.table(self.config.base_id, table_id).all(
                 view=self._view_id(table_name)
             )
+            sleep(REQUEST_TIMEOUT)
+            return result
         return []
 
     def _uncached_get(self, table_name: str, id: str) -> Optional[RecordDict]:
         table_id = self._table_id(table_name)
         if table_id:
-            return self.api.table(self.config.base_id, table_id).get(id)
+            result = self.api.table(self.config.base_id, table_id).get(id)
+            sleep(REQUEST_TIMEOUT)
+            return result
         return None
 
     def _table_id(self, table_name: str) -> Optional[str]:
