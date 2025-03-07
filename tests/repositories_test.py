@@ -15,15 +15,31 @@ class TestDocumentsRepository:
         self.themes = [
             {
                 "id": "theme1_id",
-                "fields": {"name": "theme1", "summary": "Theme 1 summary"},
+                "fields": {
+                    "name": "theme1",
+                    "summary": "Theme 1 summary",
+                    "live": True,
+                },
             },
             {
                 "id": "theme2_id",
-                "fields": {"name": "theme2", "summary": "Theme 2 summary"},
+                "fields": {
+                    "name": "theme2",
+                    "summary": "Theme 2 summary",
+                    "live": True,
+                },
+            },
+            {
+                "id": "theme3_id",
+                "fields": {"name": "theme3"},
             },
         ]
         self.formats = [
-            {"id": "format_id", "fields": {"name": "Format", "type": "type"}}
+            {
+                "id": "format_id",
+                "fields": {"name": "Format", "type": "type", "live": True},
+            },
+            {"id": "format2_id", "fields": {"name": "Format 2"}},
         ]
 
         self.documents = [
@@ -39,6 +55,7 @@ class TestDocumentsRepository:
                     "topic": "doc1_topic",
                     "description": "doc1_description",
                     "image_url": "doc1_imag_eurl",
+                    "live": True,
                 },
             },
             {
@@ -53,19 +70,31 @@ class TestDocumentsRepository:
                     "topic": "doc2_topic",
                     "description": "doc2_description",
                     "image_url": None,
+                    "live": True,
                 },
             },
             {
                 "id": "doc3_id",
                 "fields": {
                     "link": "doc3",
-                    "themes": ["theme2_id"],
+                    "themes": ["theme2_id", "theme3_id"],
                     "tags": ["tag2", "tag3"],
-                    "format": ["format_id"],
+                    "format": ["format_id", "format2_id"],
                     "author": "doc3_author",
                     "title": "doc3_title",
                     "topic": "doc3_topic",
                     "description": "doc3_description",
+                    "live": True,
+                },
+            },
+            {
+                "id": "doc4_id",
+                "fields": {
+                    "link": "doc4",
+                    "themes": ["theme3_id"],
+                    "tags": ["tag2", "tag3"],
+                    "format": ["format_id", "format2_id"],
+                    "author": "doc3_author",
                 },
             },
         ]
@@ -118,14 +147,25 @@ class TestDocumentsRepository:
         calls = self.airtable.get.call_args_list
         assert call("formats", "format_id") in calls
 
-    def test_get_all_documents_returns_documents(self):
+    def test_get_all_documents_returns_live_documents(self):
         """
-        get_all_documents returns all the documents in the table
+        get_all_documents returns all the documents
+        in the table which are marked as live
         """
         db = self.create_db()
         links = [doc.link for doc in db.get_all_documents()]
         assert "doc1" in links
         assert "doc2" in links
+        assert "doc3" in links
+
+    def test_get_all_documents_excludes_not_live_documents(self):
+        """
+        get_all_documents does not return documents
+        in the table which are not marked as live
+        """
+        db = self.create_db()
+        links = [doc.link for doc in db.get_all_documents()]
+        assert "doc4" not in links
 
     def test_get_all_tags_returns_tags(self):
         """
@@ -138,15 +178,23 @@ class TestDocumentsRepository:
         assert "tag2" in tags
         assert "tag3" in tags
 
-    def test_get_all_themes_returns_themes(self):
+    def test_get_all_themes_returns_live_themes(self):
         """
-        get_all_themes returns all the themes used in
+        get_all_themes returns all the live themes used in
         every document in the table
         """
         db = self.create_db()
         themes = db.get_all_themes()
         assert "theme1" in themes
         assert "theme2" in themes
+
+    def test_get_all_themes_excludes_not_live_themes(self):
+        """
+        get_all_themes returns does not include themes which are not marked as live
+        """
+        db = self.create_db()
+        themes = db.get_all_themes()
+        assert "theme3" not in themes
 
     def test_get_documents_for_tag_returns_tagged_documents_only(self):
         """

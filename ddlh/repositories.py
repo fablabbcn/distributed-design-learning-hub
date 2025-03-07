@@ -38,43 +38,46 @@ class DocumentsRepository:
 
     def _ingest_document(self, row: RecordDict) -> None:
         document = row["fields"]
+        if document.get("live"):
+            theme_names = []
+            for theme_id in document.get("themes", []):
+                theme = self.themes.get(theme_id)
+                if theme:
+                    theme.documents.append(document["link"])
+                    theme.tags.update(document.get("tags", []))
+                    theme_names.append(theme.name)
+            document["themes"] = theme_names
 
-        for theme_id in document.get("themes", []):
-            self.themes[theme_id].documents.append(document["link"])
-            self.themes[theme_id].tags.update(document.get("tags", []))
-        document["themes"] = [
-            self.themes[theme_id].name for theme_id in document.get("themes", [])
-        ]
+            if "tags" not in document:
+                document["tags"] = []
+            for tag in document["tags"]:
+                self.tags[tag].append(document["link"])
 
-        if "tags" not in document:
-            document["tags"] = []
-        for tag in document["tags"]:
-            self.tags[tag].append(document["link"])
+            format_id = mit.nth(document.get("format", []), 0)
+            if format_id is not None:
+                format = _.get(self.airtable.get("formats", format_id), "fields")
+                if format is not None and format.get("live"):
+                    document["format"] = format["name"]
+                    document["format_type"] = format["type"]
+                    self.by_format_type[format["type"]].append(document["link"])
 
-        format_id = mit.nth(document.get("format", []), 0)
-        if format_id is not None:
-            format = _.get(self.airtable.get("formats", format_id), "fields")
-            if format is not None:
-                document["format"] = format["name"]
-                document["format_type"] = format["type"]
-                self.by_format_type[format["type"]].append(document["link"])
+            if "author" in document:
+                self.authors.add(document["author"])
 
-        if "author" in document:
-            self.authors.add(document["author"])
-
-        id = url_to_id(document["link"])
-        self.airtable_ids_to_ids[row["id"]] = id
-        self.documents[id] = Document.from_dict(**document)
+            id = url_to_id(document["link"])
+            self.airtable_ids_to_ids[row["id"]] = id
+            self.documents[id] = Document.from_dict(**document)
 
     def _ingest_theme(self, row: RecordDict) -> None:
         fields = row["fields"]
-        id = row["id"]
-        self.themes[id] = Theme(
-            name=fields["name"],
-            summary=fields["summary"],
-            documents=[],
-            tags=set(),
-        )
+        if fields.get("live"):
+            id = row["id"]
+            self.themes[id] = Theme(
+                name=fields["name"],
+                summary=fields["summary"],
+                documents=[],
+                tags=set(),
+            )
 
     def get_all_documents(self) -> list[Document]:
         return list(self.documents.values())

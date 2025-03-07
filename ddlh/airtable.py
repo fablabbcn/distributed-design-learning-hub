@@ -74,9 +74,14 @@ def get_db_instance() -> AirtableDB:
         },
     )
 
+    if "REDIS_DOCUMENT_CACHE_TIMEOUT" in os.environ:
+        timeout = int(os.environ["REDIS_DOCUMENT_CACHE_TIMEOUT"])
+    else:
+        timeout = None
+
     cache = create_cache(
         prefix=os.environ["REDIS_DOCUMENT_CACHE_PREFIX"],
-        timeout=int(os.environ["REDIS_DOCUMENT_CACHE_TIMEOUT"]),
+        timeout=timeout,
     )
 
     return AirtableDB(airtable_config, cache)
