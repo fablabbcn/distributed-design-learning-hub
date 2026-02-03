@@ -1,12 +1,18 @@
 <div class="index-hero container">
     <div class="hero-description-column">
-        <h1>The Distributed Design Platform Learning Hub</h1>
+        <h1>The Distributed Design Learning Hub</h1>
+        <p class="hero-description">Designing circular, resilient, collaborative, and just futures is complex.</p>
         <p class="hero-description">
-            Designing for <em>circular</em>, <em>resilient</em>, <em>collaborative</em>, and <em>just</em> futures is complex. The Learning Hub is collaboratively developed with the Distributed Design Platform community and has more than
+            This Learning Hub aims to provide resources and practical learning materials to support you in exploring new topics, navigating intersectional practices, and expanding your knowledge. The Hub is collaboratively developed with the <a class="monochrome"
+    href="https://distributeddesign.eu/"
+    target="_blank">Distributed Design</a> community and further expanded through the European-funded project <a class="monochrome" href="https://www.makeathek.eu/" target="_blank">make-a-thek</a>.
+        </p>
+        <p class="hero-description">
+            Currently you can find more than
             <span class="stat"><span class="n">{{ stats.total_documents }}</span>&nbsp;resources</span>
-            that explain
-            <span class="stat"><span class="n">{{ stats.total_themes }}</span>&nbsp;thematic areas of design</span>
-            that aim to support your design practice. The {{ stats.total_documents }} resources contain
+            curated in
+            <span class="stat"><span class="n">{{ stats.total_themes }}</span>&nbsp;thematic areas</span>
+            containing
             <span class="stat text"><a href="{{ url_for("format", format="text") }}"><span class="n">{{ stats.total_text_format }}</span>&nbsp;publications, papers & reports</a></span>,
             <span class="stat audiovisual"><a href="{{ url_for("format", format="audiovisual") }}"><span class="n">{{ stats.total_audiovisual_format }}</span>&nbsp;masterclasses, documentaries & podcasts</a></span>,
             <span class="stat tool"><a href="{{ url_for("format", format="tool") }}"><span class="n">{{ stats.total_tool_format }}</span>&nbsp;toolkits, methods & frameworks</a></span>, and

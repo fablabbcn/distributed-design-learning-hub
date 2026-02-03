@@ -384,8 +384,16 @@ h3 {
 a {
   color: var(--link-color);
 
+  &.monochrome {
+    color: var(--main-fg-color);
+  }
+
   &:visited {
     color: var(--link-color-visited);
+
+    &.monochrome {
+      color: var(--main-fg-color);
+    }
   }
 
   &:hover {
