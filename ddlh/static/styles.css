@@ -183,9 +183,10 @@ header {
   width: 100%;
   height: auto;
   z-index: 500;
-  padding: var(--spacer-unit) 0;
+  padding: var(--spacer-unit) 0 var(--spacer-unit) var(--spacer-unit);
   display: grid;
-  grid-template: "logo hamburger" auto "breadcrumbs breadcrumbs" auto "nav nav" auto / 1fr 1fr;
+  grid-template: "breadcrumbs hamburger" auto / auto min-content;
+  gap: var(--spacer-unit);
 
   & .logo {
     height: 3rem;
@@ -257,9 +258,9 @@ header {
   }
 
   .breadcrumbs-container {
-    margin-top: var(--spacer-unit);
     grid-area: breadcrumbs;
-    padding: 0 var(--spacer-unit);
+    display: flex;
+    align-items: center;
 
     .breadcrumbs {
       list-style-type: none;
@@ -1412,8 +1413,9 @@ p {
   }
 
   header {
-    padding: var(--spacer-unit);
-    grid-template: "logo nav" auto "breadcrumbs breadcrumbs" auto / auto auto;
+    padding: var(--spacer-unit) var(--spacer-unit) var(--spacer-unit)
+      calc(2 * var(--spacer-unit));
+    grid-template: "breadcrumbs nav" auto / auto min-content;
 
     & .menu-links {
       margin-top: 0;
@@ -1630,7 +1632,7 @@ p {
 /* Large: Small desktop, full screen */
 @media (width >= 1200px) {
   header {
-    grid-template: "logo breadcrumbs nav" auto / min-content auto min-content;
+    grid-template: "breadcrumbs nav" auto / auto min-content;
     grid-gap: calc(2 * var(--spacer-unit));
 
     & .breadcrumbs-container {
@@ -1691,6 +1693,11 @@ p {
 /* Extra large: High-res desktop, nearly full screen */
 @media (width >= 1800px) {
   .container {
+    padding-left: calc(11 * var(--spacer-unit));
+    padding-right: calc(11 * var(--spacer-unit));
+  }
+
+  header {
     padding-left: calc(11 * var(--spacer-unit));
     padding-right: calc(11 * var(--spacer-unit));
   }
