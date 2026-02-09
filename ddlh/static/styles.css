@@ -1437,6 +1437,7 @@ p {
   footer {
     & .footer-columns {
       grid-template: "matlogo address copyright eulogo" 1fr / 1fr 2fr 2fr 2fr;
+
       & .eu-logo {
         padding-top: 0;
       }
