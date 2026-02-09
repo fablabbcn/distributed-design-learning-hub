@@ -318,11 +318,13 @@ footer {
   }
 
   & .footer-columns {
-    display: flex;
-    flex-direction: column;
-    gap: calc(2 * var(--spacer-unit));
-    align-items: left;
-    justify-content: space-between;
+    display: grid;
+    max-width: 55rem;
+    margin: 0 auto;
+    grid-template: "matlogo address" 1fr "matlogo copyright" 1fr "eulogo eulogo" 2fr / 1fr 2fr;
+    gap: calc(0.5 * var(--spacer-unit)) calc(1 * var(--spacer-unit));
+    align-items: center;
+    font-size: 0.8rem;
 
     & .column {
       & svg {
@@ -338,12 +340,36 @@ footer {
         width: auto;
       }
     }
+
+    & .eu-logo,
+    .mat-logo {
+      filter: invert(100%) sepia(82%) saturate(175%) hue-rotate(18deg)
+        brightness(108%) contrast(0%) grayscale(100%);
+    }
+
+    & .mat-logo {
+      grid-area: matlogo;
+    }
+
+    & .address {
+      grid-area: address;
+    }
+
+    & .copyright {
+      grid-area: copyright;
+    }
+
+    & .eu-logo {
+      padding-top: var(--spacer-unit);
+      grid-area: eulogo;
+    }
   }
 
-  & .copyright-notice {
+  & .sponsorship-notice {
     text-align: center;
     margin: 0 auto;
     margin-top: calc(2 * var(--spacer-unit));
+    font-size: 0.8rem;
   }
 }
 
@@ -1407,6 +1433,15 @@ p {
       }
     }
   }
+
+  footer {
+    & .footer-columns {
+      grid-template: "matlogo address copyright eulogo" 1fr / 1fr 2fr 2fr 2fr;
+      & .eu-logo {
+        padding-top: 0;
+      }
+    }
+  }
 }
 
 /* Medium: Small tablets landscape, smaller desktop windows */
@@ -1498,7 +1533,8 @@ p {
     padding: calc(2 * var(--spacer-unit)) calc(11 * var(--spacer-unit));
 
     & .footer-columns {
-      flex-direction: row;
+      display: grid;
+      grid-template: "matlogo address copyright eulogo" auto / 2fr 4fr 4fr 2fr;
       align-items: center;
       gap: calc(2 * var(--spacer-unit));
 
