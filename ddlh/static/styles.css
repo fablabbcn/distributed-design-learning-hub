@@ -1,30 +1,30 @@
 /* ***VARIABLES*** */
 
 :root {
-  --yellow: #fcff6a;
-  --light-blue: #bee6ef;
-  --light-blue-saturated: #b4ecf9;
-  --purple: #d28eff;
-  --orange: #ff955b;
-  --green: #69c087;
-  --electric-blue: #5878dd;
+  --yellow: #f2c542;
+  --light-blue: #d2e0ff;
+  --light-blue-saturated: #3b46e6;
+  --purple: #cd00e6;
+  --orange: #dd6300;
+  --green: #196e39;
+  --electric-blue: #293381;
   --white: #fff;
   --black: #000;
-  --warm-grey: #f2f2ed;
-  --warm-grey-darker: rgb(218 218 213);
-  --soft-black: #383839;
-  --soft-black-darker: #29292a;
-  --soft-black-lighter: #454546;
-  --main-bg-color: var(--soft-black-darker);
-  --strong-bg-color: var(--black);
-  --main-fg-color: var(--warm-grey);
+  --warm-grey: #ebeae1;
+  --warm-grey-darker: #ddd2c0;
+  --soft-black: #33302c;
+  --soft-black-darker: #1a1816;
+  --soft-black-lighter: #4d4943;
+  --main-bg-color: var(--warm-grey);
+  --strong-bg-color: var(--warm-grey-darker);
+  --main-fg-color: var(--black);
   --strong-fg-color: var(--white);
-  --link-color: var(--yellow);
-  --link-color-visited: var(--yellow);
+  --link-color: var(--electric-blue);
+  --link-color-visited: var(--blue);
   --type-text-highlight-color: var(--green);
   --type-course-highlight-color: var(--purple);
   --type-audiovisual-highlight-color: var(--orange);
-  --type-tool-highlight-color: var(--electric-blue);
+  --type-tool-highlight-color: var(--light-blue-saturated);
   --font-weight-headings-light: 200;
   --font-weight-headings: 700;
   --font-weight-light: 200;
@@ -35,46 +35,6 @@
 }
 
 /* ***FONTS*** */
-
-@font-face {
-  font-family: Aileron;
-  src:
-    url("/static/fonts/Aileron-Bold.ttf") format("truetype"),
-    url("/static/fonts/Aileron-Bold.woff") format("woff"),
-    url("/static/fonts/Aileron-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Aileron;
-  src:
-    url("/static/fonts/Aileron-BoldItalic.ttf") format("truetype"),
-    url("/static/fonts/Aileron-BoldItalic.woff") format("woff"),
-    url("/static/fonts/Aileron-BoldItalic.woff2") format("woff2");
-  font-weight: 700;
-  font-style: italic;
-}
-
-@font-face {
-  font-family: Aileron;
-  src:
-    url("/static/fonts/Aileron-Thin.ttf") format("truetype"),
-    url("/static/fonts/Aileron-Thin.woff") format("woff"),
-    url("/static/fonts/Aileron-Thin.woff2") format("woff2");
-  font-weight: 200;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: Aileron;
-  src:
-    url("/static/fonts/Aileron-ThinItalic.ttf") format("truetype"),
-    url("/static/fonts/Aileron-ThinItalic.woff") format("woff"),
-    url("/static/fonts/Aileron-ThinItalic.woff2") format("woff2");
-  font-weight: 200;
-  font-style: italic;
-}
 
 /* latin-ext */
 @font-face {
@@ -387,21 +347,21 @@ footer {
 }
 
 h1 {
-  font-family: Aileron, sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: var(--font-weight-headings-light);
   font-size: 2rem;
   margin-top: 0;
 }
 
 h2 {
-  font-family: Aileron, sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: var(--font-weight-headings-light);
   font-size: 1.5rem;
   margin-top: 0;
 }
 
 h3 {
-  font-family: Aileron, sans-serif;
+  font-family: "Work Sans", sans-serif;
   font-weight: var(--font-weight-headings-light);
   font-size: 1rem;
   margin-top: 0;
@@ -503,8 +463,7 @@ p {
     }
 
     & .theme-hint {
-      color: var(--main-bg-color);
-      background-color: var(--main-fg-color);
+      background-color: var(--strong-bg-color);
       padding: 0 calc(0.5 * var(--spacer-unit));
       border-radius: 0.5rem;
       display: inline-block;
@@ -593,16 +552,7 @@ p {
         &:hover,
         &:focus,
         &:has(input:focus) {
-          background-color: var(--warm-grey-darker);
-
-          & input[type="text"] {
-            color: var(--strong-bg-color);
-            border-bottom: 1px solid var(--strong-bg-color);
-
-            &::placeholder {
-              color: var(--strong-bg-color);
-            }
-          }
+          background-color: var(--strong-bg-color);
         }
 
         & input::placeholder {
@@ -644,7 +594,7 @@ p {
 
             &:hover,
             &:focus {
-              color: var(--main-bg-color);
+              color: var(--main-fg-color);
               background-color: var(--warm-grey-darker);
             }
           }
@@ -659,8 +609,8 @@ p {
   align-items: center;
   justify-content: center;
   background-color: var(--warm-grey-darker);
-  color: var(--strong-bg-color);
-  border: 1px solid var(--main-bg-color);
+  color: var(--main-fg-color);
+  border: 1px solid var(--main-fg-color);
   border-radius: 2rem;
   padding: var(--spacer-unit);
   width: 100%;
@@ -671,7 +621,7 @@ p {
   cursor: pointer;
 
   &:visited {
-    color: var(--strong-bg-color);
+    color: var(--main-fg-color);
   }
 
   &:hover {
@@ -752,7 +702,7 @@ p {
       left: 0;
       background: linear-gradient(
         90deg,
-        var(--main-bg-color) 0%,
+        var(--soft-black-lighter) 0%,
         rgb(255 255 255 / 0%) 100%
       );
     }
@@ -761,7 +711,7 @@ p {
       right: 0;
       background: linear-gradient(
         -90deg,
-        var(--main-bg-color) 0%,
+        var(--soft-black-lighter) 0%,
         rgb(255 255 255 / 0%) 100%
       );
     }
@@ -837,7 +787,7 @@ p {
     & .title {
       font-size: 2rem;
       font-weight: var(--font-weight-light);
-      font-family: Aileron, sans-serif;
+      font-family: "Work Sans", sans-serif;
       margin-bottom: calc(0.25 * var(--spacer-unit));
 
       & a {
