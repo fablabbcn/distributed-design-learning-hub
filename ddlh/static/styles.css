@@ -306,7 +306,7 @@ footer {
     align-items: center;
     gap: calc(2 * var(--spacer-unit));
     margin: calc(2 * var(--spacer-unit)) auto;
-    max-width: 55rem;
+    max-width: 75rem;
 
     & figure {
       margin: 0;
@@ -320,7 +320,7 @@ footer {
   & .footer-columns {
     display: grid;
     max-width: 55rem;
-    margin: 0 auto;
+    margin: 4rem auto 0;
     grid-template: "matlogo address" 1fr "matlogo copyright" 1fr "eulogo eulogo" 2fr / 1fr 2fr;
     gap: calc(0.5 * var(--spacer-unit)) calc(1 * var(--spacer-unit));
     align-items: center;
