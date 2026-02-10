@@ -1,24 +1,18 @@
 <footer>
     <div class="footer-partner-logos">{% include "partials/partner_logos.j2" %}</div>
     <div class="footer-columns">
-        <div class="dd-logo column">{% include "partials/logo.j2" %}</div>
+        <div class="mat-logo column">
+            <img src="{{ url_for("static", filename="images/make-a-thek_mainlogo_white.png") }}" alt="Make-a-thek" width="1033" height="80" />
+        </div>
         <div class="address column">
-            Pujades, 102 08005 Barcelona, Spain
-            <br />
-            933 20 95 20 / 933 45 43 2
-            <br />
-            <a href="mailto:info@distributeddesign.eu">info@distributeddeign.eu</a>
+            Designed and hosted by <a class="monochrome" href="https://fablabbcn.org/" target="_blank">Fab Lab Barcelona</a> | <a class="monochrome" href="https://iaac.net/" target="_blank">IAAC</a>
         </div>
-        <div class="sponsorship column">
-            Distributed Design Platform’s
-            <br />
-            Open Calls follow these guidelines
-            <br />
-            by the EU commission.
-        </div>
+        <div class="copyright column">© 2024 Distributed Design. All Rights Reserved.</div>
         <div class="eu-logo column">
             <img src="{{ url_for("static", filename="images/eu_logo.png") }}" alt="" width="254" height="80" />
         </div>
     </div>
-    <div class="copyright-notice">© 2024 Distributed Design. All Rights Reserved.</div>
+    <div class="sponsorship-notice">
+        This learning hub was developed by the Distributed Design Platform and community between 2017-2025, and is currently further developed and expanded on through the make-a-thek project (HORIZON-CL2-2024-HERITAGE-01-01).
+    </div>
 </footer>
