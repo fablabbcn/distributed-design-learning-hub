@@ -1,0 +1,99 @@
+<section class="featured-carousel" id="featured">
+    <div class="featured-carousel-inner">
+        <div class="featured-carousel-header">
+            <div class="featured-carousel-title">
+                <h2 class="featured-carousel-heading">Featured Resources from the Hub</h2>
+                <p class="featured-carousel-subheading">Browse curated highlights from our collection</p>
+            </div>
+            {% if documents %}
+                <div class="featured-carousel-controls">
+                    <button class="featured-carousel-arrow featured-carousel-prev"
+                            type="button"
+                            aria-label="Previous">
+                        <svg width="36"
+                             height="36"
+                             viewBox="0 0 36 36"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 0.5C27.665 0.5 35.5 8.33502 35.5 18C35.5 27.665 27.665 35.5 18 35.5C8.33502 35.5 0.5 27.665 0.5 18C0.5 8.33502 8.33502 0.5 18 0.5Z" fill="white" />
+                            <path d="M18 0.5C27.665 0.5 35.5 8.33502 35.5 18C35.5 27.665 27.665 35.5 18 35.5C8.33502 35.5 0.5 27.665 0.5 18C0.5 8.33502 8.33502 0.5 18 0.5Z" stroke="black" />
+                            <path d="M18.45 24.25L16.875 25.55C16.0583 24.2333 15.2667 23.0833 14.5 22.1C13.7333 21.1167 12.9417 20.2417 12.125 19.475C11.3083 18.725 10.4333 18.0083 9.5 17.325L9.5 17.175C10.4333 16.5083 11.3083 15.7917 12.125 15.025C12.9417 14.2583 13.7333 13.3833 14.5 12.4C15.2667 11.4333 16.0583 10.2833 16.875 8.95L18.45 10.25C17.7667 11.3 17.0833 12.2417 16.4 13.075C15.7 13.925 15.0083 14.6667 14.325 15.3C13.6417 15.9333 12.975 16.45 12.325 16.85C11.675 17.25 11.05 17.525 10.45 17.675L10.45 16.825C11.05 16.975 11.675 17.25 12.325 17.65C12.975 18.05 13.6417 18.5667 14.325 19.2C15.0083 19.8333 15.7 20.5667 16.4 21.4C17.0833 22.25 17.7667 23.2 18.45 24.25ZM26.15 18.25L17.275 18.25C16.225 18.25 15.3083 18.225 14.525 18.175C13.725 18.125 13.0167 18.0667 12.4 18L10.9 17.25L12.4 16.5C13.0167 16.4333 13.725 16.375 14.525 16.325C15.3083 16.275 16.225 16.25 17.275 16.25L26.15 16.25L26.15 18.25Z" fill="black" />
+                        </svg>
+                    </button>
+                    <button class="featured-carousel-arrow featured-carousel-next"
+                            type="button"
+                            aria-label="Next">
+                        <svg width="36"
+                             height="36"
+                             viewBox="0 0 36 36"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 0.5C27.665 0.5 35.5 8.33502 35.5 18C35.5 27.665 27.665 35.5 18 35.5C8.33502 35.5 0.5 27.665 0.5 18C0.5 8.33502 8.33502 0.5 18 0.5Z" fill="white" />
+                            <path d="M18 0.5C27.665 0.5 35.5 8.33502 35.5 18C35.5 27.665 27.665 35.5 18 35.5C8.33502 35.5 0.5 27.665 0.5 18C0.5 8.33502 8.33502 0.5 18 0.5Z" stroke="black" />
+                            <path d="M17.55 11.75L19.125 10.45C19.9417 11.7667 20.7333 12.9167 21.5 13.9C22.2667 14.8833 23.0583 15.7583 23.875 16.525C24.6917 17.275 25.5667 17.9917 26.5 18.675V18.825C25.5667 19.4917 24.6917 20.2083 23.875 20.975C23.0583 21.7417 22.2667 22.6167 21.5 23.6C20.7333 24.5667 19.9417 25.7167 19.125 27.05L17.55 25.75C18.2333 24.7 18.9167 23.7583 19.6 22.925C20.3 22.075 20.9917 21.3333 21.675 20.7C22.3583 20.0667 23.025 19.55 23.675 19.15C24.325 18.75 24.95 18.475 25.55 18.325V19.175C24.95 19.025 24.325 18.75 23.675 18.35C23.025 17.95 22.3583 17.4333 21.675 16.8C20.9917 16.1667 20.3 15.4333 19.6 14.6C18.9167 13.75 18.2333 12.8 17.55 11.75ZM9.85 17.75H18.725C19.775 17.75 20.6917 17.775 21.475 17.825C22.275 17.875 22.9833 17.9333 23.6 18L25.1 18.75L23.6 19.5C22.9833 19.5667 22.275 19.625 21.475 19.675C20.6917 19.725 19.775 19.75 18.725 19.75H9.85V17.75Z" fill="black" />
+                        </svg>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        {% if documents %}
+            <div class="featured-carousel-swiper swiper">
+                <ul class="featured-carousel-track swiper-wrapper">
+                    {% for document in documents %}
+                        <li class="featured-carousel-item swiper-slide">
+                            <div class="featured-carousel-card">
+                                <div class="featured-carousel-text">
+                                    {% if document.format %}<p class="featured-carousel-format">{{ document.format }}</p>{% endif %}
+                                    <h3 class="featured-carousel-name">
+                                        <a class="featured-carousel-link"
+                                           href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
+                                    </h3>
+                                    <div class="featured-carousel-info">
+                                        {% if document.author %}
+                                            <p class="featured-carousel-author">
+                                                From
+                                                <br />
+                                                <span>{{ document.author }}</span>
+                                            </p>
+                                        {% endif %}
+                                        {% if document.description %}<p class="featured-carousel-description">{{ document.description }}</p>{% endif %}
+                                    </div>
+                                    {% if document.tags %}
+                                        <ul class="featured-carousel-tags">
+                                            {% for tag in document.tags %}
+                                                <li>
+                                                    <a class="featured-carousel-tag" href="{{ url_for("tag", tag=tag) }}">{{ tag }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                                {% if document.image_url %}
+                                    <div class="featured-carousel-image"
+                                         {% if document.image_url %}style="background-image: url('{{ document.image_url }}')"{% endif %}>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</section>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".featured-carousel").forEach((carousel) => {
+      const container = carousel.querySelector(".featured-carousel-swiper");
+      if (!container) return;
+      new Swiper(container, {
+        slidesPerView: 1,
+        spaceBetween: 16,
+        navigation: {
+          prevEl: carousel.querySelector(".featured-carousel-prev"),
+          nextEl: carousel.querySelector(".featured-carousel-next"),
+        },
+      });
+    });
+  });
+</script>

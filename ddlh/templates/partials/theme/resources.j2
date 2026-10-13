@@ -1,0 +1,114 @@
+{% set resource_types = documents|map(attribute="format")|select|unique|sort %}
+<section class="theme-resources">
+    <div class="theme-resources-inner">
+        <aside class="theme-resources-filters">
+            <div class="theme-resources-filters-header">
+                <p class="theme-resources-label">Resources</p>
+                <button type="button" class="theme-resources-all">All</button>
+            </div>
+            <ul class="theme-resources-types">
+                {% for type in resource_types %}
+                    <li>
+                        <button type="button"
+                                class="theme-resources-type"
+                                data-filter="{{ type }}"
+                                aria-pressed="false">
+                            <span class="theme-resources-type-name">{{ type }}</span>
+                            <span class="theme-resources-clear" aria-hidden="true">×</span>
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </aside>
+        <ul class="theme-resources-list">
+            {% for document in documents %}
+                <li class="theme-resources-item" data-type="{{ document.format }}">
+                    <button type="button"
+                            class="theme-resources-header"
+                            aria-expanded="false"
+                            aria-controls="resource-{{ document.id }}">
+                        <span class="theme-resources-heading">
+                            <span class="theme-resources-format theme-resources-format-{{ document.format_type }}">{{ document.format }}</span>
+                            <span class="theme-resources-title">{{ document.title }}</span>
+                        </span>
+                        {% if document.author %}
+                            <span class="theme-resources-author">
+                                <span class="theme-resources-author-label">From</span>
+                                {{ document.author }}
+                            </span>
+                        {% endif %}
+                        <span class="theme-resources-toggle" aria-hidden="true"></span>
+                    </button>
+                    <div class="theme-resources-panel" id="resource-{{ document.id }}">
+                        <div class="theme-resources-panel-inner">
+                            <div class="theme-resources-body {% if document.image_url %}theme-resources-body-image{% endif %}">
+                                <div class="theme-resources-content">
+                                    {% if document.description %}
+                                        <div class="theme-resources-description">
+                                            {% markdown %}
+                                            {{ document.description }}
+                                        {% endmarkdown %}
+                                    </div>
+                                {% endif %}
+                                {% if document.tags %}
+                                    <ul class="theme-resources-tags">
+                                        {% for tag in document.tags %}
+                                            <li>
+                                                <a class="theme-resources-tag" href="{{ url_for('tag', tag=tag) }}">{{ tag }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                <a class="theme-resources-access"
+                                   href="{{ document.link }}"
+                                   target="_blank"
+                                   rel="noopener">
+                                    Access resource <span aria-hidden="true">→</span>
+                                </a>
+                            </div>
+                            {% if document.image_url %}
+                                <img class="theme-resources-image"
+                                     src="{{ document.image_url }}"
+                                     alt=""
+                                     loading="lazy">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</section>
+<script>
+  (() => {
+    const section = document.currentScript.previousElementSibling;
+    const buttons = section.querySelectorAll(".theme-resources-type");
+    const items = section.querySelectorAll(".theme-resources-item");
+    const headers = section.querySelectorAll(".theme-resources-header");
+
+    // Filters
+    const setFilter = (filter) => {
+      buttons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+      items.forEach((item) => {
+        item.hidden = filter !== null && item.dataset.type !== filter;
+      });
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        // Clicking the selected type (its X) clears the filter
+        setFilter(button.getAttribute("aria-pressed") === "true" ? null : button.dataset.filter);
+      });
+    });
+    section.querySelector(".theme-resources-all").addEventListener("click", () => setFilter(null));
+
+    // Accordion: one resource open at a time
+    headers.forEach((header) => {
+      header.addEventListener("click", () => {
+        const open = header.getAttribute("aria-expanded") !== "true";
+        headers.forEach((h) => h.setAttribute("aria-expanded", String(h === header && open)));
+      });
+    });
+  })();
+</script>

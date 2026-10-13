@@ -1,0 +1,126 @@
+.interest-search {
+  background-color: var(--color-white);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.interest-search-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.interest-search-title {
+  max-width: 208px;
+}
+
+.interest-search-number {
+  color: var(--color-orange);
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: 1.4px;
+}
+
+.interest-search-heading {
+  color: var(--color-black);
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 22.1px;
+  letter-spacing: -0.17px;
+}
+
+.interest-search-content {
+  max-width: 750px;
+}
+
+.interest-search-content-text {
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20.4px;
+  letter-spacing: 0;
+  margin-bottom: 14px;
+}
+
+.interest-search-form {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-black);
+}
+
+.interest-search-label {
+  position: absolute;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  height: 49px;
+}
+
+.interest-search-input {
+  flex: 1;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-black);
+  background-color: var(--color-light-purple);
+  padding: 10px 16px;
+  border: none;
+  height: 49px;
+
+  &::placeholder {
+    color: var(--color-light-gray);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0;
+  }
+
+  &:focus {
+    outline: none;
+    background-color: var(--color-light-purple);
+    border-color: var(--color-purple);
+    color: var(--color-purple);
+  }
+}
+
+.interest-search-submit {
+  color: var(--color-white);
+  background-color: var(--color-black);
+  cursor: pointer;
+  border: none;
+  width: 56px;
+  height: 49px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .interest-search-inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .interest-search-title {
+    max-width: none;
+  }
+
+  .interest-search-content {
+    max-width: none;
+  }
+}
+
+@media (width <= 767px) {
+  .interest-search-inner {
+    padding: 32px 0;
+    gap: 16px;
+  }
+}

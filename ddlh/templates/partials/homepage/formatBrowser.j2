@@ -1,0 +1,34 @@
+{% set formats = [
+    ("text", "publications.png", "Publications, Papers & Reports", stats.total_text_format if stats else None),
+    ("audiovisual", "masterclasses.png", "Masterclasses, Documentaries & Podcasts", stats.total_audiovisual_format if stats else None),
+    ("tool", "toolkits.png", "Toolkits, Methods & Frameworks", stats.total_tool_format if stats else None),
+    ("course", "interactive.png", "Interactive Learning Materials", stats.total_course_format if stats else None),
+] %}
+<section class="format-browser" id="format">
+    <div class="format-browser-inner">
+        <div class="format-browser-title">
+            <p class="format-browser-number">03</p>
+            <h2 class="format-browser-heading">Search by format</h2>
+        </div>
+        <div class="format-browser-content">
+            <ul class="format-browser-grid">
+                {% for format, image, name, total in formats %}
+                    <li class="format-browser-item">
+                        <a class="format-browser-link"
+                           href="{{ url_for("format", format=format) }}">
+                            <img class="format-browser-logo" src="{{ url_for("static", filename="images/byFormat/" ~ image) }}" alt="">
+                            <div class="format-browser-text">
+                                <p class="format-browser-name">{{ name }}</p>
+                                {% if format_names and format_names[format] %}
+                                    <div class="format-browser-formats">
+                                        {% for format_name in format_names[format] %}<p class="format-browser-format">{{ format_name }}</p>{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</section>

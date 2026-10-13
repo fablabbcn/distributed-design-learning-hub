@@ -1,0 +1,18 @@
+<section class="thematic-areas" id="thematic-areas">
+    <div class="thematic-areas-inner">
+        <div class="thematic-areas-title">
+            <p class="thematic-areas-number">01</p>
+            <h2 class="thematic-areas-heading">Search by thematic area</h2>
+        </div>
+        {% if themes %}
+            <ul class="thematic-areas-list">
+                {% for theme in themes %}
+                    <li class="thematic-areas-item">
+                        <a class="thematic-areas-link"
+                           href="{{ url_for("theme", theme_name=theme) }}">{{ theme }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</section>
