@@ -13,7 +13,7 @@ header {
 }
 
 .header-logo {
-  & p {
+  & a {
     color: var(--color-orange);
     font-weight: 700;
     font-size: 10px;
