@@ -17,6 +17,7 @@ def homepage() -> str:
     themes = db.get_all_themes()
     tags = db.get_all_tags()
     stats = db.get_stats()
+    format_names = db.get_format_names_by_type()
 
     return render_template(
         "pages/index.j2",
@@ -25,6 +26,7 @@ def homepage() -> str:
         themes=themes,
         tags=tags,
         stats=stats,
+        format_names=format_names,
     )
 
 

@@ -1,7 +1,9 @@
 {% extends "layouts/main.j2" %}
 {% block main %}
-    {% include "partials/index_hero.j2" %}
-    {% with headline="Browse curated highlights from our collection" %}
-        {% include "partials/carousel.j2" %}
-    {% endwith %}
+    {% include "partials/homepage/hero.j2" %}
+    {% include "partials/homepage/introBanner.j2" %}
+    {% include "partials/homepage/thematicAreas.j2" %}
+    {% include "partials/homepage/interestSearch.j2" %}
+    {% include "partials/homepage/formatBrowser.j2" %}
+    {% include "partials/homepage/featuredCarousel.j2" %}
 {% endblock main %}

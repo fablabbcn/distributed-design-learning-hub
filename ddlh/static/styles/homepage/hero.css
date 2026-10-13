@@ -1,0 +1,149 @@
+.hero {
+  background-color: var(--color-white);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.hero-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  margin-top: 62px;
+  margin-bottom: 53px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.hero-content {
+  max-width: 529px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+
+  & h1 {
+    color: var(--color-orange);
+    font-weight: 900;
+    font-size: 50px;
+    line-height: 50px;
+    letter-spacing: 0;
+  }
+
+  & h2 {
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 27px;
+    letter-spacing: 0;
+  }
+}
+
+.hero-stats {
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hero-stat {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-black);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.hero-stat-value {
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 57px;
+  letter-spacing: -1.14px;
+}
+
+.hero-stat-label {
+  color: var(--color-light-gray);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0;
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .hero-inner {
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 48px;
+    margin-bottom: 40px;
+  }
+
+  .hero-content {
+    max-width: 640px;
+
+    & h1 {
+      font-size: 44px;
+      line-height: 46px;
+    }
+  }
+
+  .hero-stats {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--color-black);
+  }
+
+  .hero-stat {
+    padding: 16px 16px 0;
+    border-bottom: none;
+    border-left: 1px solid var(--color-black);
+
+    &:first-child {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+}
+
+@media (width <= 767px) {
+  .hero-inner {
+    gap: 32px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+  }
+
+  .hero-content {
+    gap: 20px;
+
+    & h1 {
+      font-size: 36px;
+      line-height: 38px;
+    }
+
+    & h2 {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    & p {
+      line-height: 140%;
+    }
+  }
+
+  .hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stat {
+    padding: 12px 0;
+    border-left: none;
+    border-bottom: 1px solid var(--color-black);
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .hero-stat-value {
+    font-size: 32px;
+    line-height: 44px;
+  }
+}

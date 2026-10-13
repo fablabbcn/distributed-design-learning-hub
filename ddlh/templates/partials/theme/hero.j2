@@ -1,0 +1,25 @@
+<section class="theme-hero">
+    <div class="theme-hero-inner">
+        {% include "partials/breadcrumbs.j2" %}
+        <div class="theme-hero-grid">
+            <p class="theme-hero-label">Thematic area</p>
+            <h1 class="theme-hero-title">{{ theme.name }}</h1>
+            {% if tags %}
+                <ul class="theme-hero-tags">
+                    {% for tag in tags %}
+                        <li>
+                            <a class="theme-hero-tag" href="{{ url_for('tag', tag=tag) }}">{{ tag }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if theme.summary %}
+                <div class="theme-hero-description">
+                    {% markdown %}
+                    {{ theme.summary }}
+                {% endmarkdown %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+</section>

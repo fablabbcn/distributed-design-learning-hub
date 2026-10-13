@@ -21,6 +21,7 @@ class DocumentsRepository:
         self.tags: dict[str, list[str]] = defaultdict(list)
         self.authors: set[str] = set()
         self.by_format_type: dict[str, list[str]] = defaultdict(list)
+        self.format_names_by_type: dict[str, list[str]] = defaultdict(list)
 
         for row in self.airtable.all("featured_documents"):
             self._ingest_featured_document(row)
@@ -60,6 +61,8 @@ class DocumentsRepository:
                     document["format"] = format["name"]
                     document["format_type"] = format["type"]
                     self.by_format_type[format["type"]].append(document["link"])
+                    if format["name"] not in self.format_names_by_type[format["type"]]:
+                        self.format_names_by_type[format["type"]].append(format["name"])
 
             if "author" in document:
                 self.authors.add(document["author"])
@@ -104,6 +107,9 @@ class DocumentsRepository:
                 for link in self.by_format_type[format_type]
             ]
         return []
+
+    def get_format_names_by_type(self) -> dict[str, list[str]]:
+        return dict(self.format_names_by_type)
 
     def get_tags_for_theme(self, theme_name: str) -> list[str]:
         for theme in self.themes.values():

@@ -1,0 +1,135 @@
+.thematic-areas {
+  background-color: var(--color-white);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.thematic-areas-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.thematic-areas-title {
+  max-width: 208px;
+}
+
+.thematic-areas-number {
+  color: var(--color-orange);
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: 1.4px;
+}
+
+.thematic-areas-heading {
+  color: var(--color-black);
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 22.1px;
+  letter-spacing: -0.17px;
+}
+
+.thematic-areas-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 13px;
+  position: relative;
+  max-width: 750px;
+  width: 100%;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background-color: var(--color-black);
+  }
+}
+
+.thematic-areas-item {
+  list-style: none;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-black);
+  width: 100%;
+
+  &:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+}
+
+.thematic-areas-link {
+  display: block;
+  width: 100%;
+  color: var(--color-black);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0;
+  padding: 10px 16px;
+
+  &:hover {
+    background-color: var(--color-light-purple);
+    color: var(--color-purple);
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .thematic-areas-inner {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .thematic-areas-title {
+    max-width: none;
+  }
+
+  .thematic-areas-content {
+    max-width: none;
+  }
+}
+
+@media (width <= 767px) {
+  .thematic-areas-inner {
+    padding: 32px 0;
+    gap: 16px;
+  }
+}
+
+@media (width <= 1024px) {
+  .thematic-areas-list {
+    max-width: none;
+  }
+}
+
+@media (width <= 767px) {
+  .thematic-areas-list {
+    grid-template-columns: 1fr;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  .thematic-areas-item {
+    padding: 4px 0;
+
+    &:nth-last-child(-n + 2) {
+      border-bottom: 1px solid var(--color-black);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .thematic-areas-link {
+    padding: 10px 8px;
+  }
+}

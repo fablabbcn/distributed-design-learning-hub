@@ -1,18 +1,34 @@
 <footer>
-    <div class="footer-partner-logos">{% include "partials/partner_logos.j2" %}</div>
-    <div class="footer-columns">
-        <div class="mat-logo column">
-            <img src="{{ url_for("static", filename="images/make-a-thek_mainlogo_white.png") }}" alt="Make-a-thek" width="1033" height="80" />
+    <div class="footer-inner">
+        <div class="footer-partners">
+            <h3>Partners</h3>
+            <div class="footer-partners-logos">{% include "partials/partner_logos.j2" %}</div>
         </div>
-        <div class="address column">
-            Designed and hosted by <a class="monochrome" href="https://fablabbcn.org/" target="_blank">Fab Lab Barcelona</a> | <a class="monochrome" href="https://iaac.net/" target="_blank">IAAC</a>
+        <div class="footer-credits">
+            <div class="footer-credits-logos">
+                <figure>
+                    <a href="https://danskdesigncenter.dk/" target="_blank">
+                        <img src="{{ url_for("static", filename="images/make-a-thek_mainlogo.png") }}" alt="">
+                    </a>
+                </figure>
+                <figure>
+                    <a href="https://danskdesigncenter.dk/" target="_blank">
+                        <img src="{{ url_for("static", filename="images/eu_logo_white.png") }}" alt="">
+                    </a>
+                </figure>
+            </div>
+            <div class="footer-credits-text">
+                <p>
+                    This learning hub was developed by the Distributed Design Platform and community between 2017–2025, and is currently further developed and expanded on through the make-a-thek project (HORIZON-CL2-2024-HERITAGE-01-01).
+                    <br />
+                    <br />
+                    Designed and hosted by <strong>Fab Lab Barcelona | IAAC</strong>, in collaboration with <strong>Jordi Garreta</strong>, <strong>Nia Figueroa</strong>, <strong>Tim</strong>, ... .
+                </p>
+            </div>
         </div>
-        <div class="copyright column">© 2024 Distributed Design. All Rights Reserved.</div>
-        <div class="eu-logo column">
-            <img src="{{ url_for("static", filename="images/eu_logo.png") }}" alt="" width="254" height="80" />
+        <div class="footer-rights">
+            <p>© 2024 Distributed Design. All Rights Reserved.</p>
+            <p>Co-funded by the European Union</p>
         </div>
-    </div>
-    <div class="sponsorship-notice">
-        This learning hub was developed by the Distributed Design Platform and community between 2017-2025, and is currently further developed and expanded on through the make-a-thek project (HORIZON-CL2-2024-HERITAGE-01-01).
     </div>
 </footer>

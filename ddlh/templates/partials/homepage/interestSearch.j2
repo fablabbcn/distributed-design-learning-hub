@@ -1,0 +1,35 @@
+<section class="interest-search" id="interest-search">
+    <div class="interest-search-inner">
+        <div class="interest-search-title">
+            <p class="interest-search-number">02</p>
+            <h2 class="interest-search-heading">Search by your area of interest</h2>
+        </div>
+        <div class="interest-search-content">
+            <p class="interest-search-content-text">
+                Tell us what you’re interested in and discover a curated selection of learning materials, with a generated response highlighting the resources most relevant to you.
+            </p>
+            <form class="interest-search-form"
+                  action="{{ url_for("query") }}"
+                  method="get"
+                  role="search">
+                <label class="interest-search-label" for="interest-search-input">Search for your own area of interest</label>
+                <input class="interest-search-input"
+                       id="interest-search-input"
+                       type="search"
+                       name="query"
+                       placeholder="Or any other theme or topic..."
+                       required />
+                <button class="interest-search-submit" type="submit">
+                    <svg width="16"
+                         height="16"
+                         viewBox="0 0 16 16"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12.6667 7.33333C12.6667 10.2789 10.2789 12.6667 7.33333 12.6667C4.38781 12.6667 2 10.2789 2 7.33333C2 4.38781 4.38781 2 7.33333 2C10.2789 2 12.6667 4.38781 12.6667 7.33333Z" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-white)" />
+                        <path d="M14.0001 14L11.1001 11.1" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" stroke="var(--color-white)" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>

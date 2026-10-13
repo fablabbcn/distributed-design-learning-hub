@@ -1,0 +1,27 @@
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-content">
+            <h1>Welcome to the Learning Hub</h1>
+            <h2>This Learning Hub aims to provide resources and practical learning materials</h2>
+            <p>
+                Designing circular, resilient, collaborative and just futures is complex. This Hub brings together practical learning materials, tools and knowledge, collaboratively developed with the Distributed Design community and expanded through the European-funded make-a-thek project — supporting anyone to learn, experiment and build the capabilities to tackle the challenges around them.
+            </p>
+        </div>
+        {% if stats %}
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <p class="hero-stat-value">{{ stats.total_documents }}</p>
+                    <p class="hero-stat-label">Curated learning materials</p>
+                </div>
+                <div class="hero-stat">
+                    <p class="hero-stat-value">{{ stats.total_themes }}</p>
+                    <p class="hero-stat-label">Thematic areas</p>
+                </div>
+                <div class="hero-stat">
+                    <p class="hero-stat-value">{{ stats.total_unique_authors }}</p>
+                    <p class="hero-stat-label">Authors & contributors</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
