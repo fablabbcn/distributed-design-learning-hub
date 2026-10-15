@@ -1,0 +1,62 @@
+<section class="document-summary">
+    <div class="document-summary-inner">
+        {% if document.themes %}
+            <aside class="document-summary-themes">
+                <p class="document-summary-themes-label">Thematic Area</p>
+                <ul class="document-summary-themes-list">
+                    {% for theme in document.themes %}
+                        <li>
+                            <a class="document-summary-theme"
+                               href="{{ url_for('theme', theme_name=theme) }}">{{ theme }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </aside>
+        {% endif %}
+        <div class="document-summary-content">
+            {% if document.description %}
+                <div class="document-summary-description">
+                    {% markdown %}
+                    {{ document.description }}
+                {% endmarkdown %}
+            </div>
+        {% endif %}
+        <div class="document-summary-actions">
+            <a class="document-summary-action"
+               href="{{ document.link }}"
+               target="_blank"
+               rel="noopener">
+                Go to document <span aria-hidden="true">→</span>
+            </a>
+            <button type="button"
+                    class="document-summary-action document-summary-share"
+                    data-title="{{ document.title }}">
+                <span class="document-summary-share-text">Share resource</span> <span aria-hidden="true">↗</span>
+            </button>
+        </div>
+    </div>
+</div>
+</section>
+<script>
+  (() => {
+    const section = document.currentScript.previousElementSibling;
+    const share = section.querySelector(".document-summary-share");
+    const text = share.querySelector(".document-summary-share-text");
+
+    // Native share sheet where available, otherwise copy the link
+    share.addEventListener("click", async () => {
+      const url = window.location.href;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: share.dataset.title, url });
+        } catch {}
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        text.textContent = "Link copied";
+        setTimeout(() => (text.textContent = "Share resource"), 2000);
+      } catch {}
+    });
+  })();
+</script>

@@ -2,8 +2,18 @@
     <div class="theme-hero-inner">
         {% include "partials/breadcrumbs.j2" %}
         <div class="theme-hero-grid">
-            <p class="theme-hero-label">Thematic area</p>
-            <h1 class="theme-hero-title">{{ theme.name }}</h1>
+            <p class="theme-hero-label">
+                {% if is_query %}
+                    Searched area of interest
+                {% else %}
+                    Thematic area
+                {% endif %}
+            </p>
+            {% if is_query %}
+                <h1 class="theme-hero-title">“{{ theme.name }}”</h1>
+            {% else %}
+                <h1 class="theme-hero-title">{{ theme.name }}</h1>
+            {% endif %}
             {% if tags %}
                 <ul class="theme-hero-tags">
                     {% for tag in tags %}
@@ -13,7 +23,9 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-            {% if theme.summary %}
+            {% if is_query %}
+                {% include "partials/theme/aiSummary.j2" %}
+            {% elif theme.summary %}
                 <div class="theme-hero-description">
                     {% markdown %}
                     {{ theme.summary }}

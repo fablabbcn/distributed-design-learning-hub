@@ -24,7 +24,16 @@
         <script defer
                 src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
         <script>document.documentElement.classList.add("has-anim");</script>
-        <style>.has-anim .hero-content, .has-anim .hero-stats { visibility: hidden; }</style>
+        <style>
+          .has-anim .header-inner,
+          .has-anim .breadcrumbs-container,
+          .has-anim .hero-content,
+          .has-anim .hero-stats,
+          .has-anim .theme-hero-grid,
+          .has-anim .format-hero-grid,
+          .has-anim .tag-hero-grid,
+          .has-anim .document-hero-grid { visibility: hidden; }
+        </style>
         <title>{{ breadcrumbs|page_title_from_breadcrumbs }}</title>
         <script defer
                 data-domain="learn.distributeddesign.eu"
@@ -62,5 +71,6 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/SplitText.min.js"></script>
         <script src="{{ url_for("static", filename="animations.js") }}"></script>
+        <script src="{{ url_for("static", filename="querySummary.js") }}"></script>
     </body>
 </html>

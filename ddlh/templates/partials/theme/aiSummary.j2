@@ -1,0 +1,10 @@
+<div id="theme-summary-container"
+     class="theme-hero-description theme-ai-summary"
+     data-query-task-id="{{ query_task_id or '' }}">
+    {% if query_summary %}{{ query_summary }}{% endif %}
+    {% if wait_message %}
+        <p class="theme-ai-summary-wait">
+            <span class="theme-ai-summary-emoji">✨</span> Generating a summary<span class="type-it">...</span>
+        </p>
+    {% endif %}
+</div>

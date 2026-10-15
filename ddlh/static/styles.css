@@ -14,6 +14,17 @@
 @import url("styles/theme/hero.css");
 @import url("styles/theme/resources.css");
 
+/* Format page */
+@import url("styles/format/hero.css");
+
+/* Tag page */
+@import url("styles/tag/hero.css");
+
+/* Document page */
+@import url("styles/document/hero.css");
+@import url("styles/document/summary.css");
+@import url("styles/document/related.css");
+
 /* ***VARIABLES*** */
 :root {
   /* Colors */
@@ -21,6 +32,7 @@
   --color-white: #fff;
   --color-orange: #dd6300;
   --color-purple: #2e0e70;
+  --color-soft-purple: #9058ff;
   --color-light-purple: #f2eefe;
   --color-blue: #5861ff;
   --color-red: #fa6868;

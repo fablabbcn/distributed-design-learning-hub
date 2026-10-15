@@ -1,7 +1,5 @@
 {% extends "layouts/main.j2" %}
 {% block main %}
-    {% include "partials/format_header.j2" %}
-    {% with with_theme=true %}
-        {% include "partials/table.j2" %}
-    {% endwith %}
+    {% include "partials/format/hero.j2" %}
+    {% include "partials/theme/resources.j2" %}
 {% endblock main %}

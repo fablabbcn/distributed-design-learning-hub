@@ -1,0 +1,54 @@
+<li class="theme-resources-item" data-type="{{ document.format }}">
+    <button type="button"
+            class="theme-resources-header"
+            aria-expanded="false"
+            aria-controls="resource-{{ document.id }}">
+        <span class="theme-resources-heading">
+            <span class="theme-resources-format theme-resources-format-{{ document.format_type }}">{{ document.format }}</span>
+            <span class="theme-resources-title">{{ document.title }}</span>
+        </span>
+        {% if document.author %}
+            <span class="theme-resources-author">
+                <span class="theme-resources-author-label">From</span>
+                {{ document.author }}
+            </span>
+        {% endif %}
+        <span class="theme-resources-toggle" aria-hidden="true"></span>
+    </button>
+    <div class="theme-resources-panel" id="resource-{{ document.id }}">
+        <div class="theme-resources-panel-inner">
+            <div class="theme-resources-body {% if document.image_url %}theme-resources-body-image{% endif %}">
+                <div class="theme-resources-content">
+                    {% if document.description %}
+                        <div class="theme-resources-description">
+                            {% markdown %}
+                            {{ document.description }}
+                        {% endmarkdown %}
+                    </div>
+                {% endif %}
+                {% if document.tags %}
+                    <ul class="theme-resources-tags">
+                        {% for tag in document.tags %}
+                            <li>
+                                <a class="theme-resources-tag" href="{{ url_for('tag', tag=tag) }}">{{ tag }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <a class="theme-resources-access"
+                   href="{{ document.link }}"
+                   target="_blank"
+                   rel="noopener">
+                    Go to document <span aria-hidden="true">→</span>
+                </a>
+            </div>
+            {% if document.image_url %}
+                <img class="theme-resources-image"
+                     src="{{ document.image_url }}"
+                     alt=""
+                     loading="lazy">
+            {% endif %}
+        </div>
+    </div>
+</div>
+</li>
