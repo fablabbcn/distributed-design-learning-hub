@@ -40,23 +40,47 @@
 .format-browser-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0;
+  gap: 48px;
+  position: relative;
+
+  /* Full-height vertical line between the two columns */
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background-color: var(--color-black);
+  }
 }
 
 .format-browser-item {
   list-style: none;
+  position: relative;
+
+  /* Horizontal line under each item, centred in the row gap (skip the last row) */
+  &:nth-last-child(n + 3)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -24px;
+    height: 1px;
+    background-color: var(--color-black);
+  }
 }
 
 .format-browser-link {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 0;
   height: 100%;
   min-height: 140px;
   padding: 12px;
   border-radius: 6px;
   color: var(--color-black);
+  transition: all ease 0.3s;
 
   &:hover {
     background-color: var(--color-light-purple);
@@ -102,6 +126,27 @@
   font-size: 13px;
   line-height: 19.5px;
   letter-spacing: 0.39px;
+  transition: all ease 0.3s;
+}
+
+.format-browser-item:hover .format-browser-formats-text .format-browser-format {
+  background-color: var(--color-green);
+}
+
+.format-browser-item:hover
+  .format-browser-formats-audiovisual
+  .format-browser-format {
+  background-color: var(--color-red);
+}
+
+.format-browser-item:hover .format-browser-formats-tool .format-browser-format {
+  background-color: var(--color-blue);
+}
+
+.format-browser-item:hover
+  .format-browser-formats-course
+  .format-browser-format {
+  background-color: #9058ff;
 }
 
 /* ***RESPONSIVE*** */
@@ -130,10 +175,19 @@
 @media (width <= 767px) {
   .format-browser-grid {
     grid-template-columns: 1fr;
+    gap: 0;
+
+    &::before {
+      display: none;
+    }
   }
 
   .format-browser-item {
     border-bottom: 1px solid var(--color-black);
+
+    &:nth-last-child(n + 3)::after {
+      display: none;
+    }
 
     &:last-child {
       border-bottom: none;

@@ -1,0 +1,47 @@
+/* Items reuse the resources accordion (see theme/resources.css) */
+.document-related {
+  background-color: var(--color-white);
+  padding-inline: var(--gutter);
+}
+
+.document-related-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  margin-top: 64px;
+  margin-bottom: 40px;
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: start;
+  gap: 54px;
+}
+
+.document-related-label {
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-orange);
+}
+
+.document-related-list {
+  border-top: 1px solid var(--color-black);
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .document-related-inner {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+  }
+}
+
+@media (width <= 767px) {
+  .document-related-inner {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+    margin-bottom: 32px;
+  }
+}

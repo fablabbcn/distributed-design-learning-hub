@@ -19,7 +19,7 @@ def format_search_result(result: SearchResult) -> str:
                 }
             )
     return render_template(
-        "partials/search_summary.j2",
+        "partials/theme/searchSummary.j2",
         query=result.query,
         top_sentence=result.summary.top_sentence,
         document_summaries=document_summaries,

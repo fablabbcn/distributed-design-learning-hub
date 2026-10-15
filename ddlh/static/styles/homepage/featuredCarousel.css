@@ -120,11 +120,28 @@
   width: fit-content;
   padding: 3px 9px;
   border: 1px solid currentcolor;
+  background-color: var(--color-light-white);
   font-weight: 600;
   font-size: 13px;
   line-height: 19.5px;
   letter-spacing: 0.39px;
   margin-bottom: 26px;
+}
+
+.featured-carousel-format-text {
+  background-color: var(--color-green);
+}
+
+.featured-carousel-format-audiovisual {
+  background-color: var(--color-red);
+}
+
+.featured-carousel-format-tool {
+  background-color: var(--color-blue);
+}
+
+.featured-carousel-format-course {
+  background-color: #9058ff;
 }
 
 .featured-carousel-name {

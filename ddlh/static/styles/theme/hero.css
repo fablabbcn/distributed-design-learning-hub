@@ -89,6 +89,50 @@
   }
 }
 
+/* AI summary (query pages) */
+.theme-ai-summary {
+  line-height: 1.4;
+
+  & p + p {
+    margin-top: 12px;
+  }
+}
+
+.theme-ai-summary-commentary {
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 100%;
+  letter-spacing: 0;
+  font-style: italic;
+
+  & span {
+    color: var(--color-soft-purple);
+  }
+
+  & a {
+    color: var(--color-soft-purple);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
+
+.theme-ai-summary-text,
+.theme-ai-summary-wait {
+  color: var(--color-soft-purple);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 0;
+
+  & a {
+    color: var(--color-soft-purple);
+  }
+}
+
+.theme-ai-summary-emoji {
+  color: var(--color-orange);
+}
+
 /* ***RESPONSIVE*** */
 @media (width <= 1024px) {
   .theme-hero-grid {

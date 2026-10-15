@@ -1,0 +1,165 @@
+.document-summary {
+  background-color: var(--color-white);
+  padding-inline: var(--gutter);
+}
+
+.document-summary-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding-top: 40px;
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  grid-template-areas: "themes content";
+  gap: 54px;
+}
+
+/* ***THEMES*** */
+.document-summary-themes {
+  grid-area: themes;
+  padding-top: 12px;
+}
+
+.document-summary-themes-label {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-black);
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.document-summary-themes-list {
+  list-style: none;
+
+  & li {
+    border-bottom: 1px solid var(--color-black);
+  }
+}
+
+.document-summary-theme {
+  display: block;
+  padding: 10px 0;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 13px;
+  color: var(--color-black);
+  transition: color 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-purple);
+  }
+}
+
+/* ***CONTENT*** */
+.document-summary-content {
+  grid-area: content;
+}
+
+.document-summary-description {
+  max-width: 660px;
+  color: #666;
+
+  & p {
+    font-size: 15px;
+    line-height: 17.5px;
+  }
+
+  & p + p {
+    margin-top: 12px;
+  }
+
+  & a {
+    color: var(--color-purple);
+    font-weight: 700;
+  }
+}
+
+.document-summary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 46px;
+  margin-top: 36px;
+}
+
+.document-summary-action {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-purple);
+  cursor: pointer;
+
+  & span[aria-hidden] {
+    display: inline-block;
+    margin-left: 6px;
+    transition: transform 0.2s;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-soft-purple);
+
+    & span[aria-hidden] {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* The share arrow points up-right, so it moves that way */
+.document-summary-share:hover span[aria-hidden],
+.document-summary-share:focus-visible span[aria-hidden] {
+  transform: translate(3px, -3px);
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .document-summary-inner {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (width <= 767px) {
+  .document-summary-inner {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "content"
+      "themes";
+    gap: 32px;
+    padding-top: 28px;
+  }
+
+  .document-summary-themes {
+    padding-top: 0;
+  }
+
+  .document-summary-themes-label,
+  .document-summary-theme {
+    font-size: 12px;
+  }
+
+  .document-summary-description p {
+    font-size: 14px;
+    line-height: 19px;
+  }
+
+  .document-summary-actions {
+    gap: 16px 32px;
+    margin-top: 28px;
+  }
+
+  .document-summary-action {
+    padding: 4px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .document-summary-action span[aria-hidden] {
+    transition: none;
+  }
+}

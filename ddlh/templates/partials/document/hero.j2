@@ -1,0 +1,37 @@
+<section class="document-hero">
+    <div class="document-hero-inner">
+        {% include "partials/breadcrumbs.j2" %}
+        <div class="document-hero-grid {% if document.image_url %}document-hero-grid-image{% endif %}">
+            <p class="document-hero-label">
+                <a class="document-hero-format document-hero-format-{{ document.format_type }}"
+                   href="{{ url_for('format', format=document.format_type) }}">{{ document.format }}</a>
+            </p>
+            <div class="document-hero-content">
+                <h1 class="document-hero-title">{{ document.title }}</h1>
+                {% if document.author %}
+                    <p class="document-hero-author">
+                        <span class="document-hero-author-label">From</span>
+                        {{ document.author }}
+                    </p>
+                {% endif %}
+                {% if document.tags %}
+                    <ul class="document-hero-tags">
+                        {% for tag in document.tags %}
+                            <li>
+                                <a class="document-hero-tag" href="{{ url_for('tag', tag=tag) }}">{{ tag }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            {% if document.image_url %}
+                <a class="document-hero-image-link"
+                   href="{{ document.link }}"
+                   target="_blank"
+                   rel="noopener">
+                    <img class="document-hero-image" src="{{ document.image_url }}" alt="">
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</section>

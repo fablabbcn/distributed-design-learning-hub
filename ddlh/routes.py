@@ -52,6 +52,7 @@ def theme(theme_name: str) -> str:
         documents=documents,
         tags=tags,
         theme=theme,
+        is_query=False,
     )
 
 
@@ -131,7 +132,7 @@ def query() -> str:
         {"title": "Themes"},
         {
             "title": query,
-            "url": url_for("query", query=theme),
+            "url": url_for("query", query=query),
         },
     )
     documents = rag_index.get_documents_for_query(query)
@@ -155,6 +156,7 @@ def query() -> str:
         query_task_id=task_id,
         query_summary=summary,
         wait_message=wait_message,
+        is_query=True,
     )
 
 

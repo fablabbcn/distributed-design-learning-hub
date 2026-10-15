@@ -1,0 +1,24 @@
+<section class="document-related">
+    <div class="document-related-inner">
+        <p class="document-related-label">Related resources</p>
+        <ul class="document-related-list theme-resources-list">
+            {% for document in related_documents %}
+                {% include "partials/theme/resourceItem.j2" %}
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+<script>
+  (() => {
+    const section = document.currentScript.previousElementSibling;
+    const headers = section.querySelectorAll(".theme-resources-header");
+
+    // Accordion: one resource open at a time
+    headers.forEach((header) => {
+      header.addEventListener("click", () => {
+        const open = header.getAttribute("aria-expanded") !== "true";
+        headers.forEach((h) => h.setAttribute("aria-expanded", String(h === header && open)));
+      });
+    });
+  })();
+</script>

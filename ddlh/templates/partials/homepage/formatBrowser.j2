@@ -20,7 +20,7 @@
                             <div class="format-browser-text">
                                 <p class="format-browser-name">{{ name }}</p>
                                 {% if format_names and format_names[format] %}
-                                    <div class="format-browser-formats">
+                                    <div class="format-browser-formats format-browser-formats-{{ format }}">
                                         {% for format_name in format_names[format] %}<p class="format-browser-format">{{ format_name }}</p>{% endfor %}
                                     </div>
                                 {% endif %}

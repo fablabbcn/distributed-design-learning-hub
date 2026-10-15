@@ -1,0 +1,12 @@
+<p class="theme-ai-summary-commentary">
+    (This is an automatically generated summary of information in the Learning Hub about "{{ query }}", intended to help you find the most useful references. Please remember to check the sources! <span><a href="{{ url_for("about_llms") }}" target="_blank">Learn more</a> about how and why we generate these summaries.</span>)
+</p>
+<p class="theme-ai-summary-text">
+    <span class="theme-ai-summary-emoji">✨</span> {{ top_sentence }}
+</p>
+{% for summary in document_summaries %}
+    <p class="theme-ai-summary-text"
+       data-document-id="{{ summary.document.id }}">
+        <span class="theme-ai-summary-emoji">✨</span> <a href="{{ url_for("document", document_id=summary.document.id) }}">{{ summary.document.title }}</a> {{ summary.summary }}
+    </p>
+{% endfor %}

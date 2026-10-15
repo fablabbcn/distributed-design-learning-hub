@@ -43,7 +43,9 @@
                         <li class="featured-carousel-item swiper-slide">
                             <div class="featured-carousel-card">
                                 <div class="featured-carousel-text">
-                                    {% if document.format %}<p class="featured-carousel-format">{{ document.format }}</p>{% endif %}
+                                    {% if document.format %}
+                                        <p class="featured-carousel-format featured-carousel-format-{{ document.format_type }}">{{ document.format }}</p>
+                                    {% endif %}
                                     <h3 class="featured-carousel-name">
                                         <a class="featured-carousel-link"
                                            href="{{ url_for("document", document_id=document.link|url_to_id) }}">{{ document.title }}</a>
