@@ -1,7 +1,7 @@
 /* =============================================================================
  * animations.js
- * Smooth scroll (Lenis) + text & scroll animations (GSAP, ScrollTrigger,
- * SplitText).
+ * Smooth scroll (Lenis) + scroll animations (GSAP, ScrollTrigger).
+ * Text blocks fade up as a whole; nothing is split into lines or words.
  *
  * Contents
  *   1. Setup ............. plugins, Lenis smooth scroll
@@ -29,12 +29,12 @@
    * 1. Setup
    * ------------------------------------------------------------------------ */
 
-  if (!window.gsap || !window.ScrollTrigger || !window.SplitText) {
+  if (!window.gsap || !window.ScrollTrigger) {
     root.classList.remove("has-anim");
     return;
   }
 
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  gsap.registerPlugin(ScrollTrigger);
 
   // Lenis driven by GSAP's ticker so ScrollTrigger stays in sync
   if (window.Lenis) {
@@ -61,38 +61,6 @@
 
   // Makes on-load elements visible again before animating them in
   const show = (targets) => gsap.set(targets, { autoAlpha: 1 });
-
-  // Splits text into masked lines that slide up
-  const revealLines = (el, vars = {}) =>
-    SplitText.create(el, {
-      type: "lines",
-      mask: "lines",
-      autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.lines, {
-          yPercent: 110,
-          duration: 1,
-          stagger: 0.08,
-          ease,
-          ...vars,
-        }),
-    });
-
-  // Splits text into words that slide up inside masked lines (big titles)
-  const revealWords = (el, vars = {}) =>
-    SplitText.create(el, {
-      type: "words,lines",
-      mask: "lines",
-      autoSplit: true,
-      onSplit: (self) =>
-        gsap.from(self.words, {
-          yPercent: 110,
-          duration: 1.1,
-          stagger: 0.06,
-          ease,
-          ...vars,
-        }),
-    });
 
   // Simple fade + slide up, optionally staggered
   const fadeUp = (targets, vars = {}) => {
@@ -139,7 +107,7 @@
     const title = $(`.${name}-hero-title`, hero);
 
     if (label) fadeUp(label, { y: 20, duration: 0.8, delay: 0.1 });
-    if (title) revealWords(title, { delay: 0.2 });
+    if (title) fadeUp(title, { delay: 0.2 });
 
     return hero;
   };
@@ -179,34 +147,30 @@
     const footer = $(".footer-inner");
     if (!footer) return;
 
-    const heading = $(".footer-partners h3", footer);
-    if (heading) revealLines(heading, { scrollTrigger: onEnter(footer) });
+    // One trigger for the whole footer: it sits at the very end of the page,
+    // so triggers on its lower parts may never reach their start position
+    const groups = [
+      [$$(".footer-partners h3", footer), { duration: 0.8 }],
+      [$$(".footer-partners-logos > *", footer), { duration: 0.7, stagger: 0.03 }, "-=0.6"],
+      [$$(".footer-credits-logos figure", footer), { autoAlpha: 0.6, stagger: 0.12 }, "-=0.5"],
+      [$$(".footer-credits-text p", footer), { autoAlpha: 0.6 }, "-=0.7"],
+      [$$(".footer-rights p", footer), { duration: 0.7 }, "-=0.6"],
+    ].filter(([targets]) => targets.length);
+    if (!groups.length) return;
 
-    fadeUp($$(".footer-partners-logos > *", footer), {
-      duration: 0.7,
-      stagger: 0.04,
-      scrollTrigger: onEnter(footer),
+    gsap.set(groups.flatMap(([targets]) => targets), { y: 30, autoAlpha: 0 });
+
+    const tl = gsap.timeline({
+      paused: true,
+      defaults: { y: 0, autoAlpha: 1, duration: 0.9, ease },
     });
+    groups.forEach(([targets, vars, position]) => tl.to(targets, vars, position));
 
-    const credits = $(".footer-credits", footer);
-    if (credits) {
-      fadeUp($$(".footer-credits-logos figure", credits), {
-        stagger: 0.12,
-        scrollTrigger: onEnter(credits),
-      });
-      const text = $(".footer-credits-text p", credits);
-      if (text)
-        revealLines(text, {
-          stagger: 0.05,
-          delay: 0.2,
-          scrollTrigger: onEnter(credits),
-        });
-    }
-
-    fadeUp($$(".footer-rights p", footer), {
-      y: 15,
-      duration: 0.7,
-      scrollTrigger: onEnter($(".footer-rights", footer)),
+    ScrollTrigger.create({
+      trigger: footer,
+      start: "top bottom-=80",
+      once: true,
+      onEnter: () => tl.play(),
     });
   };
 
@@ -221,8 +185,7 @@
     const hero = $(".hero");
     show($$(".hero-content, .hero-stats", hero));
 
-    const h1 = $("h1", hero);
-    if (h1) revealWords(h1);
+    fadeUp($("h1", hero));
 
     fadeUp($$(".hero-content h2, .hero-content p", hero), {
       stagger: 0.15,
@@ -249,10 +212,9 @@
       });
     });
 
-    // Intro banner: line-by-line reveal
+    // Intro banner
     const intro = $(".intro-banner-title");
-    if (intro)
-      revealLines(intro, { scrollTrigger: onEnter(intro), stagger: 0.12 });
+    if (intro) fadeUp(intro, { scrollTrigger: onEnter(intro) });
 
     // Numbered section titles (01, 02, 03)
     $$(
@@ -267,7 +229,7 @@
           scrollTrigger: onEnter(title),
         });
       if (heading)
-        revealLines(heading, { scrollTrigger: onEnter(title), delay: 0.1 });
+        fadeUp(heading, { scrollTrigger: onEnter(title), delay: 0.1 });
     });
 
     // Thematic areas list
@@ -296,8 +258,9 @@
     // Featured carousel
     const featured = $(".featured-carousel");
     if (featured) {
-      const heading = $(".featured-carousel-heading", featured);
-      if (heading) revealLines(heading, { scrollTrigger: onEnter(featured) });
+      fadeUp($(".featured-carousel-heading", featured), {
+        scrollTrigger: onEnter(featured),
+      });
 
       fadeUp(
         $$(
@@ -341,10 +304,8 @@
       return;
     }
 
-    // Theme page: editorial description, line by line
-    $$(".theme-hero-description > *", hero).forEach((paragraph, i) =>
-      revealLines(paragraph, { stagger: 0.05, delay: 0.6 + i * 0.15 }),
-    );
+    // Theme page: editorial description as a whole
+    fadeUp($(".theme-hero-description", hero), { delay: 0.6 });
   };
 
   /* 4.3 Format — hero title ------------------------------------------------ */
@@ -388,13 +349,9 @@
           scrollTrigger: onEnter(summary),
         },
       );
-      $$(".document-summary-description > *", summary).forEach((paragraph, i) =>
-        revealLines(paragraph, {
-          stagger: 0.04,
-          delay: i * 0.1,
-          scrollTrigger: onEnter(paragraph),
-        }),
-      );
+      const description = $(".document-summary-description", summary);
+      if (description)
+        fadeUp(description, { scrollTrigger: onEnter(description) });
       fadeUp($$(".document-summary-action", summary), {
         y: 15,
         scrollTrigger: onEnter($(".document-summary-actions", summary)),
@@ -415,13 +372,9 @@
 
   const animateStaticPage = () => {
     const content = $(".static-page-content");
-    const title = $(".theme-tag-document-header h1");
-    if (title) revealWords(title);
+    animatePageHero("static");
 
-    $$("h2", content).forEach((heading) =>
-      revealLines(heading, { scrollTrigger: onEnter(heading) }),
-    );
-    batchFadeUp($$("p, li", content));
+    batchFadeUp($$("h2, p, li", content));
   };
 
   /* ---------------------------------------------------------------------------

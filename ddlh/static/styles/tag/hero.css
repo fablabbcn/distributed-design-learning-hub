@@ -27,6 +27,7 @@
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--color-orange);
+  max-width: 84px;
 }
 
 .tag-hero-title {
