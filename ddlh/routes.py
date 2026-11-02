@@ -77,7 +77,7 @@ def tag(tag: str) -> str:
 def format(format: str) -> str:
     FORMAT_NAMES = {
         "text": "Publications, papers & reports",
-        "tool": "Toolkits, methods & frameworks",
+        "tool": "Learning Tools and Activities",
         "audiovisual": "Masterclasses, documentaries & podcasts",
         "course": "Interactive learning resources",
     }

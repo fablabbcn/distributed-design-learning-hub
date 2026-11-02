@@ -25,6 +25,9 @@
 @import url("styles/document/summary.css");
 @import url("styles/document/related.css");
 
+/* Static pages */
+@import url("styles/static/page.css");
+
 /* ***VARIABLES*** */
 :root {
   /* Colors */
@@ -42,7 +45,8 @@
   --color-light-white: #f4f4f4;
 
   /* Layout */
-  --max-width-container: 1440px;
+  --max-width-container: 991px;
+  /* --max-width-container: 1440px; */
   --gutter: 40px;
 }
 

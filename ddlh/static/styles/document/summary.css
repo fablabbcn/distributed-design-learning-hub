@@ -94,7 +94,7 @@
   color: var(--color-purple);
   cursor: pointer;
 
-  & span[aria-hidden] {
+  & svg {
     display: inline-block;
     margin-left: 6px;
     transition: transform 0.2s;
@@ -104,15 +104,15 @@
   &:focus-visible {
     color: var(--color-soft-purple);
 
-    & span[aria-hidden] {
+    & svg {
       transform: translateX(4px);
     }
   }
 }
 
 /* The share arrow points up-right, so it moves that way */
-.document-summary-share:hover span[aria-hidden],
-.document-summary-share:focus-visible span[aria-hidden] {
+.document-summary-share:hover svg,
+.document-summary-share:focus-visible svg {
   transform: translate(3px, -3px);
 }
 
@@ -159,7 +159,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .document-summary-action span[aria-hidden] {
+  .document-summary-action svg {
     transition: none;
   }
 }

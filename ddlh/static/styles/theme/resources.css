@@ -321,27 +321,74 @@
   }
 }
 
+.theme-resources-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 46px;
+}
+
 .theme-resources-access {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   font-weight: 800;
   font-size: 11px;
   line-height: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--color-black);
-
-  & span {
-    display: inline-block;
-    margin-left: 6px;
-    transition: transform 0.2s;
+  color: var(--color-purple);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all ease 0.3s;
+  
+  & path {
+    transition: fill ease 0.3s;
   }
 
   &:hover,
   &:focus-visible {
-    color: var(--color-purple);
+    color: var(--color-soft-purple);
+    gap: 10px;
 
-    & span {
-      transform: translateX(4px);
+    & path {
+      fill: var(--color-soft-purple);
     }
+  }
+}
+
+/* The share arrow points up-right, so it moves that way */
+.theme-resources-share:hover span,
+.theme-resources-share:focus-visible span {
+  transform: translate(3px, -3px);
+}
+
+/* "Link copied" toast */
+.share-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  z-index: 1000;
+  padding: 12px 20px;
+  background-color: var(--color-purple);
+  color: var(--color-white);
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  pointer-events: none;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
   }
 }
 
@@ -543,7 +590,8 @@
 @media (prefers-reduced-motion: reduce) {
   .theme-resources-panel,
   .theme-resources-toggle,
-  .theme-resources-header {
+  .theme-resources-header,
+  .share-toast {
     transition: none;
   }
 }

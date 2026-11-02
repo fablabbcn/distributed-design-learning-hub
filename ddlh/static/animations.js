@@ -147,32 +147,30 @@
     const footer = $(".footer-inner");
     if (!footer) return;
 
-    fadeUp($(".footer-partners h3", footer), {
-      scrollTrigger: onEnter(footer),
+    // One trigger for the whole footer: it sits at the very end of the page,
+    // so triggers on its lower parts may never reach their start position
+    const groups = [
+      [$$(".footer-partners h3", footer), { duration: 0.8 }],
+      [$$(".footer-partners-logos > *", footer), { duration: 0.7, stagger: 0.03 }, "-=0.6"],
+      [$$(".footer-credits-logos figure", footer), { autoAlpha: 0.6, stagger: 0.12 }, "-=0.5"],
+      [$$(".footer-credits-text p", footer), { autoAlpha: 0.6 }, "-=0.7"],
+      [$$(".footer-rights p", footer), { duration: 0.7 }, "-=0.6"],
+    ].filter(([targets]) => targets.length);
+    if (!groups.length) return;
+
+    gsap.set(groups.flatMap(([targets]) => targets), { y: 30, autoAlpha: 0 });
+
+    const tl = gsap.timeline({
+      paused: true,
+      defaults: { y: 0, autoAlpha: 1, duration: 0.9, ease },
     });
+    groups.forEach(([targets, vars, position]) => tl.to(targets, vars, position));
 
-    fadeUp($$(".footer-partners-logos > *", footer), {
-      duration: 0.7,
-      stagger: 0.04,
-      scrollTrigger: onEnter(footer),
-    });
-
-    const credits = $(".footer-credits", footer);
-    if (credits) {
-      fadeUp($$(".footer-credits-logos figure", credits), {
-        stagger: 0.12,
-        scrollTrigger: onEnter(credits),
-      });
-      fadeUp($(".footer-credits-text p", credits), {
-        delay: 0.2,
-        scrollTrigger: onEnter(credits),
-      });
-    }
-
-    fadeUp($$(".footer-rights p", footer), {
-      y: 15,
-      duration: 0.7,
-      scrollTrigger: onEnter($(".footer-rights", footer)),
+    ScrollTrigger.create({
+      trigger: footer,
+      start: "top bottom-=80",
+      once: true,
+      onEnter: () => tl.play(),
     });
   };
 
@@ -374,7 +372,7 @@
 
   const animateStaticPage = () => {
     const content = $(".static-page-content");
-    fadeUp($(".theme-tag-document-header h1"));
+    animatePageHero("static");
 
     batchFadeUp($$("h2, p, li", content));
   };
