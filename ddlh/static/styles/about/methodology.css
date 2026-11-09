@@ -1,0 +1,186 @@
+.about-methodology {
+  background-color: var(--color-light-white);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.about-methodology-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 80px 0 100px;
+}
+
+/* ***INTRO*** */
+.about-methodology-intro {
+  display: flex;
+  gap: 40px;
+}
+
+.about-methodology-main,
+.about-methodology-aside {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.about-methodology-title {
+  max-width: 500px;
+  color: var(--color-purple);
+  font-weight: 900;
+  font-size: 35px;
+  line-height: 35px;
+  letter-spacing: 0px;
+}
+
+.about-methodology-lead {
+  max-width: 480px;
+  margin-top: 32px;
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0px;
+}
+
+.about-methodology-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  & p {
+    max-width: 500px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0px;
+  }
+
+  & strong {
+    font-weight: 800;
+  }
+}
+
+/* ***STEPS*** */
+.about-methodology-steps {
+  display: flex;
+  margin-top: 56px;
+  border-top: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-black);
+  list-style: none;
+}
+
+.about-methodology-step {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 20px 24px 28px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  & + & {
+    border-left: 1px solid var(--color-black);
+  }
+}
+
+.about-methodology-step-number {
+  color: var(--color-orange);
+  font-weight: 800;
+  font-size: 9px;
+  line-height: 13.5px;
+  letter-spacing: 1.08px;
+}
+
+.about-methodology-step-text {
+  max-width: 200px;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: 0px;
+}
+
+/* ***STATEMENT*** */
+.about-methodology-statement {
+  margin-top: 40px;
+  color: var(--color-purple);
+  font-weight: 800;
+  font-size: 23px;
+  line-height: 100%;
+  letter-spacing: -0.85px;
+
+  & em {
+    font-style: italic;
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .about-methodology-inner {
+    padding: 64px 0 80px;
+  }
+
+  .about-methodology-title {
+    font-size: 30px;
+    line-height: 32px;
+  }
+
+  /* 2 x 2 steps */
+  .about-methodology-steps {
+    flex-wrap: wrap;
+    border-bottom: none;
+  }
+
+  .about-methodology-step {
+    flex: 1 1 50%;
+    border-bottom: 1px solid var(--color-black);
+
+    &:nth-child(odd) {
+      padding-left: 0;
+      border-left: none;
+    }
+  }
+
+  .about-methodology-statement {
+    font-size: 20px;
+  }
+}
+
+@media (width <= 767px) {
+  .about-methodology-inner {
+    padding: 48px 0 56px;
+  }
+
+  .about-methodology-intro {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .about-methodology-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .about-methodology-lead {
+    margin-top: 20px;
+  }
+
+  .about-methodology-steps {
+    flex-direction: column;
+    margin-top: 40px;
+  }
+
+  .about-methodology-step {
+    flex-basis: auto;
+    padding: 16px 0 20px;
+
+    & + & {
+      border-left: none;
+    }
+  }
+
+  .about-methodology-statement {
+    margin-top: 32px;
+    font-size: 18px;
+  }
+}

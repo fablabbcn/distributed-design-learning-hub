@@ -14,6 +14,7 @@
  *      4.4 Tag ........... /tags/<tag>              (.tag-hero)
  *      4.5 Document ...... /documents/<id>          (.document-hero)
  *      4.6 About LLMs .... /about-our-use-of-llms   (.static-page-content)
+ *      4.7 About ......... /about                   (.about-hero)
  *   5. Shared sections ... resources list (theme, format and tag pages)
  *   6. Init .............. runs the animations for whatever is on the page
  *
@@ -377,6 +378,233 @@
     batchFadeUp($$("h2, p, li", content));
   };
 
+  /* 4.7 About — hero, then each section on scroll-------------------------------- */
+
+  const animateAboutPage = () => {
+    const hero = animatePageHero("about");
+
+    const image = $(".about-hero-image", hero);
+    if (image) {
+      show(image);
+      fadeUp(image, { y: 40, duration: 1, delay: 0.3 });
+    }
+
+    // What is the Learning Hub?
+    const whatIs = $(".about-what-is");
+    if (whatIs) {
+      const intro = $(".about-what-is-intro", whatIs);
+      fadeUp($$(".about-what-is-title, .about-what-is-lead", intro), {
+        stagger: 0.15,
+        scrollTrigger: onEnter(intro),
+      });
+      fadeUp($(".about-what-is-text", intro), {
+        delay: 0.2,
+        scrollTrigger: onEnter(intro),
+      });
+      fadeUp($$(".about-what-is-profile", intro), {
+        y: 15,
+        duration: 0.6,
+        stagger: 0.05,
+        delay: 0.4,
+        scrollTrigger: onEnter(intro),
+      });
+
+      const journeys = $(".about-what-is-journeys", whatIs);
+      fadeUp($(".about-what-is-journeys-title", journeys), {
+        scrollTrigger: onEnter(journeys),
+      });
+      fadeUp($$(".about-what-is-journeys-list li", journeys), {
+        y: 20,
+        duration: 0.7,
+        stagger: 0.08,
+        delay: 0.1,
+        scrollTrigger: onEnter(journeys),
+      });
+    }
+
+    // Evolving space banner
+    const evolving = $(".about-evolving");
+    if (evolving) {
+      fadeUp($(".about-evolving-label", evolving), {
+        y: 20,
+        duration: 0.8,
+        scrollTrigger: onEnter(evolving),
+      });
+      fadeUp($(".about-evolving-title", evolving), {
+        delay: 0.1,
+        scrollTrigger: onEnter(evolving),
+      });
+      const text = $(".about-evolving-text", evolving);
+      fadeUp(text, { scrollTrigger: onEnter(text) });
+    }
+
+    // Learning methodology
+    const methodology = $(".about-methodology");
+    if (methodology) {
+      const intro = $(".about-methodology-intro", methodology);
+      fadeUp($$(".about-methodology-title, .about-methodology-lead", intro), {
+        stagger: 0.15,
+        scrollTrigger: onEnter(intro),
+      });
+      fadeUp($$(".about-methodology-aside p", intro), {
+        stagger: 0.15,
+        delay: 0.2,
+        scrollTrigger: onEnter(intro),
+      });
+
+      const steps = $(".about-methodology-steps", methodology);
+      fadeUp($$(".about-methodology-step > *", steps), {
+        y: 20,
+        duration: 0.7,
+        stagger: 0.08,
+        scrollTrigger: onEnter(steps),
+      });
+
+      const statement = $(".about-methodology-statement", methodology);
+      fadeUp(statement, { scrollTrigger: onEnter(statement) });
+    }
+
+    // Adopt / Adapt / Apply
+    const approach = $(".about-approach");
+    if (approach) {
+      const intro = $(".about-approach-intro", approach);
+      fadeUp(intro.children, {
+        stagger: 0.15,
+        scrollTrigger: onEnter(intro),
+      });
+
+      const stages = $(".about-approach-stages", approach);
+      fadeUp($$(".about-approach-stage", stages), {
+        y: 60,
+        stagger: 0.12,
+        scrollTrigger: onEnter(stages),
+      });
+    }
+
+    // Journey: the line draws itself as the page scrolls; each dot and
+    // label appears when the line reaches it. There are two graphs, a
+    // horizontal one (desktop, tablet) and a vertical one (mobile); CSS shows
+    // one of them and matchMedia animates that one. Breakpoint matches the CSS.
+    const journey = $(".about-journey");
+    if (journey) {
+      fadeUp($(".about-journey-title", journey), {
+        scrollTrigger: onEnter(journey),
+      });
+
+      const graph = $(".about-journey-graph", journey);
+
+      // `end`: where the graph's bottom edge is on screen when the line
+      // finishes drawing
+      const animateJourneyGraph = (svg, end) => {
+        const line = svg && $(".about-journey-line", svg);
+        if (!line) return;
+        const length = line.getTotalLength();
+
+        // Where each dot sits along the line, from 0 to 1
+        const samples = 400;
+        const progressAt = (x, y) => {
+          let best = 0;
+          let bestDistance = Infinity;
+          for (let i = 0; i <= samples; i++) {
+            const point = line.getPointAtLength((i / samples) * length);
+            const distance = Math.hypot(point.x - x, point.y - y);
+            if (distance < bestDistance) {
+              bestDistance = distance;
+              best = i / samples;
+            }
+          }
+          return best;
+        };
+
+        // Labels are inside the SVG on desktop, HTML next to it on mobile
+        const labels = svg.closest(".about-journey-mobile") || svg;
+        const steps = $$(".about-journey-dot", svg).map((dot) => ({
+          dot,
+          label: $(`.about-journey-label[data-step="${dot.dataset.step}"]`, labels),
+          at: progressAt(+dot.dataset.x, +dot.dataset.y),
+        }));
+
+        gsap.set(line, { strokeDasharray: length, strokeDashoffset: length });
+        gsap.set(
+          steps.map(({ dot }) => dot),
+          { autoAlpha: 0, scale: 0, transformOrigin: "50% 50%" },
+        );
+        gsap.set(
+          steps.map(({ label }) => label).filter(Boolean),
+          { autoAlpha: 0, y: 16 },
+        );
+
+        const tl = gsap.timeline({
+          defaults: { ease: "none" },
+          scrollTrigger: {
+            // Starts as the graph enters the bottom of the screen
+            trigger: svg,
+            start: "top 85%",
+            end,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        tl.to(line, { strokeDashoffset: 0, duration: 1 }, 0);
+
+        // Pan sideways when the graph is wider than the screen (tablet)
+        tl.to(
+          svg,
+          {
+            x: () =>
+              Math.min(0, graph.clientWidth - svg.getBoundingClientRect().width),
+            duration: 1,
+          },
+          0,
+        );
+
+        steps.forEach(({ dot, label, at }) => {
+          tl.to(
+            dot,
+            { autoAlpha: 1, scale: 1, duration: 0.03, ease: "back.out(3)" },
+            Math.max(0, at - 0.015),
+          );
+          if (label)
+            tl.to(
+              label,
+              { autoAlpha: 1, y: 0, duration: 0.06, ease: "power2.out" },
+              at,
+            );
+        });
+      };
+
+      gsap.matchMedia().add(
+        { mobile: "(max-width: 767px)", desktop: "(min-width: 768px)" },
+        ({ conditions }) =>
+          conditions.mobile
+            ? // Tall graph: done just above the middle of the screen
+              animateJourneyGraph(
+                $(".about-journey-svg-mobile", graph),
+                "bottom 45%",
+              )
+            : // Done as soon as the whole graph is on screen
+              animateJourneyGraph(
+                $(".about-journey-svg-desktop", graph),
+                "bottom 75%",
+              ),
+      );
+    }
+
+    // How does it work?
+    const how = $(".about-how");
+    if (how) {
+      fadeUp($(".about-how-title", how), { scrollTrigger: onEnter(how) });
+
+      const columns = $(".about-how-columns", how);
+      fadeUp($$(".about-how-column", columns), {
+        y: 40,
+        stagger: 0.15,
+        scrollTrigger: onEnter(columns),
+      });
+    }
+  };
+
   /* ---------------------------------------------------------------------------
    * 5. Shared sections
    * ------------------------------------------------------------------------ */
@@ -421,6 +649,7 @@
     { selector: ".tag-hero", animate: animateTagPage },
     { selector: ".document-hero", animate: animateDocumentPage },
     { selector: ".static-page-content", animate: animateStaticPage },
+    { selector: ".about-hero", animate: animateAboutPage },
   ];
 
   const mm = gsap.matchMedia();

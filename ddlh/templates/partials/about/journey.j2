@@ -1,0 +1,45 @@
+{# Mobile labels are HTML laid over the vertical graph. Their position is a
+   percentage of the graph: --x / --y is the top-left corner, --w the width.
+   They start from the design export, with some boxes widened (and step 1
+   moved left) so the larger text wraps less. Tweak them here if a label
+   needs nudging. #}
+{% set steps = [
+    {
+        "title": "1. Participatory research and knowledge mapping",
+        "text": "Exploring existing learning practices, community needs, skills and areas of expertise.",
+        "position": "--x: 62%; --y: 16.81%; --w: 38%",
+    },
+    {"title": "2. Defining the approach", "position": "--x: 29.77%; --y: 27.90%; --w: 30%"},
+    {"title": "3. Collecting resources with the Distributed Design community", "position": "--x: 1.97%; --y: 38.07%; --w: 40%"},
+    {"title": "4. Building the platform", "position": "--x: 43.09%; --y: 48.70%; --w: 32%"},
+    {"title": "5. Official release during Vienna Design Week 2024", "position": "--x: 60.36%; --y: 59.96%; --w: 39.64%"},
+    {"title": "6. Collecting resources with the make-a-thek community", "position": "--x: 25.82%; --y: 70.76%; --w: 40%"},
+    {"title": "7. Development of curated learning tools and activities", "position": "--x: 1.97%; --y: 81.30%; --w: 38%"},
+    {"title": "8. Updated Learning Hub release February 2027", "position": "--x: 46.22%; --y: 91.42%; --w: 42%"},
+] %}
+<section class="about-journey">
+    <div class="about-journey-inner">
+        <h2 class="about-journey-title">The Learning Hub journey</h2>
+        {# The graphs are inlined so their line and dots can be animated. Both
+           SVGs are generated from the design exports: each dot (and, on the
+           desktop graph, each label) is a group with a data-step (1-8) in the
+           order of the line. CSS shows the horizontal graph on desktop and the
+           vertical one, with HTML labels, on mobile. #}
+        <div class="about-journey-graph">
+            {% include "partials/about/journeyGraph.svg" %}
+            <div class="about-journey-mobile">
+                {% include "partials/about/journeyGraphMobile.svg" %}
+                <ol class="about-journey-steps">
+                    {% for step in steps %}
+                        <li class="about-journey-label about-journey-step{% if step.text %} about-journey-step-highlight{% endif %}"
+                            data-step="{{ loop.index }}"
+                            style="{{ step.position }}">
+                            <p class="about-journey-step-title">{{ step.title }}</p>
+                            {% if step.text %}<p class="about-journey-step-text">{{ step.text }}</p>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>

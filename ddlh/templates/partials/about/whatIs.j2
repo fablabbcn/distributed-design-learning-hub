@@ -1,0 +1,34 @@
+<section class="about-what-is">
+    <div class="about-what-is-inner">
+        <div class="about-what-is-intro">
+            <div class="about-what-is-main">
+                <h2 class="about-what-is-title">What is the Learning Hub?</h2>
+                <p class="about-what-is-lead">
+                    The <span class="about-what-is-highlight">make-a-thek Learning Hub</span> is a shared space for learning, discovery and knowledge exchange. It brings together practical learning materials, tools, methodologies, resources and experiences contributed and developed by <span class="about-what-is-highlight">Fab Lab Barcelona, the make-a-thek project and the wider Distributed Design network.</span>
+                </p>
+            </div>
+            <div class="about-what-is-aside">
+                <p class="about-what-is-text">
+                    Building on the knowledge, resources and experiences accumulated over the years through these initiatives and communities, the Learning Hub connects contributions from diverse fields and practices, including:
+                </p>
+                <ul class="about-what-is-profiles">
+                    {% for profile in ["Makers", "Designers", "Crafters", "Educators", "Researchers", "Practitioners"] %}
+                        <li class="about-what-is-profile">{{ profile }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="about-what-is-journeys">
+            <p class="about-what-is-journeys-title">
+                By making this collective knowledge accessible in one place, it supports different learning journeys:
+            </p>
+            <ul class="about-what-is-journeys-list">
+                <li>Discover new topics, practices and approaches.</li>
+                <li>Experiment with materials and technologies.</li>
+                <li>Develop practical skills.</li>
+                <li>Share expertise and knowledge.</li>
+                <li>Connect with a community of practice.</li>
+            </ul>
+        </div>
+    </div>
+</section>
