@@ -42,7 +42,7 @@
   border: 0;
   background: none;
   font-weight: 800;
-  font-size: 8px;
+  font-size: 10px;
   line-height: 15px;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -276,7 +276,6 @@
 }
 
 .theme-resources-description {
-  max-width: 495px;
   color: #666;
 
   & p {
