@@ -1,0 +1,156 @@
+.about-approach {
+  background-color: var(--color-light-purple);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.about-approach-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 80px 0 100px;
+}
+
+/* ***INTRO*** */
+.about-approach-intro {
+  display: flex;
+  gap: 40px;
+}
+
+.about-approach-title,
+.about-approach-text {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.about-approach-title {
+  max-width: 500px;
+  color: var(--color-purple);
+  font-weight: 900;
+  font-size: 35px;
+  line-height: 35px;
+  letter-spacing: 0px;
+}
+
+.about-approach-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0px;
+}
+
+/* ***STAGES*** */
+.about-approach-stages {
+  display: flex;
+  margin-top: 56px;
+  border-top: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-black);
+  list-style: none;
+}
+
+.about-approach-stage {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px 32px 56px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  & + & {
+    border-left: 1px solid var(--color-black);
+  }
+}
+
+.about-approach-stage-image {
+  display: block;
+  width: auto;
+  height: 83px;
+  max-width: 100px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.about-approach-stage-title {
+  margin-top: 20px;
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 36px;
+  letter-spacing: 0px;
+  text-transform: capitalize;
+}
+
+.about-approach-stage-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 320px;
+  margin-top: 16px;
+  color: #666;
+
+  & p {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 0px;
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .about-approach-inner {
+    padding: 64px 0 80px;
+  }
+
+  .about-approach-title {
+    font-size: 30px;
+    line-height: 32px;
+  }
+
+  .about-approach-stage {
+    padding: 24px 20px 40px;
+  }
+
+  .about-approach-stage-image {
+    height: 64px;
+  }
+}
+
+@media (width <= 767px) {
+  .about-approach-inner {
+    padding: 48px 0 56px;
+  }
+
+  .about-approach-intro {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .about-approach-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .about-approach-stages {
+    flex-direction: column;
+    margin-top: 40px;
+  }
+
+  .about-approach-stage {
+    padding: 24px 0 32px;
+
+    & + & {
+      border-top: 1px solid var(--color-black);
+      border-left: none;
+    }
+  }
+
+  .about-approach-stage-title {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,48 @@
+{% set stages = [
+    {
+        "title": "Adopt",
+        "image": "adopt.png",
+        "paragraphs": [
+            "Explore existing knowledge, tools and methodologies. Get inspired by different practices, understand their principles and identify what can be useful for your own learning and work.",
+        ],
+    },
+    {
+        "title": "Adapt",
+        "image": "adapt.png",
+        "paragraphs": [
+            "Reflect on what you have discovered and explore how it can respond to your needs, interests and local context. Experiment with materials, tools and methods, combining and adapting existing approaches to develop your own way of working.",
+        ],
+    },
+    {
+        "title": "Apply",
+        "image": "apply.png",
+        "paragraphs": [
+            "Reflect on what you have discovered and explore how it can respond to your needs, interests and local context. Experiment with materials, tools and methods, combining and adapting existing approaches to develop your own way of working.",
+            "Turn ideas and adapted methodologies into action through making, experimentation, testing and collaboration. Develop your own activities, processes and solutions, learn from the experience and reflect on the results.",
+        ],
+    },
+] %}
+<section class="about-approach">
+    <div class="about-approach-inner">
+        <div class="about-approach-intro">
+            <h2 class="about-approach-title">What is the Learning methodology behind?</h2>
+            <p class="about-approach-text">
+                Through desk research, interviews, workshops and collaborative mapping sessions, the Fab Lab Barcelona team understood the needs, motivations and challenges of learners and educators, while identifying and acknowledging existing knowledge, areas of expertise and opportunities for shared learning. These insights informed the Learning Hub's conceptual framework, content structure and approach.
+            </p>
+        </div>
+        <ul class="about-approach-stages">
+            {% for stage in stages %}
+                <li class="about-approach-stage">
+                    <img class="about-approach-stage-image"
+                         src="{{ url_for('static', filename='images/about/' ~ stage.image) }}"
+                         alt=""
+                         loading="lazy">
+                    <h3 class="about-approach-stage-title">{{ stage.title }}</h3>
+                    <div class="about-approach-stage-text">
+                        {% for paragraph in stage.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>

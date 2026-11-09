@@ -1,0 +1,75 @@
+.about-hero {
+  background-color: var(--color-light-purple);
+  border-bottom: 2px solid var(--color-black);
+}
+
+.about-hero-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding-top: 15px;
+  padding-inline: var(--gutter);
+  box-sizing: content-box;
+}
+
+.about-hero-grid {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.about-hero-title {
+  color: var(--color-orange);
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 1.1;
+  letter-spacing: -0.96px;
+}
+
+/* Full-bleed team photo */
+.about-hero-image {
+  margin: 0;
+  background-color: var(--color-light-gray);
+  width: 100%;
+  aspect-ratio: 1600 / 1067;
+  overflow: hidden;
+
+  picture,
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .about-hero-grid {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .about-hero-title {
+    font-size: 40px;
+    letter-spacing: -0.8px;
+  }
+}
+
+@media (width <= 767px) {
+  .about-hero-inner {
+    padding-top: 12px;
+  }
+
+  .about-hero-grid {
+    padding-top: 24px;
+    padding-bottom: 28px;
+  }
+
+  .about-hero-title {
+    font-size: 32px;
+    letter-spacing: -0.6px;
+  }
+
+  .about-hero-image {
+    aspect-ratio: 4 / 3;
+  }
+}

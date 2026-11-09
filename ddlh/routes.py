@@ -160,6 +160,17 @@ def query() -> str:
     )
 
 
+@app.route("/about", methods=["GET"])
+def about() -> str:
+    breadcrumbs = utils.get_breadcrumbs(
+        {"title": "About", "url": url_for("about")},
+    )
+    return render_template(
+        "pages/about.j2",
+        breadcrumbs=breadcrumbs,
+    )
+
+
 @app.route("/about-our-use-of-llms", methods={"GET"})
 def about_llms() -> str:
     breadcrumbs = utils.get_breadcrumbs(

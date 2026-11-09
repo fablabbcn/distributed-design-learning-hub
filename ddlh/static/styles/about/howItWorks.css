@@ -1,0 +1,135 @@
+.about-how {
+  background-color: var(--color-light-white);
+  padding-inline: var(--gutter);
+}
+
+.about-how-inner {
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 80px 0 100px;
+}
+
+.about-how-title {
+  color: var(--color-purple);
+  font-weight: 900;
+  font-size: 30px;
+  line-height: 30px;
+  letter-spacing: -0.84px;
+}
+
+/* ***COLUMNS*** */
+.about-how-columns {
+  display: flex;
+  margin-top: 40px;
+  border-top: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--color-black);
+}
+
+.about-how-column {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 40px 40px 56px;
+
+  & + & {
+    border-left: 1px solid var(--color-black);
+  }
+}
+
+.about-how-column-title {
+  font-weight: 900;
+  font-size: 26px;
+  line-height: 28.08px;
+  letter-spacing: -0.65px;
+}
+
+.about-how-text {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 500px;
+  margin-top: 24px;
+  color: #666;
+
+  & p {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 100%;
+    letter-spacing: 0px;
+  }
+}
+
+.about-how-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  color: var(--color-purple);
+  text-transform: uppercase;
+  transition: color 0.2s;
+
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.84px;
+
+  & svg {
+    transition: transform 0.2s;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-soft-purple);
+
+    & svg {
+      transform: translateX(4px);
+    }
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .about-how-inner {
+    padding: 64px 0 80px;
+  }
+
+  .about-how-title {
+    font-size: 30px;
+    line-height: 32px;
+  }
+
+  .about-how-column {
+    padding: 32px 24px 40px;
+  }
+
+  .about-how-column-title {
+    font-size: 20px;
+  }
+}
+
+@media (width <= 767px) {
+  .about-how-inner {
+    padding: 48px 0 56px;
+  }
+
+  .about-how-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .about-how-columns {
+    flex-direction: column;
+    margin-top: 32px;
+  }
+
+  .about-how-column {
+    padding: 28px 0 32px;
+
+    & + & {
+      border-top: 1px solid var(--color-black);
+      border-left: none;
+    }
+  }
+}

@@ -1,0 +1,126 @@
+.about-journey {
+  background-color: var(--color-white);
+  border-bottom: 2px solid var(--color-black);
+  padding-inline: var(--gutter);
+}
+
+.about-journey-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  max-width: var(--max-width-container);
+  margin: 0 auto;
+  padding: 80px 0 100px;
+}
+
+.about-journey-title {
+  color: var(--color-purple);
+  font-weight: 900;
+  font-size: 35px;
+  line-height: 35px;
+  letter-spacing: 0;
+}
+
+/* On tablets the horizontal graph is wider than the viewport and pans
+   sideways as the page scrolls (see animations.js) */
+.about-journey-graph {
+  overflow: hidden;
+}
+
+.about-journey-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.about-journey-svg-desktop {
+  min-width: 860px;
+}
+
+/* ***MOBILE GRAPH*** */
+/* Vertical graph with HTML labels on top, mobile only */
+.about-journey-mobile {
+  display: none;
+  position: relative;
+}
+
+.about-journey-steps {
+  list-style: none;
+}
+
+/* Positioned from the design export (see journey.j2), never past the right
+   edge */
+.about-journey-step {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--w);
+  max-width: calc(100% - var(--x));
+  padding: 5px 7px;
+  border-radius: 6px;
+  background-color: var(--color-light-white);
+}
+
+.about-journey-step-title {
+  color: #555;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 13px;
+}
+
+.about-journey-step-text {
+  margin-top: 6px;
+  color: #555;
+  font-size: 10px;
+  line-height: 12px;
+}
+
+/* Step 1: the expanded one */
+.about-journey-step-highlight {
+  padding: 8px;
+  border-radius: 8px;
+  background-color: var(--color-light-purple);
+
+  & .about-journey-step-title {
+    color: var(--color-orange);
+    font-weight: 800;
+  }
+}
+
+/* ***RESPONSIVE*** */
+@media (width <= 1024px) {
+  .about-journey-inner {
+    gap: 40px;
+    padding: 64px 0;
+  }
+
+  .about-journey-title {
+    font-size: 30px;
+    line-height: 32px;
+  }
+}
+
+@media (width <= 767px) {
+  .about-journey-inner {
+    gap: 32px;
+    padding: 48px 0 56px;
+  }
+
+  .about-journey-title {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  /* No sideways pan on mobile, so labels may hang over the edge */
+  .about-journey-graph {
+    overflow: visible;
+  }
+
+  .about-journey-svg-desktop {
+    display: none;
+  }
+
+  .about-journey-mobile {
+    display: block;
+  }
+}

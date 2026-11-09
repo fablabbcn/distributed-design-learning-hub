@@ -25,6 +25,15 @@
 @import url("styles/document/summary.css");
 @import url("styles/document/related.css");
 
+/* About page */
+@import url("styles/about/hero.css");
+@import url("styles/about/whatIs.css");
+@import url("styles/about/evolvingSpace.css");
+@import url("styles/about/methodology.css");
+@import url("styles/about/approach.css");
+@import url("styles/about/journey.css");
+@import url("styles/about/howItWorks.css");
+
 /* Static pages */
 @import url("styles/static/page.css");
 

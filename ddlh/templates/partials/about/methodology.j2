@@ -1,0 +1,37 @@
+{% set steps = [
+    "Exploring materials and technologies",
+    "Experimenting with tools and processes",
+    "Developing ideas through prototyping",
+    "Learning from both successes and failures",
+] %}
+<section class="about-methodology">
+    <div class="about-methodology-inner">
+        <div class="about-methodology-intro">
+            <div class="about-methodology-main">
+                <h2 class="about-methodology-title">What is the Learning methodology behind?</h2>
+                <p class="about-methodology-lead">
+                    The Learning Hub is grounded in a participatory, community-based and practice-oriented approach to learning, with learning through making at its core.
+                </p>
+            </div>
+            <div class="about-methodology-aside">
+                <p>
+                    Drawing on Fab Lab Barcelona's experience in collaborative research, digital fabrication and open education, it understands learning as an active process built through experimentation, hands-on practice, knowledge exchange and collaboration.
+                </p>
+                <p>
+                    Rather than following a one-size-fits-all learning pathway, the methodology starts from the knowledge, skills and experiences already present within communities. <strong>It encourages people to learn by doing:</strong>
+                </p>
+            </div>
+        </div>
+        <ol class="about-methodology-steps">
+            {% for step in steps %}
+                <li class="about-methodology-step">
+                    <span class="about-methodology-step-number">{{ "%02d" % loop.index }}</span>
+                    <p class="about-methodology-step-text">{{ step }}</p>
+                </li>
+            {% endfor %}
+        </ol>
+        <p class="about-methodology-statement">
+            Understanding the practice of <em>making</em> a way to question, develop skills and transform ideas into practice.
+        </p>
+    </div>
+</section>
