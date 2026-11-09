@@ -28,20 +28,37 @@ header {
   gap: 8px;
 
   & a {
-    padding: 9px 20px;
+    --pad-x: 20px;
+    --pad-y: 9px;
+    position: relative;
+    padding: var(--pad-y) var(--pad-x);
     color: var(--color-black);
     font-weight: 500;
     font-size: 12px;
     line-height: 18px;
     letter-spacing: 0.84px;
     text-align: center;
-    transition:
-      color 0.3s ease,
-      font-weight 0.3s ease;
+    transition: color 0.3s ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: calc(var(--pad-y) - 4px);
+      left: var(--pad-x);
+      right: var(--pad-x);
+      height: 2px;
+      background-color: var(--color-purple);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
 
     &:hover {
       color: var(--color-purple);
-      font-weight: 900;
+
+      &::after {
+        transform: scaleX(1);
+      }
     }
   }
 }
@@ -56,7 +73,9 @@ header {
     gap: 4px;
 
     & a {
-      padding: 6px 8px;
+      --pad-x: 8px;
+      --pad-y: 6px;
+      padding: var(--pad-y) var(--pad-x);
     }
   }
 }

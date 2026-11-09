@@ -22,7 +22,12 @@
 
   a {
     color: var(--color-purple);
+    transition: color 0.3s ease-in-out;
     text-decoration: underline;
+
+    &:hover {
+      color: var(--color-soft-purple);
+    }
   }
 }
 

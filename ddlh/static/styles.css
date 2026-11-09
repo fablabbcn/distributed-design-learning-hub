@@ -45,7 +45,7 @@
   --color-light-white: #f4f4f4;
 
   /* Layout */
-  --max-width-container: 991px;
+  --max-width-container: 1240px;
   /* --max-width-container: 1440px; */
   --gutter: 40px;
 }
