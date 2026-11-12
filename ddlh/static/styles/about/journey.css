@@ -33,57 +33,170 @@
   height: auto;
 }
 
-.about-journey-svg-desktop {
-  min-width: 860px;
-}
-
-/* ***MOBILE GRAPH*** */
-/* Vertical graph with HTML labels on top, mobile only */
-.about-journey-mobile {
-  display: none;
-  position: relative;
-}
-
 .about-journey-steps {
   list-style: none;
 }
 
-/* Positioned from the design export (see journey.j2), never past the right
-   edge */
+/* ***STEPS*** */
+/* A grey label with the title; the open one (`.is-open`, see journey.js) is
+   a purple card that also shows the text. Only one is open at a time. */
 .about-journey-step {
   position: absolute;
-  top: var(--y);
-  left: var(--x);
-  width: var(--w);
-  max-width: calc(100% - var(--x));
-  padding: 5px 7px;
   border-radius: 6px;
   background-color: var(--color-light-white);
+  transition:
+    background-color 0.3s ease,
+    width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+
+  &:hover {
+    background-color: #eaeaea;
+  }
+
+  &.is-open {
+    z-index: 1;
+    background-color: var(--color-light-purple);
+  }
+}
+
+.about-journey-step-toggle {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-purple);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
 .about-journey-step-title {
+  display: block;
   color: #555;
   font-weight: 400;
-  font-size: 11px;
-  line-height: 13px;
+  transition: color 0.3s ease;
+
+  .is-open & {
+    color: var(--color-orange);
+    font-weight: 800;
+  }
+}
+
+/* Opens by animating the row from 0 to the text's height */
+.about-journey-step-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+    visibility 0s 0.4s;
+
+  & > div {
+    overflow: hidden;
+  }
+
+  .is-open & {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition:
+      grid-template-rows 0.4s cubic-bezier(0.65, 0, 0.35, 1),
+      visibility 0s;
+  }
 }
 
 .about-journey-step-text {
-  margin-top: 6px;
   color: #555;
-  font-size: 10px;
-  line-height: 12px;
+  line-height: 1.35;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+
+  .is-open & {
+    opacity: 1;
+    transition: opacity 0.3s ease 0.15s;
+  }
 }
 
-/* Step 1: the expanded one */
-.about-journey-step-highlight {
-  padding: 8px;
-  border-radius: 8px;
-  background-color: var(--color-light-purple);
+/* ***DESKTOP GRAPH*** */
+/* Labels are placed in the units of the SVG's viewBox (1117 wide, 518
+   tall, see journey.j2) and sized with --u, one viewBox unit, so they scale
+   with the graph. */
+.about-journey-desktop {
+  position: relative;
+  min-width: 860px;
+  container-type: inline-size;
+
+  & .about-journey-step {
+    --u: calc(100cqw / 1117);
+    top: calc(var(--y) / 518 * 100%);
+    left: calc(var(--x) / 1117 * 100%);
+    width: calc(var(--w) * var(--u));
+    padding: calc(8 * var(--u)) calc(11 * var(--u));
+    border-radius: calc(10 * var(--u));
+    font-size: calc(13 * var(--u));
+    line-height: 1.3;
+
+    &.is-open {
+      width: calc(max(var(--w), 250) * var(--u));
+      padding: calc(14 * var(--u)) calc(16 * var(--u)) calc(16 * var(--u));
+      border-radius: calc(12 * var(--u));
+    }
+  }
+
+  /* Labels near the bottom grow upwards, the last one leftwards */
+  & .about-journey-step[style*="--b"] {
+    top: auto;
+    bottom: calc((518 - var(--b)) / 518 * 100%);
+  }
+
+  & .about-journey-step[style*="--r"] {
+    left: auto;
+    right: calc((1117 - var(--r)) / 1117 * 100%);
+  }
 
   & .about-journey-step-title {
-    color: var(--color-orange);
-    font-weight: 800;
+    .is-open & {
+      font-size: calc(15 * var(--u));
+      line-height: 1.2;
+    }
+  }
+
+  & .about-journey-step-text {
+    margin-top: calc(14 * var(--u));
+  }
+}
+
+/* ***MOBILE GRAPH*** */
+/* Vertical graph, mobile only. Labels are positioned from the design export
+   (see journey.j2), never past the right edge. */
+.about-journey-mobile {
+  display: none;
+  position: relative;
+
+  & .about-journey-step {
+    top: var(--y);
+    left: var(--x);
+    width: var(--w);
+    max-width: calc(100% - var(--x));
+    padding: 5px 7px;
+    font-size: 11px;
+    line-height: 13px;
+
+    &.is-open {
+      width: max(var(--w), 55%);
+      padding: 8px;
+      border-radius: 8px;
+    }
+  }
+
+  & .about-journey-step-text {
+    margin-top: 6px;
+    font-size: 10px;
+    line-height: 13px;
   }
 }
 
@@ -116,11 +229,21 @@
     overflow: visible;
   }
 
-  .about-journey-svg-desktop {
+  .about-journey-desktop {
     display: none;
   }
 
   .about-journey-mobile {
     display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-journey-step,
+  .about-journey-step-title,
+  .about-journey-step-body,
+  .about-journey-step-text {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
   }
 }

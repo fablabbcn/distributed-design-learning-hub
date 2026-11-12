@@ -516,8 +516,8 @@
           return best;
         };
 
-        // Labels are inside the SVG on desktop, HTML next to it on mobile
-        const labels = svg.closest(".about-journey-mobile") || svg;
+        // Labels are HTML laid over the SVG, in the same wrapper
+        const labels = svg.closest(".about-journey-desktop, .about-journey-mobile");
         const steps = $$(".about-journey-dot", svg).map((dot) => ({
           dot,
           label: $(`.about-journey-label[data-step="${dot.dataset.step}"]`, labels),
@@ -548,12 +548,16 @@
 
         tl.to(line, { strokeDashoffset: 0, duration: 1 }, 0);
 
-        // Pan sideways when the graph is wider than the screen (tablet)
+        // Pan sideways when the graph is wider than the screen (tablet). The
+        // whole wrapper moves so the labels go with the line.
         tl.to(
-          svg,
+          labels,
           {
             x: () =>
-              Math.min(0, graph.clientWidth - svg.getBoundingClientRect().width),
+              Math.min(
+                0,
+                graph.clientWidth - labels.getBoundingClientRect().width,
+              ),
             duration: 1,
           },
           0,
