@@ -29,7 +29,7 @@
   margin: 0;
   background-color: var(--color-light-gray);
   width: 100%;
-  aspect-ratio: 1600 / 1067;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 
   picture,
@@ -69,7 +69,8 @@
     letter-spacing: -0.6px;
   }
 
+  /* Portrait photo on mobile (see hero.j2) */
   .about-hero-image {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
   }
 }

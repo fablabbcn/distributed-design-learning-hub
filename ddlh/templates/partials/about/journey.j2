@@ -1,44 +1,100 @@
-{# Mobile labels are HTML laid over the vertical graph. Their position is a
-   percentage of the graph: --x / --y is the top-left corner, --w the width.
-   They start from the design export, with some boxes widened (and step 1
-   moved left) so the larger text wraps less. Tweak them here if a label
-   needs nudging. #}
+{# Each step is a button that opens a card with its text (see journey.js);
+   step 1 starts open. The labels are HTML laid over the graphs.
+
+   desktop: position in the units of journeyGraph.svg (viewBox 1117 x 518),
+     from the design export. x / y is the top-left corner and w the width of
+     the closed label. "b" anchors the bottom edge instead of the top (the
+     card grows upwards) and "r" the right edge instead of the left.
+   mobile: percentages of journeyGraphMobile.svg. --x / --y is the top-left
+     corner, --w the width. Some boxes are wider than in the design export
+     (and step 1 moved left) so the text wraps less. #}
 {% set steps = [
     {
         "title": "1. Participatory research and knowledge mapping",
         "text": "Exploring existing learning practices, community needs, skills and areas of expertise.",
-        "position": "--x: 62%; --y: 16.81%; --w: 38%",
+        "desktop": "--x: 193.7; --y: 52.7; --w: 192",
+        "mobile": "--x: 62%; --y: 16.81%; --w: 38%",
     },
-    {"title": "2. Defining the approach", "position": "--x: 29.77%; --y: 27.90%; --w: 30%"},
-    {"title": "3. Collecting resources with the Distributed Design community", "position": "--x: 1.97%; --y: 38.07%; --w: 40%"},
-    {"title": "4. Building the platform", "position": "--x: 43.09%; --y: 48.70%; --w: 32%"},
-    {"title": "5. Official release during Vienna Design Week 2024", "position": "--x: 60.36%; --y: 59.96%; --w: 39.64%"},
-    {"title": "6. Collecting resources with the make-a-thek community", "position": "--x: 25.82%; --y: 70.76%; --w: 40%"},
-    {"title": "7. Development of curated learning tools and activities", "position": "--x: 1.97%; --y: 81.30%; --w: 38%"},
-    {"title": "8. Updated Learning Hub release February 2027", "position": "--x: 46.22%; --y: 91.42%; --w: 42%"},
+    {
+        "title": "2. Defining the approach",
+        "text": "Defining the Learning Hub purpose and how it can support people in learning, exploring, teaching and sharing knowledge.",
+        "desktop": "--x: 197.7; --y: 278; --w: 189.4",
+        "mobile": "--x: 29.77%; --y: 27.90%; --w: 30%",
+    },
+    {
+        "title": "3. Collecting resources with the Distributed Design community",
+        "text": "Bringing together tools, methodologies and resources from the Distributed Design network.",
+        "desktop": "--x: 202.2; --b: 450.6; --w: 243.2",
+        "mobile": "--x: 1.97%; --y: 38.07%; --w: 40%",
+    },
+    {
+        "title": "4. Building the platform",
+        "text": "Uploading and curating the Learning Hub’s resources, and developing a dedicated AI system that creates topic-based summaries from the collection, helping users discover relevant knowledge and explore its original sources.",
+        "desktop": "--x: 487.6; --y: 175.9; --w: 124.2",
+        "mobile": "--x: 43.09%; --y: 48.70%; --w: 32%",
+    },
+    {
+        "title": "5. Official release during Vienna Design Week 2024",
+        "text": "Launch of the first version of the Learning Hub to the public.",
+        "desktop": "--x: 708; --y: 79.5; --w: 201.8",
+        "mobile": "--x: 60.36%; --y: 59.96%; --w: 39.64%",
+    },
+    {
+        "title": "6. Collecting resources with the make-a-thek community",
+        "text": "Selection of new resources, knowledge and experiences contributed by make-a-thek partners and their communities.",
+        "desktop": "--x: 699.1; --y: 274.4; --w: 233.5",
+        "mobile": "--x: 25.82%; --y: 70.76%; --w: 40%",
+    },
+    {
+        "title": "7. Development of curated learning tools and activities",
+        "text": "Turning experiences and methodologies into documented learning activities that others can reuse and adapt.",
+        "desktop": "--x: 735.7; --b: 450; --w: 223.8",
+        "mobile": "--x: 1.97%; --y: 81.30%; --w: 38%",
+    },
+    {
+        "title": "8. Updated Learning Hub release February 2027",
+        "text": "Launching an updated version of the Hub, bringing together an expanded collection of resources and new learning tools and activities.",
+        "desktop": "--r: 1078.9; --y: 184.4; --w: 190.3",
+        "mobile": "--x: 46.22%; --y: 91.42%; --w: 42%",
+    },
 ] %}
+{% macro journey_steps(steps, variant) %}
+    <ol class="about-journey-steps">
+        {% for step in steps %}
+            {% set id = "about-journey-" ~ variant ~ "-" ~ loop.index %}
+            <li class="about-journey-label about-journey-step{% if loop.first %} is-open{% endif %}"
+                data-step="{{ loop.index }}"
+                style="{{ step[variant] }}">
+                <button type="button"
+                        class="about-journey-step-toggle"
+                        aria-expanded="{{ 'true' if loop.first else 'false' }}"
+                        aria-controls="{{ id }}">
+                    <span class="about-journey-step-title">{{ step.title }}</span>
+                </button>
+                <div class="about-journey-step-body" id="{{ id }}">
+                    <div>
+                        <p class="about-journey-step-text">{{ step.text }}</p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
+{% endmacro %}
 <section class="about-journey">
     <div class="about-journey-inner">
         <h2 class="about-journey-title">The Learning Hub journey</h2>
         {# The graphs are inlined so their line and dots can be animated. Both
-           SVGs are generated from the design exports: each dot (and, on the
-           desktop graph, each label) is a group with a data-step (1-8) in the
-           order of the line. CSS shows the horizontal graph on desktop and the
-           vertical one, with HTML labels, on mobile. #}
+           SVGs are generated from the design exports: each dot is a group
+           with a data-step (1-8) in the order of the line. CSS shows the
+           horizontal graph on desktop and the vertical one on mobile. #}
         <div class="about-journey-graph">
-            {% include "partials/about/journeyGraph.svg" %}
+            <div class="about-journey-desktop">
+                {% include "partials/about/journeyGraph.svg" %}
+                {{ journey_steps(steps, "desktop") }}
+            </div>
             <div class="about-journey-mobile">
                 {% include "partials/about/journeyGraphMobile.svg" %}
-                <ol class="about-journey-steps">
-                    {% for step in steps %}
-                        <li class="about-journey-label about-journey-step{% if step.text %} about-journey-step-highlight{% endif %}"
-                            data-step="{{ loop.index }}"
-                            style="{{ step.position }}">
-                            <p class="about-journey-step-title">{{ step.title }}</p>
-                            {% if step.text %}<p class="about-journey-step-text">{{ step.text }}</p>{% endif %}
-                        </li>
-                    {% endfor %}
-                </ol>
+                {{ journey_steps(steps, "mobile") }}
             </div>
         </div>
     </div>

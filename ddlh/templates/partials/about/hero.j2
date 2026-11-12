@@ -5,18 +5,33 @@
             <h1 class="about-hero-title">About</h1>
         </div>
     </div>
+    {# Portrait photo on mobile (matches the 767px breakpoint in the CSS),
+       landscape everywhere else; WebP with JPG fallback #}
+    {% macro srcset(name, widths, ext) -%}
+        {%- for w in widths -%}
+            {{ url_for('static', filename='images/about/' ~ name ~ '-' ~ w ~ '.' ~ ext) }} {{ w }}w{{ ", " if not loop.last }}
+        {%- endfor -%}
+    {%- endmacro %}
+    {% set mobile = [600, 900, 1200] %}
+    {% set desktop = [1280, 1920, 2560] %}
     <figure class="about-hero-image">
-        {% set img = "images/about/about-" %}
         <picture>
-            <source type="image/webp"
-                    srcset="{{ url_for('static', filename=img ~ '800.webp') }} 800w, {{ url_for('static', filename=img ~ '1200.webp') }} 1200w, {{ url_for('static', filename=img ~ '1600.webp') }} 1600w"
+            <source media="(max-width: 767px)"
+                    type="image/webp"
+                    srcset="{{ srcset('about-mobile', mobile, 'webp') }}"
                     sizes="100vw">
-            <img src="{{ url_for('static', filename=img ~ '1600.jpg') }}"
-                 srcset="{{ url_for('static', filename=img ~ '800.jpg') }} 800w, {{ url_for('static', filename=img ~ '1200.jpg') }} 1200w, {{ url_for('static', filename=img ~ '1600.jpg') }} 1600w"
+            <source media="(max-width: 767px)"
+                    srcset="{{ srcset('about-mobile', mobile, 'jpg') }}"
+                    sizes="100vw">
+            <source type="image/webp"
+                    srcset="{{ srcset('about-desktop', desktop, 'webp') }}"
+                    sizes="100vw">
+            <img src="{{ url_for('static', filename='images/about/about-desktop-1920.jpg') }}"
+                 srcset="{{ srcset('about-desktop', desktop, 'jpg') }}"
                  sizes="100vw"
                  alt="The Fab Lab Barcelona and make-a-thek team"
-                 width="1600"
-                 height="1067"
+                 width="1920"
+                 height="1080"
                  fetchpriority="high"
                  decoding="async">
         </picture>
