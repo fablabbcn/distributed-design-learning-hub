@@ -30,6 +30,7 @@ header {
   & a {
     --pad-x: 20px;
     --pad-y: 9px;
+
     position: relative;
     padding: var(--pad-y) var(--pad-x);
     color: var(--color-black);
@@ -75,6 +76,7 @@ header {
     & a {
       --pad-x: 8px;
       --pad-y: 6px;
+
       padding: var(--pad-y) var(--pad-x);
     }
   }

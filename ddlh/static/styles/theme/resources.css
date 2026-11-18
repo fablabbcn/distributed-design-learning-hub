@@ -342,7 +342,7 @@
   align-items: center;
   gap: 5px;
   transition: all ease 0.3s;
-  
+
   & path {
     transition: fill ease 0.3s;
   }

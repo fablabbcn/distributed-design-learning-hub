@@ -57,7 +57,7 @@
     font-weight: 400;
     font-size: 13px;
     line-height: 100%;
-    letter-spacing: 0px;
+    letter-spacing: 0;
   }
 }
 
@@ -69,7 +69,6 @@
   color: var(--color-purple);
   text-transform: uppercase;
   transition: color 0.2s;
-
   font-weight: 700;
   font-size: 12px;
   line-height: 18px;
