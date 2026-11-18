@@ -152,20 +152,33 @@
     // so triggers on its lower parts may never reach their start position
     const groups = [
       [$$(".footer-partners h3", footer), { duration: 0.8 }],
-      [$$(".footer-partners-logos > *", footer), { duration: 0.7, stagger: 0.03 }, "-=0.6"],
-      [$$(".footer-credits-logos figure", footer), { autoAlpha: 0.6, stagger: 0.12 }, "-=0.5"],
+      [
+        $$(".footer-partners-logos > *", footer),
+        { duration: 0.7, stagger: 0.03 },
+        "-=0.6",
+      ],
+      [
+        $$(".footer-credits-logos figure", footer),
+        { autoAlpha: 0.6, stagger: 0.12 },
+        "-=0.5",
+      ],
       [$$(".footer-credits-text p", footer), { autoAlpha: 0.6 }, "-=0.7"],
       [$$(".footer-rights p", footer), { duration: 0.7 }, "-=0.6"],
     ].filter(([targets]) => targets.length);
     if (!groups.length) return;
 
-    gsap.set(groups.flatMap(([targets]) => targets), { y: 30, autoAlpha: 0 });
+    gsap.set(
+      groups.flatMap(([targets]) => targets),
+      { y: 30, autoAlpha: 0 },
+    );
 
     const tl = gsap.timeline({
       paused: true,
       defaults: { y: 0, autoAlpha: 1, duration: 0.9, ease },
     });
-    groups.forEach(([targets, vars, position]) => tl.to(targets, vars, position));
+    groups.forEach(([targets, vars, position]) =>
+      tl.to(targets, vars, position),
+    );
 
     ScrollTrigger.create({
       trigger: footer,
@@ -517,10 +530,15 @@
         };
 
         // Labels are HTML laid over the SVG, in the same wrapper
-        const labels = svg.closest(".about-journey-desktop, .about-journey-mobile");
+        const labels = svg.closest(
+          ".about-journey-desktop, .about-journey-mobile",
+        );
         const steps = $$(".about-journey-dot", svg).map((dot) => ({
           dot,
-          label: $(`.about-journey-label[data-step="${dot.dataset.step}"]`, labels),
+          label: $(
+            `.about-journey-label[data-step="${dot.dataset.step}"]`,
+            labels,
+          ),
           at: progressAt(+dot.dataset.x, +dot.dataset.y),
         }));
 
@@ -529,10 +547,10 @@
           steps.map(({ dot }) => dot),
           { autoAlpha: 0, scale: 0, transformOrigin: "50% 50%" },
         );
-        gsap.set(
-          steps.map(({ label }) => label).filter(Boolean),
-          { autoAlpha: 0, y: 16 },
-        );
+        gsap.set(steps.map(({ label }) => label).filter(Boolean), {
+          autoAlpha: 0,
+          y: 16,
+        });
 
         const tl = gsap.timeline({
           defaults: { ease: "none" },
@@ -578,21 +596,23 @@
         });
       };
 
-      gsap.matchMedia().add(
-        { mobile: "(max-width: 767px)", desktop: "(min-width: 768px)" },
-        ({ conditions }) =>
-          conditions.mobile
-            ? // Tall graph: done just above the middle of the screen
-              animateJourneyGraph(
-                $(".about-journey-svg-mobile", graph),
-                "bottom 45%",
-              )
-            : // Done as soon as the whole graph is on screen
-              animateJourneyGraph(
-                $(".about-journey-svg-desktop", graph),
-                "bottom 75%",
-              ),
-      );
+      gsap
+        .matchMedia()
+        .add(
+          { mobile: "(max-width: 767px)", desktop: "(min-width: 768px)" },
+          ({ conditions }) =>
+            conditions.mobile
+              ? // Tall graph: done just above the middle of the screen
+                animateJourneyGraph(
+                  $(".about-journey-svg-mobile", graph),
+                  "bottom 45%",
+                )
+              : // Done as soon as the whole graph is on screen
+                animateJourneyGraph(
+                  $(".about-journey-svg-desktop", graph),
+                  "bottom 75%",
+                ),
+        );
     }
 
     // How does it work?

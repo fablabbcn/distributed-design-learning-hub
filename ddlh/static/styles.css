@@ -55,6 +55,7 @@
 
   /* Layout */
   --max-width-container: 1240px;
+
   /* --max-width-container: 1440px; */
   --gutter: 40px;
 }

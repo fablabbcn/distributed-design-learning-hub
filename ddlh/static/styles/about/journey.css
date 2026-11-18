@@ -38,6 +38,7 @@
 }
 
 /* ***STEPS*** */
+
 /* A grey label with the title; the open one (`.is-open`, see journey.js) is
    a purple card that also shows the text. Only one is open at a time. */
 .about-journey-step {
@@ -122,6 +123,7 @@
 }
 
 /* ***DESKTOP GRAPH*** */
+
 /* Labels are placed in the units of the SVG's viewBox (1117 wide, 518
    tall, see journey.j2) and sized with --u, one viewBox unit, so they scale
    with the graph. */
@@ -132,6 +134,7 @@
 
   & .about-journey-step {
     --u: calc(100cqw / 1117);
+
     top: calc(var(--y) / 518 * 100%);
     left: calc(var(--x) / 1117 * 100%);
     width: calc(var(--w) * var(--u));
@@ -171,6 +174,7 @@
 }
 
 /* ***MOBILE GRAPH*** */
+
 /* Vertical graph, mobile only. Labels are positioned from the design export
    (see journey.j2), never past the right edge. */
 .about-journey-mobile {

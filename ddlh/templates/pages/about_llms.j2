@@ -22,7 +22,7 @@
             </p>
             <p>
                 <strong>If you encounter any LLM generated content which you believe to be inaccurate, discriminatory, or harmful, please <a href="https://airtable.com/appE3FwwATH2Ul3RR/pagMZlVZfvVtZclhU/form"
-        target="_blank">report it to us using the feedback form</a>, and we will review it and take action.</strong>
+    target="_blank">report it to us using the feedback form</a>, and we will review it and take action.</strong>
             </p>
             <h2>Some tips for working with LLM generated summaries</h2>
             <ul>
@@ -54,7 +54,7 @@
             </ul>
             <p>
                 We do so through our choice of technologies: We selected the  <a href="https://mistral.ai/news/mixtral-8x22b/" target="_blank">mixtral-8x-22B</a> model not just for its performance, but also because it <a href="https://docs.mistral.ai/capabilities/guardrailing/"
-        target="_blank">offers robust guardrails against discriminatory and harmful content</a> and is <a href="https://mistral.ai/news/mixtral-8x22b/" target="_blank">requires less computational power</a>, and therefore material resources, than other similar models.
+    target="_blank">offers robust guardrails against discriminatory and harmful content</a> and is <a href="https://mistral.ai/news/mixtral-8x22b/" target="_blank">requires less computational power</a>, and therefore material resources, than other similar models.
             </p>
             <p>
                 In addition, this commitment is reflected as a design concern: We use LLMs only as a fallback to generate specific content when we do not have content already available, and we cache responses to ensure that the amount of text generated is kept to a minimum. In addition, our strategy of producing only successive summaries of text from within the Distributed Design platform archive cuts down on the likelihood that discriminatory or harmful content is generated.
@@ -65,7 +65,7 @@
             <h2>How we use LLMs to generate summaries</h2>
             <p>
                 The Learning Hub search interface operates, broadly, as a <a href="https://en.wikipedia.org/wiki/Retrieval-augmented_generation"
-        target="_blank">Retrieval-Augmented Generation (RAG)</a> system.
+    target="_blank">Retrieval-Augmented Generation (RAG)</a> system.
             </p>
             <p>
                 Our editorial team have written, by hand, a summary for each document in the Learning Hub archive, and categorised them by hand into thematic areas, and more general tags. This editorial content, plus the text of the document itself, is used to create <strong>embeddings</strong> - mathematical representations of portions of the document which can be compared to each other (and to text queries) in a way that allows us to query the resulting database by semantic similarity.
@@ -81,8 +81,8 @@
             </p>
             <p>
                 For those who want more technical details: our embeddings are created with the <a href="https://docs.mistral.ai/getting-started/models/"
-        target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use the <a href="https://mistral.ai/news/mixtral-8x22b/" target="_blank">mixtral-8x-22B</a> large language model to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
-        target="_blank">available on Github</a>.
+    target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use the <a href="https://mistral.ai/news/mixtral-8x22b/" target="_blank">mixtral-8x-22B</a> large language model to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
+    target="_blank">available on Github</a>.
             </p>
         </div>
     </section>
