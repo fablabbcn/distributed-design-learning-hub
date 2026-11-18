@@ -40,8 +40,6 @@ TOP_SENTENCE_PROMPT: str = (
 # "This document" / "The document" is removed.
 DOCUMENT_PREFIX_PATTERN = re.compile(r"^\s*th(e|is) document\b\s*", re.IGNORECASE)
 
-DEFAULT_QUERY_CACHE_TIMEOUT: int = 60 * 24 * 60 * 60  # 60 days
-
 DocumentResult = TypedDict(
     "DocumentResult",
     {
@@ -194,27 +192,12 @@ class RAGIndex:
         self.llamaindex.index_documents(documents)
 
 
-def get_query_cache_timeout() -> Optional[int]:
-    """
-    Query summary cache TTL in seconds, from REDIS_QUERY_CACHE_TIMEOUT.
-    Defaults to DEFAULT_QUERY_CACHE_TIMEOUT; 0 or less disables expiry.
-    """
-    value = environ.get("REDIS_QUERY_CACHE_TIMEOUT", "").strip()
-    if not value:
-        return DEFAULT_QUERY_CACHE_TIMEOUT
-    timeout = int(value)
-    return timeout if timeout > 0 else None
-
-
 def get_rag_index_instance(
     documents_repository: Optional[DocumentsRepository] = None,
 ) -> RAGIndex:
     llamaindex = get_llamaindex_instance()
     if documents_repository is None:
         documents_repository = DocumentsRepository(airtable.get_db_instance())
-    cache = create_cache(
-        prefix=environ["REDIS_QUERY_CACHE_PREFIX"],
-        timeout=get_query_cache_timeout(),
-    )
+    cache = create_cache(prefix=environ["REDIS_QUERY_CACHE_PREFIX"])
     max_document_summaries = int(environ["RETRIEVAL_MAX_DOCUMENT_SUMMARIES"])
     return RAGIndex(llamaindex, documents_repository, cache, max_document_summaries)

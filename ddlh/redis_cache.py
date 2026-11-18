@@ -49,7 +49,9 @@ class RedisCache:
                 json_value = json.dumps(serialized_value)
             else:
                 json_value = json.dumps(value)
-            self.redis.set(key, json_value, ex=self.config.timeout)
+            self.redis.set(key, json_value)
+            if self.config.timeout is not None:
+                self.redis.expire(key, self.config.timeout)
             return value
 
     def get_if_cached(

@@ -53,65 +53,62 @@
                 </li>
             </ul>
             <p>
-                We do so through our choice of technologies. Summaries are written by <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, developed by the Paris-based company Mistral AI. We chose it because:
+                We do so through our choice of technologies. Summaries are written by <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, from the Paris-based company Mistral AI, which we chose because it is:
             </p>
             <ul>
                 <li>
-                    It is <strong>open-weight</strong>: the model is published under the permissive Apache 2.0 licence, so anyone can inspect, download, and run it on their own hardware.
+                    <strong>Open-weight</strong>: published under the Apache 2.0 licence, so anyone can inspect, download, and run it.
                 </li>
                 <li>
-                    It is a <strong>small <a href="https://en.wikipedia.org/wiki/Mixture_of_experts"
-    target="_blank">mixture-of-experts</a> model</strong>: only a small part of the model is used to produce each word, so it needs much less computing power, and therefore energy and material resources, than the large general-purpose models behind the most popular chatbots. Summarising a few passages that we provide does not need more than that.
+                    <strong>Small and efficient</strong>: a <a href="https://en.wikipedia.org/wiki/Mixture_of_experts"
+    target="_blank">mixture-of-experts</a> model that uses only a small part of itself for each word, so it needs far less computing power, energy, and hardware than the large models behind popular chatbots. We also leave its optional "reasoning" mode off, as it would multiply the computation for little benefit on such a short task.
                 </li>
                 <li>
-                    It <a href="https://docs.mistral.ai/studio/safety-moderation"
-    target="_blank">offers guardrails against discriminatory and harmful content</a>, which we keep switched on. We also leave its optional step-by-step "reasoning" mode switched off, as it would multiply the computation needed for little benefit on such a short task.
+                    <strong>Safer</strong>: it <a href="https://docs.mistral.ai/studio/safety-moderation"
+    target="_blank">offers guardrails</a> against discriminatory and harmful content.
                 </li>
             </ul>
             <p>
-                Rather than fixing a specific version, we always use Mistral's current Small model, so that we benefit from its improvements without needing to change our code.
+                Rather than fixing a specific version, we always use Mistral's current Small model, so we benefit from its improvements without changing our code.
             </p>
             <p>
-                In addition, this commitment is reflected as a design concern: We use LLMs only as a fallback to generate specific content when we do not have content already available, and we cache responses to ensure that the amount of text generated is kept to a minimum. Each summary is generated once and then reused for everyone who searches for the same theme, and is only regenerated every couple of months, so that it reflects the model we currently use. In addition, our strategy of producing only successive summaries of text from within the Distributed Design platform archive cuts down on the likelihood that discriminatory or harmful content is generated.
+                In addition, this commitment is reflected as a design concern: We use LLMs only as a fallback to generate specific content when we do not have content already available, and we cache responses to ensure that the amount of text generated is kept to a minimum. Each summary is generated once and then reused for everyone who searches for the same theme. In addition, our strategy of producing only successive summaries of text from within the Distributed Design platform archive cuts down on the likelihood that discriminatory or harmful content is generated.
             </p>
             <p>
                 Finally, we have tested and audited the system for bias and harm pre-launch, and review all generated content on an ongoing basis for accuracy and fairness. We hope that as well as providing a useful service, the Distributed Design Learning Hub might also serve as an example of best-practice for incorporating machine learning technologies in projects in a way that reflects and respects the values of the Distributed Design community.
             </p>
             <h2>The environmental footprint of our summaries</h2>
             <p>
-                Every response from an LLM uses electricity, water to cool data centres, and hardware whose manufacture has its own impacts. These are hard to measure precisely, and AI companies publish very different figures, measured in different ways, if they publish any at all. This is what we know as of November 2026:
+                Every LLM response uses electricity, water for cooling, and hardware. Providers publish very different figures, measured in different ways, so comparisons are approximate. As of November 2026:
             </p>
             <ul>
                 <li>
-                    <strong>Mistral AI</strong> has published a <a href="https://mistral.ai/news/our-contribution-to-a-global-environmental-standard-for-ai"
-    target="_blank">life-cycle analysis</a> of one of its models, carried out with the consultancy Carbone 4 and the French ecological transition agency ADEME, and reviewed by two independent consultancies. For its much larger Mistral Large 2 model, it estimated <strong>1.14 g of CO₂-equivalent and 45 mL of water</strong> for a 400-token (roughly 300-word) response from its Le Chat assistant, and found that impacts are roughly proportional to model size. The model we use does only a small fraction of Mistral Large 2's computation for each word it writes, and our summaries are only one or two sentences long, so each of them should have a correspondingly smaller footprint.
+                    <strong>Mistral AI</strong> has published an independently reviewed <a href="https://mistral.ai/news/our-contribution-to-a-global-environmental-standard-for-ai"
+    target="_blank">life-cycle analysis</a>: 1.14 g CO₂e and 45 mL of water for a 400-token response from its much larger Mistral Large 2 model, with impacts roughly proportional to model size. Our one- or two-sentence summaries, from a much smaller model, should be well below that.
                 </li>
                 <li>
-                    <strong>OpenAI</strong> has stated that the <a href="https://blog.samaltman.com/the-gentle-singularity"
-    target="_blank">average ChatGPT query uses about 0.34 Wh</a> of electricity, without saying which model or what the figure includes, and has not published CO₂ figures per query.
+                    <strong>OpenAI</strong> states that an average ChatGPT query uses <a href="https://blog.samaltman.com/the-gentle-singularity"
+    target="_blank">about 0.34 Wh</a>, without saying what that includes, and publishes no CO₂ figure.
                 </li>
                 <li>
-                    <strong>Anthropic</strong> has not, to our knowledge, published energy or CO₂ figures per request for its Claude models.
+                    <strong>Anthropic</strong> has not, to our knowledge, published per-request figures for its Claude models.
                 </li>
                 <li>
-                    <strong>Google</strong> has published a <a href="https://arxiv.org/abs/2508.15734" target="_blank">detailed methodology</a> estimating 0.24 Wh, 0.03 g CO₂e and 0.26 mL of water for a median Gemini text prompt, which is a useful reference point, although it excludes the training of the model.
+                    <strong>Google</strong> reports <a href="https://arxiv.org/abs/2508.15734" target="_blank">0.24 Wh and 0.03 g CO₂e</a> for a median Gemini prompt, excluding training.
+                </li>
+                <li>
+                    The independent <a href="https://ecologits.ai/" target="_blank">EcoLogits</a> tool estimates about 0.14 Wh for a response from the current Mistral Small model: around 10 to 25 times less than the largest GPT and Claude models. The smallest models from other providers, such as Claude Haiku, are estimated as low or lower.
                 </li>
             </ul>
             <p>
-                The size of the latest GPT and Claude models is not public, so independent estimates have to rely on assumptions. The open-source <a href="https://ecologits.ai/" target="_blank">EcoLogits</a> tool from the non-profit GenAI Impact estimates that a 400-token response from the current Mistral Small model uses about 0.14 Wh, against roughly 1.3 to 3.5 Wh for the largest current models, such as Claude Opus 5.5 and GPT-5.5: around 10 to 25 times less energy. The smallest models from other providers, such as Claude Haiku, are estimated to use as little or even less. These are modelled estimates rather than measurements, and other studies reach different numbers, but they agree on the main point: <strong>the size of the model, and whether it "reasons" at length, matters far more than which company makes it</strong>. This is why we use a small model for a small task.
-            </p>
-            <p>
-                Where the computation happens also matters, as the CO₂ emitted to produce electricity varies widely between countries. In 2025, it was around 384 g CO₂e per kWh in the United States, 210 g on average in the EU, and between 35 and 41 g in Sweden and France (<a href="https://ourworldindata.org/grapher/carbon-intensity-electricity"
-   target="_blank">Ember, via Our World in Data</a>). The same request can therefore have a carbon footprint several times higher or lower depending on the data centre that answers it. Our requests are processed in Europe (see below), where electricity is on average much less carbon-intensive than in the United States, although the exact mix depends on which data centre answers each request.
+                In short, <strong>the size of the model, and whether it "reasons" at length, matters far more than who makes it</strong>, so we use a small model for a small task. Location matters too: in 2025, electricity emitted around 384 g CO₂e per kWh in the United States, 210 g in the EU, and 35 to 41 g in Sweden and France (<a href="https://ourworldindata.org/grapher/carbon-intensity-electricity"
+   target="_blank">Ember, via Our World in Data</a>).
             </p>
             <h2>A European model provider</h2>
             <p>
-                Mistral AI is headquartered in Paris, which makes it one of the leading developers of language models based in the European Union. Like OpenAI, Anthropic, and Google, it has signed the EU's <a href="https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai"
-    target="_blank">General-Purpose AI Code of Practice</a> under the AI Act. And because its model is open-weight, it could also be run on independent European infrastructure, should we ever need to.
-            </p>
-            <p>
-                We send all our requests to Mistral's <a href="https://docs.mistral.ai/inference/regional-inference"
-    target="_blank">EU regional endpoint</a>, so both the conversion of your search into an embedding and the writing of summaries are processed in data centres in the European Union and EFTA countries. We only send Mistral the theme you searched for and passages from the Distributed Design Platform archive: nothing that identifies you, such as your IP address, is sent. In addition, <a href="https://help.mistral.ai/en/articles/347629" target="_blank">Mistral hosts its customers' data in the European Union</a> by default, although some data may be temporarily transferred outside the EU under GDPR safeguards.
+                Mistral AI is based in Paris and, like OpenAI, Anthropic, and Google, has signed the EU's <a href="https://digital-strategy.ec.europa.eu/en/policies/contents-code-gpai"
+    target="_blank">General-Purpose AI Code of Practice</a>. As its model is open-weight, it could also run on independent European infrastructure if needed. By default, <a href="https://help.mistral.ai/en/articles/347629" target="_blank">Mistral hosts customer data in the EU</a>, although it <a href="https://docs.mistral.ai/inference/regional-inference"
+    target="_blank">does not commit to where requests to its standard API are processed</a>. We only send Mistral the theme you searched for and passages from the Distributed Design Platform archive: nothing that identifies you.
             </p>
             <h2>How we use LLMs to generate summaries</h2>
             <p>
@@ -131,7 +128,7 @@
                 Finally, we provide the text of all the fragments of the summarised documents to the language model, along with a prompt to summarise the topic in general, using the information provided. This is added as the first sentence to the summary.
             </p>
             <p>
-                For those who want more technical details: our embeddings are created with the <a href="https://docs.mistral.ai/models" target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, through Mistral's EU regional endpoint (which we also use for embeddings), to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
+                For those who want more technical details: our embeddings are created with the <a href="https://docs.mistral.ai/models" target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, through Mistral's API, to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
     target="_blank">available on Github</a>.
             </p>
         </div>

@@ -3,15 +3,8 @@ from unittest.mock import MagicMock
 import pytest  # type: ignore
 from llama_index.core.base.response.schema import Response
 
-from ddlh import rag
 from ddlh.models import DocumentSummary
-from ddlh.rag import (
-    DEFAULT_QUERY_CACHE_TIMEOUT,
-    DOCUMENT_SUMMARY_PROMPT,
-    TOP_SENTENCE_PROMPT,
-    RAGIndex,
-    get_query_cache_timeout,
-)
+from ddlh.rag import DOCUMENT_SUMMARY_PROMPT, TOP_SENTENCE_PROMPT, RAGIndex
 
 
 class TestPrompts:
@@ -111,49 +104,3 @@ class TestRAGIndex:
 
         assert len(responses) == 3
         assert self.llamaindex.synthesize.call_count == 3
-
-
-class TestQueryCacheTimeout:
-
-    def test_it_defaults_to_the_default_timeout(self, monkeypatch):
-        """
-        Without REDIS_QUERY_CACHE_TIMEOUT, summaries expire after the default
-        """
-        monkeypatch.delenv("REDIS_QUERY_CACHE_TIMEOUT", raising=False)
-        assert get_query_cache_timeout() == DEFAULT_QUERY_CACHE_TIMEOUT
-        assert 30 * 86400 <= DEFAULT_QUERY_CACHE_TIMEOUT <= 90 * 86400
-
-    def test_it_treats_an_empty_value_as_the_default(self, monkeypatch):
-        """
-        An empty REDIS_QUERY_CACHE_TIMEOUT also uses the default
-        """
-        monkeypatch.setenv("REDIS_QUERY_CACHE_TIMEOUT", "")
-        assert get_query_cache_timeout() == DEFAULT_QUERY_CACHE_TIMEOUT
-
-    def test_it_reads_the_timeout_from_the_environment(self, monkeypatch):
-        """
-        REDIS_QUERY_CACHE_TIMEOUT sets the expiry in seconds
-        """
-        monkeypatch.setenv("REDIS_QUERY_CACHE_TIMEOUT", "86400")
-        assert get_query_cache_timeout() == 86400
-
-    def test_zero_disables_expiry(self, monkeypatch):
-        """
-        A timeout of 0 means cached summaries never expire
-        """
-        monkeypatch.setenv("REDIS_QUERY_CACHE_TIMEOUT", "0")
-        assert get_query_cache_timeout() is None
-
-    def test_the_rag_index_cache_uses_the_timeout(self, mocker, monkeypatch):
-        """
-        The RAG index's query cache is created with the configured timeout
-        """
-        monkeypatch.setenv("REDIS_QUERY_CACHE_PREFIX", "queries")
-        monkeypatch.setenv("REDIS_QUERY_CACHE_TIMEOUT", "1234")
-        monkeypatch.setenv("RETRIEVAL_MAX_DOCUMENT_SUMMARIES", "3")
-        mocker.patch.object(rag, "get_llamaindex_instance")
-        create_cache = mocker.patch.object(rag, "create_cache")
-
-        rag.get_rag_index_instance(MagicMock())
-
-        create_cache.assert_called_once_with(prefix="queries", timeout=1234)

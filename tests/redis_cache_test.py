@@ -18,34 +18,18 @@ class TestRedisCache:
             RedisCacheConfig(redis_url="redis://test", prefix=prefix, timeout=timeout)
         )
 
-    def test_it_stores_values_with_the_timeout_as_expiry(self):
+    def test_it_stores_values_on_a_cache_miss(self):
         """
-        On a cache miss, it calls the function and stores the result with the
-        configured timeout as the key's expiry
+        On a cache miss, it calls the function and stores the result
         """
         self.redis.get.return_value = None
         func = MagicMock(return_value={"answer": 42})
-        cache = self.make_cache(timeout=3600)
+        cache = self.make_cache()
 
-        value = cache.cached("query", ["foo"], func)
-
-        assert value == {"answer": 42}
+        assert cache.cached("query", ["foo"], func) == {"answer": 42}
         func.assert_called_once_with("foo")
         self.redis.set.assert_called_once_with(
-            "queries_query_foo", json.dumps({"answer": 42}), ex=3600
-        )
-
-    def test_it_stores_values_without_expiry_when_there_is_no_timeout(self):
-        """
-        With no timeout configured, values are stored without an expiry
-        """
-        self.redis.get.return_value = None
-        cache = self.make_cache(timeout=None)
-
-        cache.cached("query", ["foo"], MagicMock(return_value="bar"))
-
-        self.redis.set.assert_called_once_with(
-            "queries_query_foo", json.dumps("bar"), ex=None
+            "queries_query_foo", json.dumps({"answer": 42})
         )
 
     def test_it_returns_cached_values_without_calling_the_function(self):
@@ -54,7 +38,7 @@ class TestRedisCache:
         """
         self.redis.get.return_value = json.dumps("cached")
         func = MagicMock()
-        cache = self.make_cache(timeout=3600)
+        cache = self.make_cache()
 
         assert cache.cached("query", ["foo"], func) == "cached"
         func.assert_not_called()
