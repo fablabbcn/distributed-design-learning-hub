@@ -102,7 +102,7 @@
             </p>
             <p>
                 Where the computation happens also matters, as the CO₂ emitted to produce electricity varies widely between countries. In 2025, it was around 384 g CO₂e per kWh in the United States, 210 g on average in the EU, and between 35 and 41 g in Sweden and France (<a href="https://ourworldindata.org/grapher/carbon-intensity-electricity"
-   target="_blank">Ember, via Our World in Data</a>). The same request can therefore have a carbon footprint several times higher or lower depending on the data centre that answers it.
+   target="_blank">Ember, via Our World in Data</a>). The same request can therefore have a carbon footprint several times higher or lower depending on the data centre that answers it. Our requests are processed in Europe (see below), where electricity is on average much less carbon-intensive than in the United States, although the exact mix depends on which data centre answers each request.
             </p>
             <h2>A European model provider</h2>
             <p>
@@ -110,8 +110,8 @@
     target="_blank">General-Purpose AI Code of Practice</a> under the AI Act. And because its model is open-weight, it could also be run on independent European infrastructure, should we ever need to.
             </p>
             <p>
-                By default, <a href="https://help.mistral.ai/en/articles/347629" target="_blank">Mistral hosts its customers' data in the European Union</a>, although some data may be temporarily transferred outside the EU under GDPR safeguards. We only send Mistral the theme you searched for and passages from the Distributed Design Platform archive: nothing that identifies you, such as your IP address, is sent. Mistral does not, however, commit to a specific location for processing requests to its standard API, which is the one we use; it offers a separate <a href="https://docs.mistral.ai/inference/regional-inference"
-    target="_blank">EU-only endpoint</a> for that.
+                We send all our requests to Mistral's <a href="https://docs.mistral.ai/inference/regional-inference"
+    target="_blank">EU regional endpoint</a>, so both the conversion of your search into an embedding and the writing of summaries are processed in data centres in the European Union and EFTA countries. We only send Mistral the theme you searched for and passages from the Distributed Design Platform archive: nothing that identifies you, such as your IP address, is sent. In addition, <a href="https://help.mistral.ai/en/articles/347629" target="_blank">Mistral hosts its customers' data in the European Union</a> by default, although some data may be temporarily transferred outside the EU under GDPR safeguards.
             </p>
             <h2>How we use LLMs to generate summaries</h2>
             <p>
@@ -131,7 +131,7 @@
                 Finally, we provide the text of all the fragments of the summarised documents to the language model, along with a prompt to summarise the topic in general, using the information provided. This is added as the first sentence to the summary.
             </p>
             <p>
-                For those who want more technical details: our embeddings are created with the <a href="https://docs.mistral.ai/models" target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, through Mistral's API, to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
+                For those who want more technical details: our embeddings are created with the <a href="https://docs.mistral.ai/models" target="_blank">mistral-embed</a> model, stored in an <a href="https://www.elastic.co/" target="_blank">elasticsearch</a> database, and similarity is measured by cosine distance between the query and the fragment. We use <a href="https://docs.mistral.ai/models" target="_blank">the current Mistral Small model</a>, through Mistral's EU regional endpoint (which we also use for embeddings), to generate summaries, and <a href="https://docs.llamaindex.ai/en/stable/" target="_blank">llama_index</a> as plumbing for the whole system. The entire application is open source, and <a href="https://github.com/fablabbcn/distributed-design-learning-hub/"
     target="_blank">available on Github</a>.
             </p>
         </div>

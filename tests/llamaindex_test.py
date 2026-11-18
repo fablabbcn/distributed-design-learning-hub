@@ -36,3 +36,57 @@ class TestLlamaIndexConfig:
         flag = next(name for name in names if "GUARDRAILS" in name)
         monkeypatch.setenv(flag, "1")
         assert get_llamaindex_instance().config.safe_prompt is False
+
+
+class TestMistralEndpoint:
+
+    @pytest.fixture(autouse=True)
+    def setup_env(self, monkeypatch):
+        for name, value in dotenv_values(ENV_EXAMPLE).items():
+            monkeypatch.setenv(name, value or "")
+
+    def test_it_defaults_to_the_eu_endpoint(self, monkeypatch):
+        """
+        Without MISTRAL_API_ENDPOINT, requests go to Mistral's EU endpoint
+        """
+        monkeypatch.delenv("MISTRAL_API_ENDPOINT")
+        config = get_llamaindex_instance().config
+        assert config.mistral_endpoint == "https://api.eu.mistral.ai"
+
+    def test_env_example_uses_the_eu_endpoint(self):
+        """
+        env.example configures Mistral's EU endpoint
+        """
+        config = get_llamaindex_instance().config
+        assert config.mistral_endpoint == "https://api.eu.mistral.ai"
+
+    def test_the_endpoint_can_be_overridden(self, monkeypatch):
+        """
+        MISTRAL_API_ENDPOINT selects another endpoint
+        """
+        monkeypatch.setenv("MISTRAL_API_ENDPOINT", "https://api.mistral.ai")
+        config = get_llamaindex_instance().config
+        assert config.mistral_endpoint == "https://api.mistral.ai"
+
+    def test_summaries_use_the_configured_endpoint(self, mocker, monkeypatch):
+        """
+        The language model used for summaries is created with the endpoint
+        """
+        monkeypatch.setenv("MISTRAL_API_ENDPOINT", "https://example.test")
+        mistral = mocker.patch("ddlh.rag.llamaindex.MistralAI")
+        mocker.patch("ddlh.rag.llamaindex.get_response_synthesizer")
+
+        get_llamaindex_instance().synthesize("prompt", nodes=[])
+
+        assert mistral.call_args.kwargs["endpoint"] == "https://example.test"
+
+    def test_embeddings_use_the_configured_endpoint(self, monkeypatch):
+        """
+        Both the sync and async embedding clients use the endpoint
+        """
+        monkeypatch.setenv("MISTRAL_API_ENDPOINT", "https://example.test")
+
+        embedding = get_llamaindex_instance().embedding_model
+
+        assert embedding._mistralai_client._endpoint == "https://example.test"
+        assert embedding._mistralai_async_client._endpoint == "https://example.test"

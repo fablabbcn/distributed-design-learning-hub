@@ -22,6 +22,8 @@ from llama_index.storage.docstore.elasticsearch import (  # type: ignore
 from llama_index.storage.kvstore.elasticsearch import (  # type: ignore
     ElasticsearchKVStore,
 )
+from mistralai.async_client import MistralAsyncClient
+from mistralai.client import MistralClient
 
 from ddlh.models import DocumentWithText
 
@@ -30,6 +32,10 @@ from llama_index.vector_stores.elasticsearch import (  # type: ignore # isort:sk
 )
 
 AnyNode = Union[BaseNode, NodeWithScore]
+
+# Mistral's EU regional endpoint: requests are processed in data centres in
+# EU and EFTA countries (https://docs.mistral.ai/inference/regional-inference).
+DEFAULT_MISTRAL_ENDPOINT = "https://api.eu.mistral.ai"
 
 GenerationResult = Response
 RetrievalResult = NodeWithScore
@@ -49,6 +55,7 @@ class LlamaIndexConfig:
     es_ref_doc_index: str
     es_metadata_index: str
     mistral_api_key: str
+    mistral_endpoint: str
     embedding_chunk_size: int
     embedding_chunk_overlap: int
     retrieval_top_k: int
@@ -86,9 +93,18 @@ class LlamaIndex:
 
     @property
     def embedding_model(self) -> MistralAIEmbedding:
-        return MistralAIEmbedding(
-            self.config.embedding_model_name, api_key=self.config.mistral_api_key
+        api_key = self.config.mistral_api_key
+        endpoint = self.config.mistral_endpoint
+        embedding = MistralAIEmbedding(
+            self.config.embedding_model_name, api_key=api_key
         )
+        # llama-index-embeddings-mistralai 0.1.x always uses Mistral's global
+        # endpoint, so point its clients at the configured one.
+        embedding._mistralai_client = MistralClient(api_key=api_key, endpoint=endpoint)
+        embedding._mistralai_async_client = MistralAsyncClient(
+            api_key=api_key, endpoint=endpoint
+        )
+        return embedding
 
     def make_pipeline(self) -> IngestionPipeline:
         splitter = SentenceSplitter(
@@ -121,7 +137,11 @@ class LlamaIndex:
             return None
 
     def synthesize(self, prompt: str, nodes: Sequence[AnyNode]) -> Response:
-        llm = MistralAI(self.config.llm_model_name, api_key=self.config.mistral_api_key)
+        llm = MistralAI(
+            self.config.llm_model_name,
+            api_key=self.config.mistral_api_key,
+            endpoint=self.config.mistral_endpoint,
+        )
         response_synthesizer = get_response_synthesizer(
             llm=llm,
             response_mode=ResponseMode.REFINE,
@@ -157,6 +177,8 @@ def get_llamaindex_instance() -> LlamaIndex:
         es_ref_doc_index=environ["ELASTICSEARCH_REF_DOC_INDEX"],
         es_metadata_index=environ["ELASTICSEARCH_METADATA_INDEX"],
         mistral_api_key=environ["MISTRAL_API_KEY"],
+        mistral_endpoint=environ.get("MISTRAL_API_ENDPOINT")
+        or DEFAULT_MISTRAL_ENDPOINT,
         es_embeddings_field=environ["ELASTICSEARCH_EMBEDDINGS_FIELD"],
         embedding_model_name=environ["MISTRAL_EMBEDDING_MODEL_NAME"],
         llm_model_name=environ["MISTRAL_LANGUAGE_MODEL_NAME"],
