@@ -163,6 +163,6 @@ def get_llamaindex_instance() -> LlamaIndex:
         embedding_chunk_size=int(environ["EMBEDDING_CHUNK_SIZE"]),
         embedding_chunk_overlap=int(environ["EMBEDDING_CHUNK_OVERLAP"]),
         retrieval_top_k=int(environ["RETRIEVAL_TOP_K"]),
-        safe_prompt=environ.get("DISABLE_MISTRAL_AI_GUARDRALS") != "1",
+        safe_prompt=environ.get("DISABLE_MISTRAL_AI_GUARDRAILS") != "1",
     )
     return LlamaIndex(config)
