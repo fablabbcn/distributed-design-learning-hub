@@ -1,6 +1,6 @@
 footer {
   background-color: var(--color-dark-gray);
-  color: var(--color-white);
+  color: var(--text-inverse);
   padding-inline: var(--gutter);
 }
 
@@ -16,9 +16,9 @@ footer {
   & h3 {
     font-family: "Work Sans", sans-serif;
     font-weight: 700;
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: 1.2px;
+    font-size: var(--fs-button);
+    line-height: var(--lh-button);
+    letter-spacing: var(--ls-button);
     text-align: center;
     text-transform: uppercase;
     margin-bottom: 32px;
@@ -31,7 +31,7 @@ footer {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   align-items: center;
-  gap: 0px 16px;
+  gap: 0 16px;
   margin: 0 auto;
 
   & figure {
@@ -70,8 +70,8 @@ footer {
   p {
     opacity: 0.6;
     font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
     letter-spacing: 0;
   }
 }

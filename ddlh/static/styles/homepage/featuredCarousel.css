@@ -1,6 +1,6 @@
 .featured-carousel {
   background-color: var(--color-light-white);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
@@ -17,19 +17,23 @@
   margin-bottom: 24px;
 }
 
+.featured-carousel-title {
+  padding-top: 8px;
+}
+
 .featured-carousel-heading {
-  color: var(--color-black);
-  font-weight: 900;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: -0.2px;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+  letter-spacing: var(--ls-h4);
 }
 
 .featured-carousel-subheading {
-  color: var(--color-black);
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 20px;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body-bold);
   letter-spacing: 0;
 }
 
@@ -45,7 +49,7 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 0px solid var(--color-black);
+  border: 0 solid var(--color-black);
   border-radius: 50%;
   background-color: var(--color-white);
   color: var(--color-black);
@@ -80,11 +84,11 @@
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  color: var(--color-black);
+  color: var(--text-primary);
 
   &:hover {
     background-color: var(--color-light-purple);
-    color: var(--color-purple);
+    color: var(--text-brand);
   }
 }
 
@@ -101,8 +105,7 @@
 }
 
 .featured-carousel-image {
-  aspect-ratio: 4 / 3;
-  width: 50%;
+  flex: 0 0 36%;
   background-color: var(--color-light-purple);
   background-size: cover;
   background-position: center;
@@ -111,21 +114,23 @@
 .featured-carousel-text {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   background-color: var(--color-white);
   padding: 35px 40px;
 }
 
 .featured-carousel-format {
   width: fit-content;
-  padding: 3px 9px;
-  border: 1px solid currentcolor;
+  padding: 4px 10px;
+  border: 1px solid var(--text-primary);
   background-color: var(--color-light-white);
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 19.5px;
-  letter-spacing: 0.39px;
-  margin-bottom: 26px;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body-bold);
+  letter-spacing: 0;
+  margin: 14px 0;
 }
 
 .featured-carousel-format-text {
@@ -146,11 +151,11 @@
 
 .featured-carousel-name {
   font-weight: 900;
-  font-size: 24px;
-  line-height: 18.75px;
-  letter-spacing: -0.15px;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--color-black);
+  border-bottom: 0.5px solid var(--text-primary);
 }
 
 .featured-carousel-info {
@@ -159,37 +164,34 @@
 }
 
 .featured-carousel-author {
-  font-weight: 600;
-  font-size: 10px;
-  line-height: 15px;
-  letter-spacing: 0.6px;
-  width: 50%;
+  flex: 0 0 144px;
+  font-weight: 500;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small-bold);
+  letter-spacing: 0;
 
   & span {
     font-weight: 700;
-    font-size: 11px;
-    line-height: 15.4px;
-    letter-spacing: 0;
   }
 }
 
 .featured-carousel-author + .featured-carousel-description {
-  margin-left: 16px;
-  padding-left: 16px;
-  border-left: 1px solid currentcolor;
-  color: #555;
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 0.5px solid var(--text-primary);
+  color: var(--text-secondary);
   font-weight: 400;
-  font-size: 11px;
-  line-height: 18.7px;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
   letter-spacing: 0;
 }
 
 .featured-carousel-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
   margin: auto 0 0;
-  padding: 16px 0 0;
+  padding: 40px 0;
   list-style: none;
 }
 
@@ -204,13 +206,13 @@
     background-color 0.15s,
     color 0.15s,
     border-color 0.15s;
-  padding: 2px 8px;
+  padding: 4px 12px;
   border: 1px solid currentcolor;
   border-radius: 999px;
   font-weight: 500;
-  font-size: 11px;
-  line-height: 16px;
-  letter-spacing: 0.2px;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small-bold);
+  letter-spacing: 0;
 }
 
 .featured-carousel-tag:hover,
@@ -250,6 +252,7 @@
 
   .featured-carousel-image {
     order: -1;
+    flex: none;
     width: 100%;
     aspect-ratio: 16 / 9;
   }
@@ -260,12 +263,15 @@
   }
 
   .featured-carousel-format {
-    margin-bottom: 16px;
+    margin: 0 0 16px;
   }
 
-  .featured-carousel-name {
-    font-size: 20px;
-    line-height: 23px;
+  .featured-carousel-tags {
+    padding: 16px 0 0;
+  }
+
+  .featured-carousel-author {
+    flex: none;
   }
 
   .featured-carousel-info {
@@ -278,6 +284,6 @@
     padding-left: 0;
     padding-top: 10px;
     border-left: none;
-    border-top: 1px solid currentcolor;
+    border-top: 0.5px solid var(--text-primary);
   }
 }

@@ -1,13 +1,13 @@
 .about-approach {
   background-color: var(--color-light-purple);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
 .about-approach-inner {
   max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 80px 0 100px;
+  padding: 76px 0;
 }
 
 /* ***INTRO*** */
@@ -20,22 +20,20 @@
 .about-approach-text {
   flex: 1 1 0;
   min-width: 0;
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: 0;
+  color: var(--text-primary);
 }
 
 .about-approach-title {
   max-width: 500px;
-  color: var(--color-purple);
+  color: var(--text-brand);
   font-weight: 900;
-  font-size: 35px;
-  line-height: 35px;
-  letter-spacing: 0px;
-}
-
-.about-approach-text {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
-  letter-spacing: 0px;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
 }
 
 /* ***STAGES*** */
@@ -79,10 +77,11 @@
 .about-approach-stage-title {
   margin-top: 20px;
   font-weight: 900;
-  font-size: 26px;
-  line-height: 36px;
-  letter-spacing: 0px;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
   text-transform: capitalize;
+  color: var(--text-primary);
 }
 
 .about-approach-stage-text {
@@ -91,13 +90,13 @@
   gap: 4px;
   max-width: 320px;
   margin-top: 16px;
-  color: #666;
+  color: var(--text-secondary);
 
   & p {
     font-weight: 400;
-    font-size: 14px;
-    line-height: 100%;
-    letter-spacing: 0px;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    letter-spacing: 0;
   }
 }
 
@@ -105,11 +104,6 @@
 @media (width <= 1024px) {
   .about-approach-inner {
     padding: 64px 0 80px;
-  }
-
-  .about-approach-title {
-    font-size: 30px;
-    line-height: 32px;
   }
 
   .about-approach-stage {
@@ -129,11 +123,6 @@
   .about-approach-intro {
     flex-direction: column;
     gap: 20px;
-  }
-
-  .about-approach-title {
-    font-size: 24px;
-    line-height: 28px;
   }
 
   .about-approach-stages {

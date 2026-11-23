@@ -1,13 +1,13 @@
 .about-what-is {
   background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
 .about-what-is-inner {
   max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 80px 0 100px;
+  padding: 76px 0;
 }
 
 /* ***INTRO*** */
@@ -25,24 +25,25 @@
 
 .about-what-is-title {
   max-width: 340px;
-  color: var(--color-purple);
+  color: var(--text-brand);
   font-weight: 900;
-  font-size: 35px;
-  line-height: 35px;
-  letter-spacing: 0px;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
 }
 
 .about-what-is-lead {
   max-width: 500px;
   margin-top: 32px;
-  font-weight: 800;
-  font-size: 23px;
-  line-height: 100%;
-  letter-spacing: 0px;
+  font-weight: 700;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg-bold);
+  letter-spacing: 0;
+  color: var(--text-primary);
 }
 
 .about-what-is-highlight {
-  color: var(--color-orange);
+  color: var(--text-accent);
 }
 
 .about-what-is-aside {
@@ -54,11 +55,11 @@
 
 .about-what-is-text {
   max-width: 480px;
-  color: #666;
+  color: var(--text-secondary);
   font-weight: 400;
-  font-size: 14px;
-  line-height: 100%;
-  letter-spacing: 0px;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: 0;
 }
 
 .about-what-is-profiles {
@@ -72,11 +73,11 @@
 
 .about-what-is-profile {
   padding: 10px 18px;
-  border: 1px solid var(--color-black);
+  border: 1px solid var(--text-primary);
   font-weight: 700;
-  font-size: 12px;
-  line-height: 18px;
-  letter-spacing: 0px;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small-bold);
+  letter-spacing: 0;
 }
 
 /* ***JOURNEYS*** */
@@ -91,22 +92,23 @@
   padding-top: 24px;
   padding-right: 40px;
   font-weight: 900;
-  font-size: 23px;
-  line-height: 100%;
-  letter-spacing: 0px;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  color: var(--text-primary);
 }
 
 .about-what-is-journeys-list {
   list-style: none;
-  border-bottom: 1px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
 
   & li {
     padding: 22px 0;
-    border-top: 1px solid var(--color-black);
+    border-top: 1px solid var(--text-primary);
     font-weight: 700;
-    font-size: 16px;
-    line-height: 19.5px;
-    letter-spacing: 0px;
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-body-lg-bold);
+    letter-spacing: 0;
   }
 }
 
@@ -122,17 +124,6 @@
 
   .about-what-is-aside {
     padding: 40px 0 40px 32px;
-  }
-
-  .about-what-is-title {
-    font-size: 26px;
-    line-height: 30px;
-  }
-
-  .about-what-is-lead,
-  .about-what-is-journeys-title {
-    font-size: 16px;
-    line-height: 21px;
   }
 }
 
@@ -153,12 +144,7 @@
   }
 
   .about-what-is-aside {
-    padding: 32px 0 32px 0;
-  }
-
-  .about-what-is-title {
-    font-size: 24px;
-    line-height: 28px;
+    padding: 32px 0;
   }
 
   .about-what-is-lead {

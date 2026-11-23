@@ -53,8 +53,52 @@
   --color-light-gray: #888;
   --color-light-white: #f4f4f4;
 
+  /* Text colors (Figma "Tipografía y color — v2") */
+  --text-primary: #111;
+  --text-brand: #2e0e70; /* brand-purple: headings, links */
+  --text-secondary: #555; /* descriptions, secondary paragraphs */
+  --text-muted: #767676; /* metadata, figure labels, placeholders (AA on white) */
+  --text-subtle: #bbb; /* breadcrumb "›" separators only, never text */
+  --text-accent: #dd6300; /* accent-orange: display, section labels, numbering */
+  --text-ai: #7e4de3; /* accent-violet: LLM-generated text */
+  --text-inverse: #fff; /* text on dark backgrounds */
+
+  /* Type scale (Figma "Tipografía y color — v2"), desktop values.
+     Weights: black 900, bold 700, medium 500, regular 400. */
+  --fs-display: 48px;
+  --lh-display: 48px;
+  --ls-display: -0.02em;
+  --fs-h1: 36px;
+  --lh-h1: 38px;
+  --ls-h1: -0.02em;
+  --fs-h2: 30px;
+  --lh-h2: 32px;
+  --ls-h2: -0.02em;
+  --fs-h3: 24px;
+  --lh-h3: 26px;
+  --ls-h3: -0.01em;
+  --fs-h4: 20px;
+  --lh-h4: 22px;
+  --ls-h4: -0.01em;
+  --fs-body-lg: 16px;
+  --lh-body-lg: 22px;
+  --lh-body-lg-bold: 18px;
+  --fs-body: 14px;
+  --lh-body: 19px;
+  --lh-body-bold: 18px;
+  --fs-small: 12px;
+  --lh-small: 16px;
+  --lh-small-bold: 14px;
+  --fs-label: 10px; /* bold, uppercase */
+  --lh-label: 12px;
+  --ls-label: 0.1em;
+  --fs-button: 12px; /* bold, uppercase */
+  --lh-button: 14px;
+  --ls-button: 0.1em;
+
   /* Layout */
   --max-width-container: 1240px;
+
   /* --max-width-container: 1440px; */
   --gutter: 40px;
 }
@@ -69,6 +113,18 @@
 @media (width <= 767px) {
   :root {
     --gutter: 16px;
+
+    /* Mobile type scale: headings step down, body sizes stay the same */
+    --fs-display: 36px;
+    --lh-display: 38px;
+    --fs-h1: 24px;
+    --lh-h1: 26px;
+    --fs-h2: 22px;
+    --lh-h2: 24px;
+    --fs-h3: 20px;
+    --lh-h3: 22px;
+    --fs-h4: 18px;
+    --lh-h4: 20px;
   }
 }
 

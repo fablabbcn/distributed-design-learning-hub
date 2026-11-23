@@ -1,7 +1,7 @@
 header {
   background-color: var(--color-white);
-  padding: 20px var(--gutter);
-  border-bottom: 2px solid var(--color-black);
+  padding: 10px var(--gutter);
+  border-bottom: 1px solid var(--text-primary);
 }
 
 .header-inner {
@@ -14,11 +14,11 @@ header {
 
 .header-logo {
   & a {
-    color: var(--color-purple);
-    font-weight: 800;
-    font-size: 10px;
-    line-height: 15px;
-    letter-spacing: 1px;
+    color: var(--text-brand);
+    font-weight: 700;
+    font-size: var(--fs-label);
+    line-height: var(--lh-label);
+    letter-spacing: var(--ls-label);
     text-transform: uppercase;
   }
 }
@@ -30,13 +30,13 @@ header {
   & a {
     --pad-x: 20px;
     --pad-y: 9px;
+
     position: relative;
     padding: var(--pad-y) var(--pad-x);
-    color: var(--color-black);
+    color: var(--text-primary);
     font-weight: 500;
-    font-size: 12px;
-    line-height: 18px;
-    letter-spacing: 0.84px;
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
     text-align: center;
     transition: color 0.3s ease;
 
@@ -65,16 +65,13 @@ header {
 
 /* ***RESPONSIVE*** */
 @media (width <= 767px) {
-  header {
-    padding: 16px var(--gutter);
-  }
-
   .header-nav {
     gap: 4px;
 
     & a {
       --pad-x: 8px;
       --pad-y: 6px;
+
       padding: var(--pad-y) var(--pad-x);
     }
   }
