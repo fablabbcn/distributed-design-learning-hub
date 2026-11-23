@@ -40,7 +40,7 @@
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
   letter-spacing: var(--ls-h3);
-  align-self: flex-end;
+  margin-left: calc(50% + 24px);
   color: var(--text-primary);
 }
 

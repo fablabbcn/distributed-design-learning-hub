@@ -13,7 +13,7 @@
 /* ***INTRO*** */
 .about-approach-intro {
   display: flex;
-  gap: 40px;
+  gap: 48px;
 }
 
 .about-approach-title,
@@ -28,7 +28,6 @@
 }
 
 .about-approach-title {
-  max-width: 500px;
   color: var(--text-brand);
   font-weight: 900;
   font-size: var(--fs-h3);

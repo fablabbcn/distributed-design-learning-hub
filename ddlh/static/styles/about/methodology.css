@@ -13,7 +13,7 @@
 /* ***INTRO*** */
 .about-methodology-intro {
   display: flex;
-  gap: 40px;
+  gap: 48px;
 }
 
 .about-methodology-main,
@@ -61,7 +61,7 @@
 
 .about-methodology-step {
   display: flex;
-  flex: 1 1 0;
+  flex: 1 1 25%; /* equal columns incl. padding, so 03 lines up with the right column */
   flex-direction: column;
   gap: 8px;
   min-width: 0;
@@ -69,6 +69,10 @@
 
   &:first-child {
     padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
   }
 
   & + & {
