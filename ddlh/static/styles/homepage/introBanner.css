@@ -1,27 +1,27 @@
 .intro-banner {
   background-color: var(--color-light-purple);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
 .intro-banner-inner {
   max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 72px 0;
+  padding: 72px 0 68px;
 }
 
 .intro-banner-title {
   max-width: 820px;
   margin: 0 auto;
-  color: var(--color-purple);
+  color: var(--text-brand);
   font-weight: 900;
-  font-size: 35px;
-  line-height: 42.84px;
-  letter-spacing: -0.69px;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
   text-align: center;
 
   a {
-    color: var(--color-purple);
+    color: var(--text-brand);
     transition: color 0.3s ease-in-out;
     text-decoration: underline;
 
@@ -49,9 +49,10 @@
     padding: 40px 0;
   }
 
+  /* Undo the tablet override so the mobile H1 token applies */
   .intro-banner-title {
-    font-size: 22px;
-    line-height: 28px;
-    letter-spacing: -0.3px;
+    font-size: var(--fs-h1);
+    line-height: var(--lh-h1);
+    letter-spacing: var(--ls-h1);
   }
 }

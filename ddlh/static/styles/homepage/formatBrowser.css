@@ -1,6 +1,6 @@
 .format-browser {
   background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
@@ -8,39 +8,36 @@
   max-width: var(--max-width-container);
   margin: 0 auto;
   padding: 40px 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
 }
 
 .format-browser-title {
-  max-width: 208px;
+  max-width: 248px;
+  padding-right: 40px;
 }
 
 .format-browser-number {
-  color: var(--color-orange);
-  font-weight: 800;
-  font-size: 10px;
-  line-height: 15px;
-  letter-spacing: 1.4px;
+  color: var(--text-accent);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
 }
 
 .format-browser-heading {
-  color: var(--color-black);
-  font-weight: 900;
-  font-size: 20px;
-  line-height: 22.1px;
-  letter-spacing: -0.17px;
-}
-
-.format-browser-content {
-  flex: 1;
-  max-width: 750px;
+  margin-top: 6px;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: var(--fs-h4);
+  line-height: var(--lh-h4);
+  letter-spacing: var(--ls-h4);
 }
 
 .format-browser-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 48px;
+  column-gap: 24px;
   position: relative;
 
   /* Full-height vertical line between the two columns */
@@ -51,41 +48,34 @@
     bottom: 0;
     left: 50%;
     width: 1px;
-    background-color: var(--color-black);
+    background-color: var(--text-primary);
   }
 }
 
 .format-browser-item {
   list-style: none;
-  position: relative;
+  padding: 12px 0;
 
-  /* Horizontal line under each item, centred in the row gap (skip the last row) */
-  &:nth-last-child(n + 3)::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -24px;
-    height: 1px;
-    background-color: var(--color-black);
+  /* Horizontal line under each item (skip the last row) */
+  &:nth-last-child(n + 3) {
+    border-bottom: 1px solid var(--text-primary);
   }
 }
 
 .format-browser-link {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 10px;
   height: 100%;
-  min-height: 140px;
-  padding: 12px;
-  border-radius: 6px;
-  color: var(--color-black);
+  padding: 18px 16px;
+  border-radius: 8px;
+  color: var(--text-primary);
   transition: all ease 0.3s;
 
   &:hover {
     background-color: var(--color-light-purple);
-    color: var(--color-purple);
-    border-color: var(--color-purple);
+    color: var(--text-brand);
+    border-color: var(--text-brand);
   }
 }
 
@@ -93,39 +83,35 @@
   display: block;
   width: fit-content;
   height: 40px;
-  margin-bottom: 10px;
 }
 
 .format-browser-name {
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 19.5px;
+  font-weight: 700;
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-body-lg-bold);
   letter-spacing: 0;
-  margin-bottom: 10px;
 }
 
 .format-browser-text {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
 }
 
 .format-browser-formats {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
 }
 
 .format-browser-format {
   padding: 3px 9px;
-  border: 1px solid var(--color-black);
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 19.5px;
-  letter-spacing: 0.39px;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body-bold);
+  letter-spacing: 0;
   transition: all ease 0.3s;
 }
 
@@ -152,16 +138,13 @@
 /* ***RESPONSIVE*** */
 @media (width <= 1024px) {
   .format-browser-inner {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 24px;
   }
 
   .format-browser-title {
     max-width: none;
-  }
-
-  .format-browser-content {
-    max-width: none;
+    padding-right: 0;
   }
 }
 
@@ -183,11 +166,8 @@
   }
 
   .format-browser-item {
-    border-bottom: 1px solid var(--color-black);
-
-    &:nth-last-child(n + 3)::after {
-      display: none;
-    }
+    padding: 0;
+    border-bottom: 1px solid var(--text-primary);
 
     &:last-child {
       border-bottom: none;
@@ -195,7 +175,6 @@
   }
 
   .format-browser-link {
-    min-height: 0;
     padding: 16px 8px;
   }
 }

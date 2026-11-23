@@ -1,6 +1,6 @@
 .about-hero {
   background-color: var(--color-light-purple);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
 }
 
 .about-hero-inner {
@@ -17,11 +17,11 @@
 }
 
 .about-hero-title {
-  color: var(--color-orange);
+  color: var(--text-accent);
   font-weight: 900;
-  font-size: 48px;
-  line-height: 1.1;
-  letter-spacing: -0.96px;
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
 }
 
 /* Full-bleed team photo */
@@ -47,11 +47,6 @@
     padding-top: 32px;
     padding-bottom: 32px;
   }
-
-  .about-hero-title {
-    font-size: 40px;
-    letter-spacing: -0.8px;
-  }
 }
 
 @media (width <= 767px) {
@@ -62,11 +57,6 @@
   .about-hero-grid {
     padding-top: 24px;
     padding-bottom: 28px;
-  }
-
-  .about-hero-title {
-    font-size: 32px;
-    letter-spacing: -0.6px;
   }
 
   /* Portrait photo on mobile (see hero.j2) */

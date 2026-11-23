@@ -1,6 +1,6 @@
 .tag-hero {
   background-color: var(--color-light-white);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
@@ -12,35 +12,35 @@
 
 .tag-hero-grid {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
+  grid-template-columns: 152px minmax(0, 1fr);
   grid-template-areas: "label title";
-  gap: 54px;
-  padding-top: 40px;
+  padding-top: 30px;
   padding-bottom: 40px;
 }
 
 .tag-hero-label {
   grid-area: label;
-  font-weight: 800;
-  font-size: 10px;
-  line-height: 15px;
-  letter-spacing: 1.4px;
+  padding-top: 2px;
+  font-weight: 700;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--color-orange);
-  max-width: 84px;
+  color: var(--text-accent);
 }
 
 .tag-hero-title {
   grid-area: title;
-  color: var(--color-white);
+  color: var(--text-inverse);
   background-color: var(--color-black);
+  border: 1px solid var(--text-primary);
   width: fit-content;
-  padding: 3px 15px;
-  border-radius: 1000px;
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 34.49px;
-  letter-spacing: -0.6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
 }
 
 /* ***RESPONSIVE*** */
@@ -68,8 +68,6 @@
   }
 
   .tag-hero-title {
-    font-size: 26px;
-    line-height: 30px;
     overflow-wrap: anywhere;
   }
 }

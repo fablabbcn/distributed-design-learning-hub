@@ -1,6 +1,6 @@
 .theme-hero {
   background-color: var(--color-light-purple);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
@@ -12,32 +12,32 @@
 
 .theme-hero-grid {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: 152px minmax(0, 1fr) minmax(0, 1fr);
   grid-template-areas:
     "label title title"
     ".     tags  description";
-  gap: 54px;
-  padding-top: 40px;
+  row-gap: 12px;
+  padding-top: 30px;
   padding-bottom: 40px;
 }
 
 .theme-hero-label {
   grid-area: label;
-  font-weight: 800;
-  font-size: 10px;
-  line-height: 15px;
-  letter-spacing: 1.4px;
+  font-weight: 700;
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--color-orange);
+  color: var(--text-accent);
 }
 
 .theme-hero-title {
   grid-area: title;
-  color: var(--color-purple);
+  color: var(--text-brand);
   font-weight: 900;
-  font-size: 30px;
-  line-height: 34.49px;
-  letter-spacing: -0.6px;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
 }
 
 .theme-hero-tags {
@@ -45,19 +45,20 @@
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 12px 10px;
+  gap: 6px;
+  padding-right: 12px;
   list-style: none;
 }
 
 .theme-hero-tag {
   display: block;
-  padding: 6px 15px;
-  border: 1.5px solid var(--color-black);
+  padding: 3px 12px;
+  border: 1px solid var(--text-primary);
   border-radius: 999px;
-  color: var(--color-black);
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 16px;
+  color: var(--text-primary);
+  font-weight: 500;
+  font-size: var(--fs-small);
+  line-height: var(--lh-small-bold);
   transition:
     background-color 0.15s,
     color 0.15s,
@@ -66,22 +67,29 @@
 
 .theme-hero-tag:hover,
 .theme-hero-tag:focus-visible {
-  background-color: var(--color-purple);
-  border-color: var(--color-purple);
-  color: var(--color-white);
+  background-color: var(--text-brand);
+  border-color: var(--text-brand);
+  color: var(--text-inverse);
 }
 
 .theme-hero-description {
   grid-area: description;
-  color: #666;
+  padding-top: 2px;
+  color: var(--text-secondary);
   font-weight: 400;
-  font-size: 13px;
-  line-height: 100%;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   letter-spacing: 0;
 
   & a {
-    color: var(--color-purple);
+    color: var(--text-brand);
     font-weight: 700;
+  }
+
+  /* Markdown paragraphs: inherit size/leading instead of the global p rule */
+  & p {
+    font-size: inherit;
+    line-height: inherit;
   }
 
   & p + p {
@@ -91,46 +99,47 @@
 
 /* AI summary (query pages) */
 .theme-ai-summary {
-  line-height: 1.4;
-
   & p + p {
     margin-top: 12px;
   }
 }
 
 .theme-ai-summary-commentary {
+  color: var(--text-muted);
   font-weight: 400;
-  font-size: 11px;
-  line-height: 100%;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   letter-spacing: 0;
   font-style: italic;
 
   & span {
-    color: var(--color-soft-purple);
+    color: var(--text-ai);
   }
 
   & a {
-    color: var(--color-soft-purple);
-    font-weight: 600;
+    color: var(--text-ai);
+    font-weight: 500;
     text-decoration: underline;
   }
 }
 
 .theme-ai-summary-text,
 .theme-ai-summary-wait {
-  color: var(--color-soft-purple);
+  color: var(--text-ai);
   font-weight: 400;
-  font-size: 13px;
-  line-height: 100%;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
   letter-spacing: 0;
 
   & a {
-    color: var(--color-soft-purple);
+    color: var(--text-ai);
+    font-weight: 400;
+    text-decoration: underline;
   }
 }
 
 .theme-ai-summary-emoji {
-  color: var(--color-orange);
+  color: var(--text-accent);
 }
 
 /* ***RESPONSIVE*** */
@@ -148,10 +157,6 @@
 
   .theme-hero-title {
     margin-bottom: 12px;
-  }
-
-  .theme-hero-description {
-    line-height: 1.4;
   }
 }
 
@@ -174,21 +179,10 @@
 
   .theme-hero-title {
     margin-bottom: 4px;
-    font-size: 26px;
-    line-height: 30px;
     overflow-wrap: anywhere;
   }
 
-  .theme-hero-description {
-    font-size: 14px;
-  }
-
   .theme-hero-tags {
-    gap: 8px;
-  }
-
-  .theme-hero-tag {
-    padding: 7px 14px;
-    font-size: 12px;
+    padding-right: 0;
   }
 }

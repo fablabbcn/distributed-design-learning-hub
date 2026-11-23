@@ -1,6 +1,6 @@
 .about-journey {
   background-color: var(--color-white);
-  border-bottom: 2px solid var(--color-black);
+  border-bottom: 1px solid var(--text-primary);
   padding-inline: var(--gutter);
 }
 
@@ -10,15 +10,15 @@
   gap: 56px;
   max-width: var(--max-width-container);
   margin: 0 auto;
-  padding: 80px 0 100px;
+  padding: 76px 0;
 }
 
 .about-journey-title {
-  color: var(--color-purple);
+  color: var(--text-brand);
   font-weight: 900;
-  font-size: 35px;
-  line-height: 35px;
-  letter-spacing: 0;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
 }
 
 /* On tablets the horizontal graph is wider than the viewport and pans
@@ -38,6 +38,7 @@
 }
 
 /* ***STEPS*** */
+
 /* A grey label with the title; the open one (`.is-open`, see journey.js) is
    a purple card that also shows the text. Only one is open at a time. */
 .about-journey-step {
@@ -77,13 +78,13 @@
 
 .about-journey-step-title {
   display: block;
-  color: #555;
+  color: var(--text-secondary);
   font-weight: 400;
   transition: color 0.3s ease;
 
   .is-open & {
-    color: var(--color-orange);
-    font-weight: 800;
+    color: var(--text-accent);
+    font-weight: 700;
   }
 }
 
@@ -110,7 +111,7 @@
 }
 
 .about-journey-step-text {
-  color: #555;
+  color: var(--text-secondary);
   line-height: 1.35;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -122,6 +123,7 @@
 }
 
 /* ***DESKTOP GRAPH*** */
+
 /* Labels are placed in the units of the SVG's viewBox (1117 wide, 518
    tall, see journey.j2) and sized with --u, one viewBox unit, so they scale
    with the graph. */
@@ -132,13 +134,14 @@
 
   & .about-journey-step {
     --u: calc(100cqw / 1117);
+
     top: calc(var(--y) / 518 * 100%);
     left: calc(var(--x) / 1117 * 100%);
     width: calc(var(--w) * var(--u));
     padding: calc(8 * var(--u)) calc(11 * var(--u));
     border-radius: calc(10 * var(--u));
-    font-size: calc(13 * var(--u));
-    line-height: 1.3;
+    font-size: calc(14 * var(--u));
+    line-height: 1.357; /* 14/19 */
 
     &.is-open {
       width: calc(max(var(--w), 250) * var(--u));
@@ -160,8 +163,8 @@
 
   & .about-journey-step-title {
     .is-open & {
-      font-size: calc(15 * var(--u));
-      line-height: 1.2;
+      font-size: calc(16 * var(--u));
+      line-height: 1.125; /* 16/18 */
     }
   }
 
@@ -171,6 +174,7 @@
 }
 
 /* ***MOBILE GRAPH*** */
+
 /* Vertical graph, mobile only. Labels are positioned from the design export
    (see journey.j2), never past the right edge. */
 .about-journey-mobile {
@@ -206,22 +210,12 @@
     gap: 40px;
     padding: 64px 0;
   }
-
-  .about-journey-title {
-    font-size: 30px;
-    line-height: 32px;
-  }
 }
 
 @media (width <= 767px) {
   .about-journey-inner {
     gap: 32px;
     padding: 48px 0 56px;
-  }
-
-  .about-journey-title {
-    font-size: 24px;
-    line-height: 28px;
   }
 
   /* No sideways pan on mobile, so labels may hang over the edge */
