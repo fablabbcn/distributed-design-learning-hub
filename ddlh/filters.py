@@ -1,3 +1,4 @@
+import re
 from typing import Optional, TypeVar, Union
 
 from flask import current_app as app
@@ -35,6 +36,17 @@ def page_title_from_breadcrumbs(breadcrumbs: list[Breadcrumb]) -> str:
     )
 
 
+# A "#" glued to a word at the start of a line is a hashtag (e.g. "#ROSHOP"),
+# but markdown2 renders it as a heading. Escape it so it stays plain text.
+HASHTAG_AT_LINE_START = re.compile(r"^(\s*)#(?=[^\s#])", re.MULTILINE)
+
+
+def escape_hashtags(text: Optional[str]) -> str:
+    if not text:
+        return ""
+    return HASHTAG_AT_LINE_START.sub(lambda m: m.group(1) + "\\#", text)
+
+
 def any(collection: list[U]) -> bool:
     return len(collection) > 0
 
@@ -44,3 +56,4 @@ app.jinja_env.filters["url_to_id"] = url_to_id
 app.jinja_env.filters["document_css_classes"] = document_css_classes
 app.jinja_env.filters["page_title_from_breadcrumbs"] = page_title_from_breadcrumbs
 app.jinja_env.filters["any"] = any
+app.jinja_env.filters["escape_hashtags"] = escape_hashtags

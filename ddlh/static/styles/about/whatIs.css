@@ -71,13 +71,27 @@
   list-style: none;
 }
 
-.about-what-is-profile {
+.about-what-is-profile-link {
+  display: block;
   padding: 10px 18px;
   border: 1px solid var(--text-primary);
   font-weight: 700;
   font-size: var(--fs-small);
   line-height: var(--lh-small-bold);
   letter-spacing: 0;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--text-brand);
+    border-color: var(--text-brand);
+    color: var(--text-inverse);
+  }
 }
 
 /* ***JOURNEYS*** */
