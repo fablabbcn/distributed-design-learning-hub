@@ -13,7 +13,10 @@
                 </p>
                 <ul class="about-what-is-profiles">
                     {% for profile in ["Makers", "Designers", "Crafters", "Educators", "Researchers", "Practitioners"] %}
-                        <li class="about-what-is-profile">{{ profile }}</li>
+                        <li class="about-what-is-profile">
+                            <a class="about-what-is-profile-link"
+                               href="{{ url_for('query', query='Learning resources for ' ~ profile|lower) }}">{{ profile }}</a>
+                        </li>
                     {% endfor %}
                 </ul>
             </div>

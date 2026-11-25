@@ -22,7 +22,7 @@
                     {% if document.description %}
                         <div class="theme-resources-description">
                             {% markdown %}
-                            {{ document.description }}
+                            {{ document.description | escape_hashtags }}
                         {% endmarkdown %}
                     </div>
                 {% endif %}
