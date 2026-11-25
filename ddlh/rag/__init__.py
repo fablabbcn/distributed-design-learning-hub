@@ -21,16 +21,24 @@ from ddlh.redis_cache import RedisCache, create_cache
 from ddlh.repositories import DocumentsRepository
 from ddlh.utils import compact
 
-DOCUMENT_SUMMARY_PROMPT: str = """
-<s>[INST]explain in one sentence how this document relates to the theme of \"{query}\".
- If the document does not contain information about the theme of \"{query}\",
- return \"This document is irrelevant\".[/INST]This document </s>
-"""
+# Plain-text instructions: the Mistral chat API applies the model's own chat
+# template, so model-specific markers such as Mixtral's <s>[INST]...[/INST]
+# must not be embedded in the prompt.
+DOCUMENT_SUMMARY_PROMPT: str = (
+    'Explain in one sentence how this document relates to the theme of "{query}". '
+    'Begin the sentence with "This document". '
+    'If the document does not contain information about the theme of "{query}", '
+    'reply only with "This document is irrelevant".'
+)
 
-TOP_SENTENCE_PROMPT: str = """
-<s>[INST]Provide a one or two sentence description of \"{query}\"
- based on the information given.[/INST] {query}</s>
-"""
+TOP_SENTENCE_PROMPT: str = (
+    'Provide a one or two sentence description of "{query}" '
+    "based on the information given."
+)
+
+# Summaries are shown after the linked document title, so the leading
+# "This document" / "The document" is removed.
+DOCUMENT_PREFIX_PATTERN = re.compile(r"^\s*th(e|is) document\b\s*", re.IGNORECASE)
 
 DocumentResult = TypedDict(
     "DocumentResult",
@@ -123,9 +131,7 @@ class RAGIndex:
         document_summaries = []
         for document, response in responses:
             if response.response:
-                summary = re.sub(
-                    "^th(e|is) document", "", response.response, flags=re.IGNORECASE
-                )
+                summary = DOCUMENT_PREFIX_PATTERN.sub("", response.response)
                 document_summaries.append(
                     DocumentSummary(document=document["doc_id"], summary=summary)
                 )
